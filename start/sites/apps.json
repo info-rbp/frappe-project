@@ -1,0 +1,141 @@
+{
+    "frappe": {
+        "resolution": {
+            "commit_hash": null,
+            "branch": null
+        },
+        "required": [],
+        "idx": 1,
+        "version": "17.0.0-dev"
+    },
+    "erpnext": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "0969ec41866c28108b6d4f15e2c83367988adae3",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 2,
+        "version": "17.0.0-dev"
+    },
+    "hrms": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "195c2bd21739e542b65ed4c7019daf6a2e5f7a36",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 3,
+        "version": "17.0.0-dev"
+    },
+    "lms": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "189cae34902f401133b8a5f0ac385e736fe31cc0",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 4,
+        "version": "2.45.2"
+    },
+    "insights": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "e0ee76249ff0da59c67ff1b5e2c0a0f50c56f333",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 5,
+        "version": "3.2.0-dev"
+    },
+    "gameplan": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "01f3a9476a1b07ce406a3bf3a798ad20f721543c",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 6,
+        "version": "0.0.1"
+    },
+    "frappe_whatsapp": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "ec3c3d2833041cd7f19988a1faa51bbb58293258",
+            "branch": "master"
+        },
+        "required": [],
+        "idx": 7,
+        "version": "1.0.12"
+    },
+    "payments": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "3cebd9425e414e4c3419a374c616727c5d94b5ea",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 8,
+        "version": "0.0.1"
+    },
+    "crm": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "3ef885dd53ced9d9094475ca4634ee19197cf9a7",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 9,
+        "version": "2.0.0-dev"
+    },
+    "helpdesk": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "a59fa105deccd8a7c110aecabd98373f6461f053",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 10,
+        "version": "1.22.1"
+    },
+    "builder": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "1d53a3819845485a8fff85be33580585eb2dd430",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 11,
+        "version": "1.0.0-dev"
+    },
+    "drive": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "5eb5bd9586765e1cbda76bd43e8052c74c309bf4",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 12,
+        "version": "0.3.0"
+    },
+    "lending": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "e935f9052328c34848854432544c88e40feb16c3",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 13,
+        "version": "0.0.1"
+    },
+    "telephony": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "58d32184e44b193e27498d3dd156085c793b7528",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 14,
+        "version": "0.0.1"
+    }
+}
