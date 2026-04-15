@@ -1,0 +1,42 @@
+[submodule "start/apps/frappe"]
+	path = start/apps/frappe
+	url = https://github.com/frappe/frappe.git
+[submodule "start/apps/erpnext"]
+	path = start/apps/erpnext
+	url = https://github.com/frappe/erpnext.git
+[submodule "start/apps/hrms"]
+	path = start/apps/hrms
+	url = https://github.com/frappe/hrms.git
+[submodule "start/apps/insights"]
+	path = start/apps/insights
+	url = https://github.com/frappe/insights.git
+[submodule "start/apps/gameplan"]
+	path = start/apps/gameplan
+	url = https://github.com/frappe/gameplan.git
+[submodule "start/apps/lms"]
+	path = start/apps/lms
+	url = https://github.com/frappe/lms.git
+[submodule "start/apps/payments"]
+	path = start/apps/payments
+	url = https://github.com/frappe/payments.git
+[submodule "start/apps/crm"]
+	path = start/apps/crm
+	url = https://github.com/frappe/crm.git
+[submodule "start/apps/helpdesk"]
+	path = start/apps/helpdesk
+	url = https://github.com/frappe/helpdesk.git
+[submodule "start/apps/builder"]
+	path = start/apps/builder
+	url = https://github.com/frappe/builder.git
+[submodule "start/apps/drive"]
+	path = start/apps/drive
+	url = https://github.com/frappe/drive.git
+[submodule "start/apps/lending"]
+	path = start/apps/lending
+	url = https://github.com/frappe/lending.git
+[submodule "start/apps/telephony"]
+	path = start/apps/telephony
+	url = https://github.com/frappe/telephony.git
+[submodule "start/apps/frappe_whatsapp"]
+	path = start/apps/frappe_whatsapp
+	url = https://github.com/frappe/frappe_whatsapp.git
