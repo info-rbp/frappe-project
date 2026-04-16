@@ -137,5 +137,145 @@
         "required": [],
         "idx": 14,
         "version": "0.0.1"
+    },
+    "meet": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "63b44b9fb47b30c42ff5a518801ae3c01614f824",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 15,
+        "version": "0.0.1"
+    },
+    "education": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "ffa616d1facf4dbe5af60e4f9f3e7a9617993d7c",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 16,
+        "version": "17.0.0-dev"
+    },
+    "mail": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "bf5e1491db54a13f0a289657c51a154a59767849",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 17,
+        "version": "0.0.1"
+    },
+    "slides": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "289a54691a38281a0d05e1428edfd0c44cd4779f",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 18,
+        "version": "0.0.1"
+    },
+    "newsletter": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "e5ed3645199104818c354617cb495cbdf90b94fe",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 19,
+        "version": "0.0.1"
+    },
+    "webshop": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "3afd734a495d5869f05a4f0ae36fc76330eb7734",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 20,
+        "version": "0.0.1"
+    },
+    "blog": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "e56157ec0d406c168da7c431cf2428d026d112e3",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 21,
+        "version": "0.0.1"
+    },
+    "ecommerce_integrations": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "ba8ac5055fd68a095c6861d72faaa7b24a90a939",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 22,
+        "version": "1.17.0"
+    },
+    "school_automations": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "7b12732cc4ed99f9df5c0e0284153e37ed41db7d",
+            "branch": "main"
+        },
+        "required": [],
+        "idx": 23,
+        "version": "0.0.1"
+    },
+    "ff_assignment_portal": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "69cef539984564ea94f8d1386705096edbdc0d77",
+            "branch": "main"
+        },
+        "required": [],
+        "idx": 24,
+        "version": "0.0.1"
+    },
+    "fc_saas_helper": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "6d44224558bb9c9c156cb384b709c785d3037489",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 25,
+        "version": "0.0.1"
+    },
+    "erpnext_shipping": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "16a18c4bef27bf201b3dcddada7feadc616f568c",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 26,
+        "version": "15.0.3"
+    },
+    "frappe_openai_integration": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "e2ab702f9283ad0cd04eddf42bb861b24a1efd98",
+            "branch": "master"
+        },
+        "required": [],
+        "idx": 27,
+        "version": "0.0.1"
+    },
+    "erpnext_australian_localisation": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "6f004876931897069e0f59ae5a411195b729c54c",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 28,
+        "version": "16.3.1"
     }
 }
