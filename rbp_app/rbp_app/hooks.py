@@ -1,0 +1,94 @@
+app_name = "rbp_app"
+app_title = "Remote Business Partner"
+app_publisher = "Remote Business Partner"
+app_description = "RBP custom application shell - public website, portal, and admin scaffold"
+app_email = "dev@rbp.example.com"
+app_license = "MIT"
+
+# ---------------------------------------------------------------------------
+# Required apps
+# ---------------------------------------------------------------------------
+required_apps = ["frappe"]
+
+# ---------------------------------------------------------------------------
+# Website assets - included on every web (non-desk) page
+# ---------------------------------------------------------------------------
+web_include_css = [
+    "/assets/rbp_app/css/rbp.css",
+]
+
+web_include_js = [
+    "/assets/rbp_app/js/rbp.js",
+]
+
+# ---------------------------------------------------------------------------
+# Desk assets (uncomment when needed)
+# ---------------------------------------------------------------------------
+# app_include_css = "/assets/rbp_app/css/rbp_desk.css"
+# app_include_js = "/assets/rbp_app/js/rbp_desk.js"
+
+# ---------------------------------------------------------------------------
+# Home page - override Website Settings home page
+# Uncomment to make the RBP index the site home page
+# ---------------------------------------------------------------------------
+# home_page = "index"
+
+# ---------------------------------------------------------------------------
+# Website route rules
+# ---------------------------------------------------------------------------
+# Dynamic route mappings for parameterized URLs.
+# These map URL patterns to www page handlers.
+website_route_rules = [
+    # Services dynamic routes
+    # {"from_route": "/services/<category>", "to_route": "services/category"},
+    # {"from_route": "/service/<slug>", "to_route": "service/detail"},
+
+    # Resources dynamic routes
+    # {"from_route": "/resources/<category>", "to_route": "resources/category"},
+    # {"from_route": "/resources/<category>/<slug>", "to_route": "resources/detail"},
+
+    # Offers dynamic route
+    # {"from_route": "/offers/<slug>", "to_route": "offers/detail"},
+
+    # Product dynamic route
+    # {"from_route": "/product/<slug>", "to_route": "product/detail"},
+]
+
+# ---------------------------------------------------------------------------
+# Jinja context helpers (uncomment when needed)
+# ---------------------------------------------------------------------------
+# jinja = {
+#     "methods": "rbp_app.utils.jinja_methods",
+#     "filters": "rbp_app.utils.jinja_filters",
+# }
+
+# ---------------------------------------------------------------------------
+# Website context
+# ---------------------------------------------------------------------------
+# Adds values to every website page context
+# website_context = {
+#     "rbp_navigation": "rbp_app.config.navigation.get_navigation",
+# }
+
+# ---------------------------------------------------------------------------
+# Installation hooks
+# ---------------------------------------------------------------------------
+# before_install = "rbp_app.install.before_install"
+# after_install = "rbp_app.install.after_install"
+
+# ---------------------------------------------------------------------------
+# Export annotations
+# ---------------------------------------------------------------------------
+export_python_type_annotations = True
+
+# ---------------------------------------------------------------------------
+# ARCHITECTURAL NOTES
+# ---------------------------------------------------------------------------
+# 1. This app owns all RBP business-specific website pages, templates,
+#    and public assets.
+# 2. Shell templates (public, auth, portal, admin) extend Frappe's
+#    base.html but keep all RBP structure isolated here.
+# 3. Admin functionality uses Frappe Desk (not a custom admin shell).
+#    See ADMIN_APPROACH.md for details.
+# 4. Dynamic routes are commented out until business logic phase.
+# 5. Framework-core changes are minimized to zero where possible.

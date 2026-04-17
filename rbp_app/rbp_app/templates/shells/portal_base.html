@@ -1,0 +1,40 @@
+{# ===================================================================
+   RBP Portal Shell Base Template
+   Extends Frappe base.html. Provides: portal header, sidebar,
+   page header, content region, action region.
+   Used for authenticated member portal pages.
+   =================================================================== #}
+{% extends "templates/base.html" %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<div class="rbp-portal-layout" data-testid="rbp-portal-shell">
+    {% include "rbp_app/templates/includes/portal_sidebar.html" %}
+
+    <div class="rbp-portal-main">
+        <div class="rbp-portal-header" data-testid="rbp-portal-header">
+            <span>Remote Business Partner &mdash; Portal</span>
+            <div>
+                <a href="/portal/account" style="color:var(--rbp-color-accent);font-size:0.875rem;">Account</a>
+                &nbsp;|&nbsp;
+                <a href="/logout" style="color:var(--rbp-color-text-light);font-size:0.875rem;">Logout</a>
+            </div>
+        </div>
+
+        <div class="rbp-portal-page-header">
+            <h1>{% block portal_title %}Portal{% endblock %}</h1>
+        </div>
+
+        <div class="rbp-portal-actions">
+            {% block portal_actions %}{% endblock %}
+        </div>
+
+        <div class="rbp-portal-content" data-testid="rbp-portal-content">
+            {% block portal_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}

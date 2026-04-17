@@ -1,0 +1,29 @@
+{# ===================================================================
+   RBP Admin Shell Base Template (Scaffold Reference Only)
+
+   NOTE: Admin functionality is served by Frappe Desk.
+   This template exists as a structural scaffold / design reference.
+   It is NOT used for production admin pages.
+   See ADMIN_APPROACH.md for the full admin strategy.
+   =================================================================== #}
+{% extends "templates/base.html" %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<div class="rbp-shell" data-testid="rbp-admin-shell-scaffold">
+    <div class="rbp-admin-notice">
+        <strong>Admin Shell Scaffold</strong><br>
+        This is a structural reference template. Admin functionality for RBP
+        is delivered through Frappe Desk workspaces, list views, and form views.
+        <br><br>
+        <a href="/desk">Go to Frappe Desk &rarr;</a>
+    </div>
+
+    <div class="rbp-main-content">
+        {% block admin_content %}{% endblock %}
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
