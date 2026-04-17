@@ -1,0 +1,21 @@
+{% extends "templates/web.html" %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<div id="app"></div>
+{% endblock %}
+
+{% block script %}
+<script type="module" src="http://localhost:5173/src/main.js"></script>
+{% endblock %}
+
+{% block style %}
+<style>
+    /* Remove default frappe website padding if any */
+    .page-content {
+        padding: 0 !important;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Business Hub - Unified Business Portal</title>
+    <script type="module" crossorigin src="/assets/business_hub/frontend/assets/index-C2Irn_kp.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/business_hub/frontend/assets/index-CbN1ybvo.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  
+          <script>
+              {% for key in boot %}
+              window["{{ key }}"] = {{ boot[key] | tojson }};
+              {% endfor %}
+          </script>
+          </body>
+          
+</html>

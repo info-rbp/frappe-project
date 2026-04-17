@@ -277,5 +277,22 @@
         "required": [],
         "idx": 28,
         "version": "16.3.1"
+    },
+    "wiki": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "c8096d0ec78001aeb0ae74d5c1e7151458525fdd",
+            "branch": "develop"
+        },
+        "required": [],
+        "idx": 29,
+        "version": "3.0.0"
+    },
+    "business_hub": {
+        "is_repo": false,
+        "resolution": "not a repo",
+        "required": [],
+        "idx": 30,
+        "version": "0.0.1"
     }
 }

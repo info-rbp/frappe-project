@@ -1,0 +1,682 @@
+You are implementing the SHELL ONLY for an existing web application.
+
+Your job is to create the application shell blueprint in the existing repository without adding business logic, backend workflows, calculators, referral logic, CMS logic, billing logic, or polished final UI.
+
+Work in small safe steps. Analyze first, then implement. Do not make unrelated architectural changes.
+
+================================
+PRIMARY OBJECTIVE
+================================
+
+Implement the structural shell of the web application across four shell modes:
+
+1. Public Shell
+2. Auth Shell
+3. Member Portal Shell
+4. Admin Shell
+
+This is a shell implementation task, not a feature-complete application task.
+
+The shell must include:
+- top-level application areas
+- navigation structure
+- route structure
+- section structure
+- shared layout regions
+- page shell templates
+- placeholder pages for all defined routes
+
+The shell must NOT include:
+- backend logic
+- API behavior
+- Firestore / database modeling
+- CMS/data integration
+- payment integration
+- billing workflows
+- calculators
+- referral tracking
+- form submission handling
+- final UI polish
+- production styling refinement
+
+================================
+IMPLEMENTATION APPROACH
+================================
+
+Phase 1:
+- inspect the existing repository
+- identify the current router, layout system, navigation config, shared components, page directories, auth boundary approach, portal structure, and admin structure
+- produce a brief implementation plan before editing
+
+Phase 2:
+- implement or refactor shell-level layout components
+- register the required route groups
+- wire the navigation and shell hierarchy
+- create placeholder page components for all required routes
+- keep all placeholder pages visually simple but structurally consistent
+
+Phase 3:
+- verify navigation and routing integrity
+- ensure no unrelated functionality is broken
+- summarize exactly what was added or changed
+
+================================
+SHELL MODES TO IMPLEMENT
+================================
+
+A. Public Shell
+Use for all public-facing website pages.
+
+Shared regions:
+- announcement bar (optional placeholder region)
+- main header
+- primary navigation
+- mega menu support area if current nav system supports it
+- hero / page intro region
+- main content region
+- contextual side region where appropriate
+- footer
+
+B. Auth Shell
+Use for login/register/password pages.
+
+Shared regions:
+- minimal header
+- brand area
+- auth form region
+- support link
+- minimal footer
+
+C. Portal Shell
+Use for authenticated member routes.
+
+Shared regions:
+- portal header
+- portal sidebar
+- portal page header
+- main content region
+- contextual actions region
+
+D. Admin Shell
+Use for internal admin routes.
+
+Shared regions:
+- admin sidebar
+- admin topbar
+- page heading
+- page actions
+- filters/search region
+- list/table region
+- detail/edit region
+
+E. Minimal Utility Shell
+Use only if needed for utility pages where full shell would be excessive.
+
+================================
+APPLICATION STRUCTURE MAP
+================================
+
+Application
+├── Public Website
+│   ├── Core
+│   ├── Services
+│   ├── Membership
+│   ├── Resources
+│   ├── Finance
+│   ├── Offers
+│   ├── Decision Desk
+│   ├── Documents
+│   └── Help / Support
+├── Auth
+│   ├── Login
+│   ├── Register / Join
+│   ├── Password Recovery
+│   └── Account Verification
+├── Member Portal
+│   ├── Dashboard
+│   ├── Membership
+│   ├── Library
+│   ├── Resources
+│   ├── Finance
+│   ├── Decision Desk
+│   ├── Billing
+│   ├── Account
+│   └── Support
+└── Admin
+    ├── Dashboard
+    ├── Content
+    ├── Services
+    ├── Resources
+    ├── Finance
+    ├── Offers
+    ├── Decision Desk
+    ├── Documents
+    ├── Memberships
+    ├── Billing
+    ├── Users
+    ├── Navigation
+    └── Settings
+
+================================
+PUBLIC TOP NAVIGATION
+================================
+
+Implement public top navigation with the following primary items:
+
+- Home
+- Services
+- Membership
+- Resources
+- Finance
+- Offers
+- Decision Desk
+- Documents
+- Help
+
+Utility actions:
+- Login
+- Join / Get Started
+- Search
+
+Implement footer structure with:
+- section links
+- support links
+- legal links
+- contact links
+- social links
+- primary CTA
+
+If the project already has a config-driven navigation system, extend it rather than replacing it.
+If the project already has a mega menu system, map these top-level items into that system cleanly.
+
+================================
+ROUTE INVENTORY TO IMPLEMENT
+================================
+
+PUBLIC CORE ROUTES
+- /
+- /about
+- /contact
+- /help
+- /faq
+- /privacy
+- /terms
+
+SERVICES ROUTES
+- /services
+- /services/:category
+- /service/:slug
+
+MEMBERSHIP ROUTES
+- /membership
+- /membership/plans
+- /membership/pro
+- /membership/ultimate
+- /membership/compare
+
+RESOURCES ROUTES
+- /resources
+- /resources/:category
+- /resources/:category/:slug
+- /resources/search
+
+FINANCE ROUTES
+- /finance
+- /finance/funding
+- /finance/insurance
+- /finance/calculators
+- /finance/learn
+- /finance/resources
+- /finance/enquiry
+- /finance/thank-you
+
+OFFERS ROUTES
+- /offers
+- /offers/:slug
+
+DECISION DESK ROUTES
+- /decision-desk
+- /decision-desk/how-it-works
+- /decision-desk/request
+- /decision-desk/thank-you
+
+DOCUMENTS ROUTES
+- /documents
+- /templates
+- /toolkits
+- /documentation-suites
+- /product/:slug
+
+SUPPORT ROUTES
+- /support
+- /support/contact
+- /support/help-articles
+
+AUTH ROUTES
+- /login
+- /register
+- /join
+- /forgot-password
+- /reset-password
+- /verify-account
+
+PORTAL ROUTES
+- /portal
+- /portal/dashboard
+- /portal/membership
+- /portal/library
+- /portal/resources
+- /portal/finance
+- /portal/finance/enquiries
+- /portal/decision-desk
+- /portal/decision-desk/history
+- /portal/billing
+- /portal/account
+- /portal/notifications
+- /portal/support
+
+ADMIN ROUTES
+- /admin
+- /admin/dashboard
+- /admin/content
+- /admin/services
+- /admin/resources
+- /admin/finance
+- /admin/offers
+- /admin/decision-desk
+- /admin/documents
+- /admin/memberships
+- /admin/billing
+- /admin/users
+- /admin/navigation
+- /admin/settings
+
+================================
+SECTION STRUCTURE TREES
+================================
+
+SERVICES
+/services
+├── /services/:category
+└── /service/:slug
+
+MEMBERSHIP
+/membership
+├── /membership/plans
+├── /membership/pro
+├── /membership/ultimate
+└── /membership/compare
+
+RESOURCES
+/resources
+├── /resources/search
+├── /resources/:category
+└── /resources/:category/:slug
+
+FINANCE
+/finance
+├── /finance/funding
+├── /finance/insurance
+├── /finance/calculators
+├── /finance/learn
+├── /finance/resources
+├── /finance/enquiry
+└── /finance/thank-you
+
+OFFERS
+/offers
+└── /offers/:slug
+
+DECISION DESK
+/decision-desk
+├── /decision-desk/how-it-works
+├── /decision-desk/request
+└── /decision-desk/thank-you
+
+DOCUMENTS
+/documents
+├── /templates
+├── /toolkits
+├── /documentation-suites
+└── /product/:slug
+
+HELP
+/help
+/support
+├── /support/contact
+└── /support/help-articles
+
+AUTH
+/auth-equivalent
+├── /login
+├── /register
+├── /join
+├── /forgot-password
+├── /reset-password
+└── /verify-account
+
+PORTAL
+/portal
+├── /portal/dashboard
+├── /portal/membership
+├── /portal/library
+├── /portal/resources
+├── /portal/finance
+│   └── /portal/finance/enquiries
+├── /portal/decision-desk
+│   └── /portal/decision-desk/history
+├── /portal/billing
+├── /portal/account
+├── /portal/notifications
+└── /portal/support
+
+ADMIN
+/admin
+├── /admin/dashboard
+├── /admin/content
+├── /admin/services
+├── /admin/resources
+├── /admin/finance
+├── /admin/offers
+├── /admin/decision-desk
+├── /admin/documents
+├── /admin/memberships
+├── /admin/billing
+├── /admin/users
+├── /admin/navigation
+└── /admin/settings
+
+================================
+SECTION SHELL INVENTORY
+================================
+
+Implement shell pages for the following section types:
+
+1. Home
+- landing shell
+
+2. Services
+- listing shell
+- category shell
+- detail shell
+
+3. Membership
+- overview shell
+- plan shell
+- compare shell
+- portal membership shell
+
+4. Resources
+- index shell
+- category shell
+- detail shell
+- search shell
+
+5. Finance
+- landing shell
+- funding shell
+- insurance shell
+- calculators shell
+- learn shell
+- resources shell
+- enquiry shell
+- thank-you shell
+
+6. Offers
+- listing shell
+- optional detail shell
+
+7. Decision Desk
+- overview shell
+- how-it-works shell
+- request shell
+- thank-you shell
+- portal history shell
+
+8. Documents
+- landing shell
+- templates shell
+- toolkits shell
+- documentation suites shell
+- product detail shell
+- portal library shell
+
+9. Help
+- help landing shell
+- contact shell
+- help article shell
+
+================================
+SHARED SHELL TEMPLATES
+================================
+
+Create or align routes to the following shell templates.
+
+1. Marketing Landing Shell
+Used for:
+- Home
+- Membership
+- Finance
+- Decision Desk
+
+Structure:
+- hero
+- supporting sections
+- CTA blocks
+- trust / FAQ blocks
+
+2. Category Listing Shell
+Used for:
+- Services categories
+- Resources categories
+- Templates
+- Toolkits
+- Documentation Suites
+- Finance groupings
+
+Structure:
+- page intro
+- category / filter region
+- listing grid
+- CTA band
+
+3. Detail Shell
+Used for:
+- Service detail
+- Resource detail
+- Product detail
+- Offer detail
+
+Structure:
+- intro summary
+- main content region
+- side CTA region
+- related items region
+
+4. Form / Request Shell
+Used for:
+- Contact
+- Finance enquiry
+- Decision Desk request
+
+Structure:
+- page intro
+- expectations block
+- form region
+- reassurance / trust block
+- next-step block
+
+5. Portal Dashboard Shell
+Used for:
+- Dashboard
+- Finance portal pages
+- Decision Desk history
+- Billing overview
+
+Structure:
+- page title
+- status summary
+- cards / tables region
+- quick actions
+
+6. Admin Management Shell
+Used for:
+- Content
+- Finance leads
+- Users
+- Resources
+- Products
+
+Structure:
+- heading
+- actions
+- filters
+- table / list
+- detail panel
+
+================================
+TECHNICAL REQUIREMENTS
+================================
+
+1. Preserve existing stack
+- Detect the actual framework and routing approach in the repository.
+- If the repo already uses React Router, Next.js App Router, Next.js Pages Router, or another router, adapt the shell to that existing pattern.
+- Do not migrate frameworks.
+- Do not introduce a second routing system.
+
+2. Preserve existing styling approach
+- If the repo already uses Tailwind, CSS modules, SCSS, styled-components, or another styling approach, keep that approach.
+- Use low-complexity shell styling only.
+- Focus on spacing, hierarchy, layout, and placeholders, not final UI finish.
+
+3. Preserve existing navigation architecture
+- If navigation is config-driven, extend config.
+- If navigation is component-driven, extend component structure.
+- Do not hardcode duplicate route definitions in multiple places unnecessarily.
+
+4. Create placeholder pages safely
+Each placeholder page should:
+- use the correct shell
+- include a clear route title
+- include a short section label
+- include a “shell placeholder” note
+- visually confirm that route wiring works
+- be easy to replace later with real content
+
+5. Keep logic out
+Do not implement:
+- submission handlers
+- calculators
+- affiliate redirects
+- auth flows beyond shell-level page structure
+- billing workflows
+- Firestore hooks
+- API calls
+- CMS queries
+
+6. Keep code organized
+Prefer:
+- shared layout components
+- route-group or section directories
+- clearly named placeholder page components
+- reusable shell wrappers
+
+7. Minimize risk
+- avoid changing unrelated business logic
+- avoid renaming stable existing routes unless absolutely necessary
+- if an existing route conflicts, preserve compatibility and note it clearly
+- do not delete existing working pages unless replacing them in a safe, route-compatible way
+
+================================
+EXPECTED FILE / CODE WORK
+================================
+
+You should likely need to:
+- update the main router or route registration
+- update public navigation config or components
+- add shell layout components
+- add placeholder page components for missing routes
+- add portal shell scaffolds
+- add admin shell scaffolds
+- ensure footer and top-level shell regions exist
+
+If the repository already contains some of these pages, reuse and normalize them instead of duplicating.
+
+================================
+DELIVERABLES
+================================
+
+1. Before coding
+Provide:
+- detected framework/router/layout summary
+- list of files likely to be updated
+- implementation plan grouped by shell mode
+
+2. During implementation
+Execute in logical batches:
+- global public shell
+- public route shell
+- auth shell
+- portal shell
+- admin shell
+- section shell alignment
+
+3. After implementation
+Provide:
+- list of files created
+- list of files modified
+- route coverage summary
+- any existing route conflicts or assumptions
+- short QA checklist
+
+================================
+ACCEPTANCE CRITERIA
+================================
+
+The task is complete only when:
+
+1. Public navigation contains:
+- Home
+- Services
+- Membership
+- Resources
+- Finance
+- Offers
+- Decision Desk
+- Documents
+- Help
+
+2. All public route groups listed above resolve through the app’s router.
+
+3. Auth routes exist and render with an auth shell.
+
+4. Portal routes exist and render with a portal shell.
+
+5. Admin routes exist and render with an admin shell.
+
+6. Placeholder pages exist for every missing shell route.
+
+7. Shared shell templates are reflected consistently in layout structure.
+
+8. Existing unrelated functionality is not broken.
+
+9. No backend logic, calculators, billing logic, referral logic, or CMS logic is added.
+
+10. The implementation remains a shell blueprint in code, not a feature-complete build.
+
+================================
+GUARDRAILS
+================================
+
+- Do not overbuild.
+- Do not add business logic.
+- Do not invent APIs.
+- Do not wire data fetching.
+- Do not redesign the whole application.
+- Do not replace stable architecture with a new one.
+- Do not add unnecessary dependencies unless absolutely required.
+- Prefer simple, reversible, reviewable changes.
+
+If a route or structure is ambiguous, implement the safest shell-level placeholder and document the assumption.
+
+Start by analyzing the repository and presenting the plan before making edits.

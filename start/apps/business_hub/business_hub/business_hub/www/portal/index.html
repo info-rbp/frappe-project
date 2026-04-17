@@ -1,0 +1,114 @@
+{% extends "templates/web.html" %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<div class="portal-container" style="background: #0f172a; min-height: 100vh; color: #f8fafc; font-family: 'Inter', sans-serif; padding: 2rem;">
+    <!-- Top Navigation -->
+    <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; background: rgba(30, 41, 59, 0.5); padding: 1rem 2rem; border-radius: 1rem; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="background: #3b82f6; width: 40px; height: 40px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
+                <i class="fa fa-briefcase" style="color: white;"></i>
+            </div>
+            <h1 style="font-size: 1.5rem; font-weight: 700; margin: 0; letter-spacing: -0.025em;">BUSINESS HUB</h1>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <div style="text-align: right;">
+                <div style="font-size: 0.875rem; font-weight: 600;">{{ frappe.session.user }}</div>
+                <div style="font-size: 0.75rem; color: #94a3b8;">{{ member_context.tier }} Member</div>
+            </div>
+            <img src="{{ frappe.get_list('User', filters={'name': frappe.session.user}, fields=['user_image'])[0].user_image or '/assets/frappe/images/ui-states/search-empty-state.svg' }}" 
+                 style="width: 44px; height: 44px; border-radius: 50%; border: 2px solid #3b82f6;">
+        </div>
+    </header>
+
+    <div style="display: grid; grid-template-columns: 280px 1fr; gap: 2rem;">
+        <!-- Sidebar Navigation -->
+        <aside>
+            <nav style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <a href="/portal" style="background: rgba(59, 130, 246, 0.1); color: #60a5fa; padding: 0.75rem 1rem; border-radius: 0.75rem; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.75rem;">
+                    <i class="fa fa-th-large"></i> Dashboard
+                </a>
+                
+                {% for feature in member_context.features %}
+                <a href="{{ feature.route }}" style="color: #94a3b8; padding: 0.75rem 1rem; border-radius: 0.75rem; text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 0.75rem; transition: all 0.2s;" class="nav-link">
+                    <i class="fa fa-{{ feature.icon }}"></i> {{ feature.name }}
+                </a>
+                {% endfor %}
+
+                <div style="margin-top: 2rem; padding: 1rem; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 1rem; border: 1px solid rgba(255,255,255,0.05);">
+                    <div style="font-size: 0.75rem; text-transform: uppercase; color: #64748b; margin-bottom: 0.5rem;">Upgrade Tier</div>
+                    <p style="font-size: 0.8125rem; color: #94a3b8; margin-bottom: 1rem;">Unlock Finance Pathways and Advanced Advisory tools.</p>
+                    <button style="width: 100%; background: #3b82f6; color: white; border: none; padding: 0.5rem; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">Explore Plans</button>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <!-- Welcome Card -->
+                <div style="grid-column: 1 / -1; background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%); padding: 2rem; border-radius: 1.5rem; position: relative; overflow: hidden;">
+                    <div style="position: relative; z-index: 10;">
+                        <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Welcome back, {{ frappe.get_fullname(frappe.session.user) }}</h2>
+                        <p style="font-size: 1.125rem; opacity: 0.9;">Your business pulse is looking strong today. You have 3 pending advisory notes.</p>
+                    </div>
+                    <i class="fa fa-chart-line" style="position: absolute; right: -20px; bottom: -20px; font-size: 12rem; opacity: 0.1; transform: rotate(-15deg);"></i>
+                </div>
+
+                <!-- Wiki Updates -->
+                <div class="card" style="background: #1e293b; padding: 1.5rem; border-radius: 1.25rem; border: 1px solid rgba(255,255,255,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+                        <h3 style="font-size: 1.125rem; font-weight: 700; margin: 0;">Resources & Docs</h3>
+                        <a href="/wiki" style="font-size: 0.75rem; color: #3b82f6; text-decoration: none;">View All</a>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        {% if dashboard_summary.apps.wiki %}
+                            {% for item in dashboard_summary.apps.wiki %}
+                            <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: rgba(15, 23, 42, 0.5); border-radius: 0.75rem;">
+                                <div style="background: #64748b; width: 32px; height: 32px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fa fa-file-text" style="font-size: 0.875rem;"></i>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.875rem; font-weight: 600;">{{ item.title }}</div>
+                                    <div style="font-size: 0.75rem; color: #64748b;">Modified recently</div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div style="color: #64748b; font-size: 0.875rem; text-align: center; padding: 1rem;">No recent updates</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Support/Meetings -->
+                <div class="card" style="background: #1e293b; padding: 1.5rem; border-radius: 1.25rem; border: 1px solid rgba(255,255,255,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+                        <h3 style="font-size: 1.125rem; font-weight: 700; margin: 0;">Support & Advisory</h3>
+                    </div>
+                    <div style="text-align: center; padding: 2rem 1rem;">
+                        <div style="background: rgba(59, 130, 246, 0.1); width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                            <i class="fa fa-headset" style="font-size: 1.5rem; color: #3b82f6;"></i>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 0.875rem; margin-bottom: 1.5rem;">Need executive assistance or advisory services?</p>
+                        <button style="background: transparent; border: 1px solid #3b82f6; color: #3b82f6; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem; cursor: pointer; width: 100%;">Contact Support</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<style>
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white !important;
+}
+.card:hover {
+    border-color: rgba(59, 130, 246, 0.3) !important;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+</style>
+{% endblock %}

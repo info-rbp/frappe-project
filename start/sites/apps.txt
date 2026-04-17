@@ -11,6 +11,7 @@ lms
 mail
 education
 crm
+wiki
 iff
 frappe_openai_integration
 translator
@@ -24,11 +25,13 @@ erpnext
 chart_of_accounts_builder
 webshop
 ff_assignment_portal
+business_hub
 ecommerce_integrations
 newsletter
 erpnext_australian_localisation
 drive
 builder
+assets
 school_automations
 helpdesk
 hub
