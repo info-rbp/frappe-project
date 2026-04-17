@@ -5,8 +5,7 @@
 ## 1. Branch
 
 **Branch:** `main`
-**Latest commit:** `d4b36c6469` (Auto-generated changes)
-**No PR link** — all work was committed directly to `main` via the Emergent platform auto-commit workflow. There is no separate feature branch or pull request.
+**No PR link** — all work committed directly to `main` via the Emergent platform auto-commit workflow.
 
 ---
 
@@ -16,7 +15,7 @@
 
 **None.** Zero files inside `frappe/` were created, modified, or deleted.
 
-### New: Frappe Custom App — `/app/rbp_app/` (93 source files)
+### Frappe Custom App — `/app/rbp_app/` (93 source files)
 
 #### App root
 | File | Purpose |
@@ -26,6 +25,7 @@
 | `README.md` | App overview, structure, installation, route coverage |
 | `ARCHITECTURE.md` | Shell architecture doc: flow diagram, boundaries, route ownership |
 | `ADMIN_APPROACH.md` | Admin strategy: Frappe Desk mapping table, phase plan |
+| `HANDOFF.md` | This file |
 
 #### App module — `rbp_app/rbp_app/`
 | File | Purpose |
@@ -40,84 +40,63 @@
 #### Shell templates — `rbp_app/rbp_app/templates/`
 | File | Purpose |
 |---|---|
-| `__init__.py` | Package init |
 | `shells/public_base.html` | Extends `templates/base.html`. Header + nav + content + footer. |
-| `shells/auth_base.html` | Extends `templates/base.html`. Minimal header, centered card, cross-links to public + portal. |
-| `shells/portal_base.html` | Extends `templates/base.html`. Sidebar nav, topbar with cross-links to public + admin. |
-| `shells/admin_base.html` | Extends `templates/base.html`. Scaffold with Desk notice, cross-links to portal + public. |
-| `includes/header.html` | Header bar: logo, 9 primary nav items, utility nav (Search, My Portal, Login, Join). |
-| `includes/footer.html` | Footer: 5 column groups (Company, Services, Resources, Support, Account) + rbp_app badge. |
+| `shells/auth_base.html` | Extends `templates/base.html`. Minimal header, centered card, "Back to site" link. |
+| `shells/portal_base.html` | Extends `templates/base.html`. Sidebar nav, topbar with Website/Account/Sign Out. |
+| `shells/admin_base.html` | Extends `templates/base.html`. Admin bar with Website/Portal/Sign Out. |
+| `includes/header.html` | Header bar: logo, 9 primary nav items, utility (Search, My Portal, Login, Get Started). |
+| `includes/footer.html` | 5-column footer (Company, Services, Resources, Support, Account). |
 | `includes/mega_menu.html` | Placeholder for expanded nav (hidden, for future use). |
-| `includes/portal_sidebar.html` | Portal sidebar: 10 nav items + cross-shell footer links. |
-| `includes/admin_shell_elements.html` | Admin UI element concepts (reference only, HTML comments). |
+| `includes/portal_sidebar.html` | Portal sidebar: 10 nav items + Back to Website / Sign Out. |
+| `includes/admin_shell_elements.html` | Admin UI element concepts (reference only). |
 
 #### Public assets — `rbp_app/rbp_app/public/`
 | File | Purpose |
 |---|---|
 | `css/rbp.css` | Unlimit BaaS-inspired dark-first stylesheet (Outfit font, dark palette, green/purple accents). |
-| `js/rbp.js` | Active nav highlighting based on current path. |
+| `js/rbp.js` | Active nav highlighting. |
 | `images/.gitkeep` | Placeholder for static images. |
 
 #### WWW pages — `rbp_app/rbp_app/www/` (70 HTML + 2 Python)
 
-**Public shell (38 pages):**
-`index.html`, `index.py`, `about.html`, `contact.html`, `faq.html`, `privacy.html`, `terms.html`, `help/index.html`, `services/index.html`, `services/category.html`, `service/index.html`, `membership/index.html`, `membership/plans.html`, `membership/pro.html`, `membership/ultimate.html`, `membership/compare.html`, `resources/index.html`, `resources/search.html`, `finance/index.html`, `finance/funding.html`, `finance/insurance.html`, `finance/calculators.html`, `finance/learn.html`, `finance/resources.html`, `finance/enquiry.html`, `finance/thank-you.html`, `offers/index.html`, `decision-desk/index.html`, `decision-desk/how-it-works.html`, `decision-desk/request.html`, `decision-desk/thank-you.html`, `documents/index.html`, `templates.html`, `toolkits.html`, `documentation-suites.html`, `product/index.html`, `support/index.html`, `support/contact.html`, `support/help-articles.html`
+**Public shell — 38 pages:** `index.html`, `index.py`, `about.html`, `contact.html`, `faq.html`, `privacy.html`, `terms.html`, `help/index.html`, `services/index.html`, `services/category.html`, `service/index.html`, `membership/index.html`, `membership/plans.html`, `membership/pro.html`, `membership/ultimate.html`, `membership/compare.html`, `resources/index.html`, `resources/search.html`, `finance/index.html`, `finance/funding.html`, `finance/insurance.html`, `finance/calculators.html`, `finance/learn.html`, `finance/resources.html`, `finance/enquiry.html`, `finance/thank-you.html`, `offers/index.html`, `decision-desk/index.html`, `decision-desk/how-it-works.html`, `decision-desk/request.html`, `decision-desk/thank-you.html`, `documents/index.html`, `templates.html`, `toolkits.html`, `documentation-suites.html`, `product/index.html`, `support/index.html`, `support/contact.html`, `support/help-articles.html`
 
-**Auth shell (6 pages):**
-`login.html`, `register.html`, `join.html`, `forgot-password.html`, `reset-password.html`, `verify-account.html`
+**Auth shell — 6 pages:** `login.html`, `register.html`, `join.html`, `forgot-password.html`, `reset-password.html`, `verify-account.html`
 
-**Portal shell (13 pages):**
-`portal/index.html`, `portal/dashboard.html`, `portal/membership.html`, `portal/library.html`, `portal/resources.html`, `portal/finance/index.html`, `portal/finance/enquiries.html`, `portal/decision-desk/index.html`, `portal/decision-desk/history.html`, `portal/billing.html`, `portal/account.html`, `portal/notifications.html`, `portal/support.html`
+**Portal shell — 13 pages:** `portal/index.html`, `portal/dashboard.html`, `portal/membership.html`, `portal/library.html`, `portal/resources.html`, `portal/finance/index.html`, `portal/finance/enquiries.html`, `portal/decision-desk/index.html`, `portal/decision-desk/history.html`, `portal/billing.html`, `portal/account.html`, `portal/notifications.html`, `portal/support.html`
 
-**Admin shell (13 pages):**
-`admin/index.html`, `admin/content.html`, `admin/services.html`, `admin/resources.html`, `admin/finance.html`, `admin/offers.html`, `admin/decision-desk.html`, `admin/documents.html`, `admin/memberships.html`, `admin/billing.html`, `admin/users.html`, `admin/navigation.html`, `admin/settings.html`
+**Admin shell — 13 pages:** `admin/index.html`, `admin/content.html`, `admin/services.html`, `admin/resources.html`, `admin/finance.html`, `admin/offers.html`, `admin/decision-desk.html`, `admin/documents.html`, `admin/memberships.html`, `admin/billing.html`, `admin/users.html`, `admin/navigation.html`, `admin/settings.html`
 
-#### Tests
-| File | Purpose |
-|---|---|
-| `tests/__init__.py` | Package init |
+### Preview Layer — `/app/frontend/` (10 source files)
 
-### New: Preview Layer — `/app/frontend/` (12 source files)
-
-These files exist **only** because the Emergent preview environment requires a React frontend on port 3000. They mirror the Frappe shell structure for visual preview. They are **not** part of the Frappe custom app.
+Exists **only** for Emergent preview environment (React on port 3000). Not part of the Frappe app.
 
 | File | Purpose |
 |---|---|
-| `package.json` | React 18 + react-router-dom 6 + lucide-react |
+| `package.json` | React 18 + react-router-dom 6 |
 | `public/index.html` | HTML entry point |
 | `.env` | `REACT_APP_BACKEND_URL` |
-| `src/index.js` | React entry point |
-| `src/index.css` | Minimal reset (Outfit font in App.css) |
-| `src/App.js` | Route config: all 70+ routes mapped to shell components |
+| `src/index.js` | React entry |
+| `src/index.css` | Minimal reset |
+| `src/App.js` | Route config: 70 routes across 4 shells |
 | `src/App.css` | Full Unlimit-inspired dark design system |
-| `src/components/ShellNavigator.js` | Shell nav bar: 4 shell links + rbp_app badge |
-| `src/components/PublicShell.js` | Header (9 nav + utility) + footer (5 cols) |
-| `src/components/AuthShell.js` | Centered card + cross-shell links |
-| `src/components/PortalShell.js` | Sidebar (10 nav + cross-links) + topbar |
-| `src/components/AdminShell.js` | Admin bar + Desk notice + cross-links |
-| `src/components/HomePage.js` | Hero + layers section + cards |
-| `src/components/PlaceholderPage.js` | Reusable placeholder with shell badge |
-| `src/components/ArchitectureMap.js` | Flow diagram + boundaries + route tree |
+| `src/components/PublicShell.js` | Header + footer (production-ready) |
+| `src/components/AuthShell.js` | Centered auth card |
+| `src/components/PortalShell.js` | Sidebar + topbar portal layout |
+| `src/components/AdminShell.js` | Admin bar + content |
+| `src/components/HomePage.js` | Hero, stats, cards, Why RBP, CTA banner |
+| `src/components/PlaceholderPage.js` | Clean "content being prepared" empty state |
 
-### New: Preview Layer — `/app/backend/` (3 source files)
+**Deleted files** (removed in production-ready pass):
+- `src/components/ShellNavigator.js` — dev-only shell navigation bar
+- `src/components/ArchitectureMap.js` — dev-only architecture documentation page
 
-Same rationale — exists only for the Emergent preview (FastAPI on port 8001).
+### Preview Layer — `/app/backend/` (2 source files)
 
 | File | Purpose |
 |---|---|
-| `.env` | `MONGO_URL`, `DB_NAME` |
-| `requirements.txt` | fastapi, uvicorn, python-dotenv, pymongo |
 | `server.py` | `/api/health`, `/api/navigation`, `/api/architecture` |
-| `tests/test_rbp_api.py` | API tests (created by testing agent) |
-
-### New: Documentation
-| File | Purpose |
-|---|---|
-| `/app/memory/PRD.md` | Product requirements document with backlog |
-| `/app/test_reports/iteration_1.json` | Structural validation (109/109 pass) |
-| `/app/test_reports/iteration_2.json` | E2E shell testing (100% pass) |
-| `/app/test_reports/iteration_3.json` | Cross-shell navigation testing (100% pass) |
-| `/app/test_reports/iteration_4.json` | UI redesign visual verification (100% pass) |
+| `requirements.txt` | fastapi, uvicorn, python-dotenv, pymongo |
 
 ---
 
@@ -127,22 +106,21 @@ Same rationale — exists only for the Emergent preview (FastAPI on port 8001).
 **Yes.** `rbp_app` at `/app/rbp_app/`.
 
 ### Custom app name
-`rbp_app` (app_name in hooks.py: `"rbp_app"`, app_title: `"Remote Business Partner"`)
+`rbp_app` (hooks.py: `app_name = "rbp_app"`, `app_title = "Remote Business Partner"`)
 
 ### Where the public shell lives
 - **Template:** `rbp_app/templates/shells/public_base.html` (extends `frappe/templates/base.html`)
-- **Includes:** `rbp_app/templates/includes/header.html`, `footer.html`, `mega_menu.html`
-- **Pages:** `rbp_app/www/` — 38 HTML files, each with `{% extends "rbp_app/templates/shells/public_base.html" %}`
+- **Includes:** `rbp_app/templates/includes/header.html`, `footer.html`
+- **Pages:** 38 HTML files in `rbp_app/www/`, each extending `public_base.html`
 - **Assets:** `rbp_app/public/css/rbp.css`, `rbp_app/public/js/rbp.js`
-- **Config:** `rbp_app/config/navigation.py`
 
 ### Where auth, portal, and admin scaffolds live
-- **Auth:** `rbp_app/templates/shells/auth_base.html` → 6 pages in `rbp_app/www/` (login, register, join, forgot-password, reset-password, verify-account)
-- **Portal:** `rbp_app/templates/shells/portal_base.html` + `rbp_app/templates/includes/portal_sidebar.html` → 13 pages in `rbp_app/www/portal/`
-- **Admin:** `rbp_app/templates/shells/admin_base.html` + `rbp_app/templates/includes/admin_shell_elements.html` → 13 pages in `rbp_app/www/admin/`. Admin is documented as Frappe Desk in `ADMIN_APPROACH.md`. Scaffold pages point users to `/desk`.
+- **Auth:** `rbp_app/templates/shells/auth_base.html` → 6 pages in `rbp_app/www/`
+- **Portal:** `rbp_app/templates/shells/portal_base.html` + `includes/portal_sidebar.html` → 13 pages in `rbp_app/www/portal/`
+- **Admin:** `rbp_app/templates/shells/admin_base.html` → 13 pages in `rbp_app/www/admin/`. Production admin uses Frappe Desk at `/desk`.
 
-### Framework-core files changed and why
-**None.** Zero files in `frappe/` were modified. Verified by `git diff HEAD -- frappe/` returning empty. The custom app integrates via Frappe's standard hooks mechanism (`web_include_css`, `web_include_js`, `website_route_rules`).
+### Framework-core files changed
+**None.** Zero files in `frappe/` were modified.
 
 ---
 
@@ -150,46 +128,46 @@ Same rationale — exists only for the Emergent preview (FastAPI on port 8001).
 
 ### Public Shell (38 routes) — `public_base.html`
 
-| Route | File | Section |
-|---|---|---|
-| `/` | `www/index.html` + `index.py` | Home |
-| `/about` | `www/about.html` | Company |
-| `/contact` | `www/contact.html` | Company |
-| `/faq` | `www/faq.html` | Support |
-| `/privacy` | `www/privacy.html` | Legal |
-| `/terms` | `www/terms.html` | Legal |
-| `/help` | `www/help/index.html` | Help |
-| `/services` | `www/services/index.html` | Services |
-| `/services/<category>` | `www/services/category.html` | Services |
-| `/service/<slug>` | `www/service/index.html` | Services |
-| `/membership` | `www/membership/index.html` | Membership |
-| `/membership/plans` | `www/membership/plans.html` | Membership |
-| `/membership/pro` | `www/membership/pro.html` | Membership |
-| `/membership/ultimate` | `www/membership/ultimate.html` | Membership |
-| `/membership/compare` | `www/membership/compare.html` | Membership |
-| `/resources` | `www/resources/index.html` | Resources |
-| `/resources/search` | `www/resources/search.html` | Resources |
-| `/finance` | `www/finance/index.html` | Finance |
-| `/finance/funding` | `www/finance/funding.html` | Finance |
-| `/finance/insurance` | `www/finance/insurance.html` | Finance |
-| `/finance/calculators` | `www/finance/calculators.html` | Finance |
-| `/finance/learn` | `www/finance/learn.html` | Finance |
-| `/finance/resources` | `www/finance/resources.html` | Finance |
-| `/finance/enquiry` | `www/finance/enquiry.html` | Finance |
-| `/finance/thank-you` | `www/finance/thank-you.html` | Finance |
-| `/offers` | `www/offers/index.html` | Offers |
-| `/decision-desk` | `www/decision-desk/index.html` | Decision Desk |
-| `/decision-desk/how-it-works` | `www/decision-desk/how-it-works.html` | Decision Desk |
-| `/decision-desk/request` | `www/decision-desk/request.html` | Decision Desk |
-| `/decision-desk/thank-you` | `www/decision-desk/thank-you.html` | Decision Desk |
-| `/documents` | `www/documents/index.html` | Documents |
-| `/templates` | `www/templates.html` | Documents |
-| `/toolkits` | `www/toolkits.html` | Documents |
-| `/documentation-suites` | `www/documentation-suites.html` | Documents |
-| `/product/<slug>` | `www/product/index.html` | Documents |
-| `/support` | `www/support/index.html` | Support |
-| `/support/contact` | `www/support/contact.html` | Support |
-| `/support/help-articles` | `www/support/help-articles.html` | Support |
+| Route | File |
+|---|---|
+| `/` | `www/index.html` + `index.py` |
+| `/about` | `www/about.html` |
+| `/contact` | `www/contact.html` |
+| `/faq` | `www/faq.html` |
+| `/privacy` | `www/privacy.html` |
+| `/terms` | `www/terms.html` |
+| `/help` | `www/help/index.html` |
+| `/services` | `www/services/index.html` |
+| `/services/<category>` | `www/services/category.html` |
+| `/service/<slug>` | `www/service/index.html` |
+| `/membership` | `www/membership/index.html` |
+| `/membership/plans` | `www/membership/plans.html` |
+| `/membership/pro` | `www/membership/pro.html` |
+| `/membership/ultimate` | `www/membership/ultimate.html` |
+| `/membership/compare` | `www/membership/compare.html` |
+| `/resources` | `www/resources/index.html` |
+| `/resources/search` | `www/resources/search.html` |
+| `/finance` | `www/finance/index.html` |
+| `/finance/funding` | `www/finance/funding.html` |
+| `/finance/insurance` | `www/finance/insurance.html` |
+| `/finance/calculators` | `www/finance/calculators.html` |
+| `/finance/learn` | `www/finance/learn.html` |
+| `/finance/resources` | `www/finance/resources.html` |
+| `/finance/enquiry` | `www/finance/enquiry.html` |
+| `/finance/thank-you` | `www/finance/thank-you.html` |
+| `/offers` | `www/offers/index.html` |
+| `/decision-desk` | `www/decision-desk/index.html` |
+| `/decision-desk/how-it-works` | `www/decision-desk/how-it-works.html` |
+| `/decision-desk/request` | `www/decision-desk/request.html` |
+| `/decision-desk/thank-you` | `www/decision-desk/thank-you.html` |
+| `/documents` | `www/documents/index.html` |
+| `/templates` | `www/templates.html` |
+| `/toolkits` | `www/toolkits.html` |
+| `/documentation-suites` | `www/documentation-suites.html` |
+| `/product/<slug>` | `www/product/index.html` |
+| `/support` | `www/support/index.html` |
+| `/support/contact` | `www/support/contact.html` |
+| `/support/help-articles` | `www/support/help-articles.html` |
 
 ### Auth Shell (6 routes) — `auth_base.html`
 
@@ -220,51 +198,48 @@ Same rationale — exists only for the Emergent preview (FastAPI on port 8001).
 | `/portal/notifications` | `www/portal/notifications.html` |
 | `/portal/support` | `www/portal/support.html` |
 
-### Admin Shell (13 routes) — `admin_base.html` (scaffold → Frappe Desk)
+### Admin Shell (13 routes) — `admin_base.html`
 
-| Route | File | Desk Equivalent |
-|---|---|---|
-| `/admin` | `www/admin/index.html` | `/desk` |
-| `/admin/content` | `www/admin/content.html` | Web Page list |
-| `/admin/services` | `www/admin/services.html` | RBP Service DocType |
-| `/admin/resources` | `www/admin/resources.html` | RBP Resource DocType |
-| `/admin/finance` | `www/admin/finance.html` | RBP Finance Enquiry DocType |
-| `/admin/offers` | `www/admin/offers.html` | RBP Offer DocType |
-| `/admin/decision-desk` | `www/admin/decision-desk.html` | RBP Decision Request DocType |
-| `/admin/documents` | `www/admin/documents.html` | RBP Document DocType |
-| `/admin/memberships` | `www/admin/memberships.html` | RBP Membership DocType |
-| `/admin/billing` | `www/admin/billing.html` | RBP Invoice DocType |
-| `/admin/users` | `www/admin/users.html` | `/desk/user` |
-| `/admin/navigation` | `www/admin/navigation.html` | Website Settings |
-| `/admin/settings` | `www/admin/settings.html` | RBP Settings DocType |
+| Route | File |
+|---|---|
+| `/admin` | `www/admin/index.html` |
+| `/admin/content` | `www/admin/content.html` |
+| `/admin/services` | `www/admin/services.html` |
+| `/admin/resources` | `www/admin/resources.html` |
+| `/admin/finance` | `www/admin/finance.html` |
+| `/admin/offers` | `www/admin/offers.html` |
+| `/admin/decision-desk` | `www/admin/decision-desk.html` |
+| `/admin/documents` | `www/admin/documents.html` |
+| `/admin/memberships` | `www/admin/memberships.html` |
+| `/admin/billing` | `www/admin/billing.html` |
+| `/admin/users` | `www/admin/users.html` |
+| `/admin/navigation` | `www/admin/navigation.html` |
+| `/admin/settings` | `www/admin/settings.html` |
 
 ---
 
-## 5. Known Gaps and Incomplete Parts
+## 5. Known Gaps
 
-### Not implemented (by design — explicitly excluded in requirements)
-- No business logic, payment logic, referral logic, CMS logic, or calculators
-- No custom DocTypes (Services, Membership, Resources, etc.)
-- No Frappe Desk workspace for RBP
-- No data models or database schema
-- No real authentication enforcement on portal routes
-- No real admin functionality
+### By design (excluded from scope)
+- No business logic, payment logic, referral logic, CMS, or calculators
+- No custom DocTypes
+- No Frappe Desk workspace
+- No data models
+- No real authentication enforcement
+- All pages show "Content for this page is being prepared" — ready for content pass
 
 ### Structural gaps
-1. **Dynamic routes are commented out** in `hooks.py`. The `website_route_rules` for `/services/<category>`, `/offers/<slug>`, `/resources/<category>/<slug>`, and `/product/<slug>` exist as comments but are not activated. The corresponding www pages exist as static placeholders.
+1. **Dynamic routes commented out** in `hooks.py`. Routes like `/services/<category>` and `/offers/<slug>` exist as static placeholder pages but the `website_route_rules` are not activated.
+2. **No `.py` context files** for most www pages. Only `www/index.py` exists. Others needed when business data is introduced.
+3. **`/login` override risk.** `rbp_app/www/login.html` will override `frappe/www/login.html` when installed. Must integrate with Frappe auth or be removed before production.
+4. **Portal has no authentication gate.** Pages are publicly accessible. Must add Frappe's `is_guest` checks before production.
+5. **App not installed in bench.** Must run `bench get-app /path/to/rbp_app && bench install-app rbp_app` to activate in Frappe.
+6. **Preview layer is separate.** `/app/frontend/` and `/app/backend/` exist only for Emergent preview. Not part of the Frappe deployment.
+7. **Mega menu is a hidden placeholder.**
+8. **No Frappe-native test coverage.** Tests validate structure and the React preview only.
 
-2. **No `.py` context files** for most www pages. Only `www/index.py` provides a context function. All other pages are HTML-only with no server-side context. Context files are needed when business data is introduced.
-
-3. **`/login` override risk.** `rbp_app/www/login.html` will override `frappe/www/login.html` when the app is installed. This is intentional but the RBP login page is a placeholder — it does not integrate with Frappe's authentication backend. Before going live, this page must either integrate with Frappe's login flow or be removed to let the framework handle it.
-
-4. **`/portal` routes have no authentication gate.** Portal pages are publicly accessible in the shell phase. Frappe's `is_guest` context or login-required checks must be added before production.
-
-5. **The `rbp_app` is not installed into any Frappe bench site.** It exists as a directory structure at `/app/rbp_app/`. To activate it in Frappe, it must be installed via `bench get-app /path/to/rbp_app && bench install-app rbp_app`. Until then, the www pages and hooks are not active in Frappe — they are only visible through the React preview layer.
-
-6. **The preview layer (`/app/frontend/`, `/app/backend/`) is not part of the Frappe app.** It exists solely for the Emergent platform's preview environment. It should not be deployed alongside the Frappe app. It duplicates the shell structure in React for visual review purposes only.
-
-7. **No `setup.py`** in `rbp_app/`. Only `pyproject.toml` is present. Frappe v17 should support pyproject.toml, but if bench requires setup.py, one must be added.
-
-8. **Mega menu is a hidden placeholder.** `includes/mega_menu.html` contains no functional content.
-
-9. **No test coverage for Frappe-specific behavior.** The test reports validate structure and the React preview, but there are no Frappe-native tests (e.g., `bench run-tests --app rbp_app`).
+### UI notes
+- Design: Unlimit BaaS-inspired dark-first (navy #060714, green #c8ff00, Outfit font)
+- All dev-facing UI removed: no shell navigator, no architecture map, no scaffold labels, no route badges
+- Pages show clean "Content for this page is being prepared" empty states
+- Ready for content replacement without structural changes

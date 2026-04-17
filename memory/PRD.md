@@ -79,6 +79,8 @@ rbp_app/
 └── tests/
 ```
 
+## Prioritised Backlog
+
 ### Iteration 3: UI Redesign - Unlimit BaaS Style (Current)
 - **Design language**: Inspired by Unlimit BaaS (https://www.baas.unlimit.com/)
 - **Dark-first palette**: Navy-black backgrounds (#060714), deep card surfaces (#0d1028)
@@ -92,7 +94,13 @@ rbp_app/
 - **Admin**: Amber accent badges and notice borders on dark background
 - **Testing**: 100% pass — all visual elements verified, design tokens confirmed
 
-## Prioritised Backlog
+### Iteration 4: Production-Ready UI (Current)
+- **Removed all dev-facing UI**: Shell Navigator bar, Architecture Map page (`/architecture`), shell badges, route badges, scaffold labels, `rbp_app` badge, "placeholder" language
+- **Deleted**: `ShellNavigator.js`, `ArchitectureMap.js`
+- **Redesigned HomePage**: Hero → Stats strip → "What we offer" cards → "Why RBP?" blue section → "More from RBP" cards → CTA banner
+- **Clean empty states**: All placeholder pages now show "Content for this page is being prepared" — no dev language
+- **Production navigation**: Footer Account column has Login/Get Started/Member Portal (no Admin link), portal topbar has Website/Account/Sign Out (no Admin), admin bar has clean Website/Portal/Sign Out
+- **Testing**: 100% pass — all dev elements confirmed removed, all production elements confirmed present
 
 ### P0 - Next Phase (Business Data Model)
 - Create custom DocTypes for RBP business entities
