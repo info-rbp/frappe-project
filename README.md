@@ -21,6 +21,16 @@
 ## Frappe Framework
 Full-stack web application framework that uses Python and MariaDB on the server side and a tightly integrated client side library. Built for ERPNext.
 
+## Workspace Layout
+
+This workspace now reserves a clear place for non-Frappe OSS and bridge code:
+
+- `external/` for standalone or vendored non-Frappe projects
+- `integrations/` for thin Frappe-to-OSS adapters and glue code
+- `start/` remains a local bench/runtime workspace, not the default home for new non-Frappe projects
+
+See [WORKSPACE_STRUCTURE.md](WORKSPACE_STRUCTURE.md) for the working conventions.
+
 ## Philosophy
 
 > The best code is the one that is not written

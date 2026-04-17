@@ -31,7 +31,7 @@ web_include_js = [
 # Home page - override Website Settings home page
 # Uncomment to make the RBP index the site home page
 # ---------------------------------------------------------------------------
-# home_page = "index"
+home_page = "index"
 
 # ---------------------------------------------------------------------------
 # Website route rules
@@ -40,18 +40,24 @@ web_include_js = [
 # These map URL patterns to www page handlers.
 website_route_rules = [
     # Services dynamic routes
-    # {"from_route": "/services/<category>", "to_route": "services/category"},
-    # {"from_route": "/service/<slug>", "to_route": "service/detail"},
+    {"from_route": "/services/<category>", "to_route": "services/category"},
+    # Safe shell-phase placeholder for slug-based service detail URLs.
+    {"from_route": "/service/<slug>", "to_route": "service/index"},
 
     # Resources dynamic routes
+    # Category/detail placeholders do not exist yet. Keep disabled until
+    # dedicated category/detail shell pages are added.
     # {"from_route": "/resources/<category>", "to_route": "resources/category"},
     # {"from_route": "/resources/<category>/<slug>", "to_route": "resources/detail"},
 
     # Offers dynamic route
+    # Offers only has a listing shell today; a slug route would imply
+    # content-backed offer detail behavior that does not exist yet.
     # {"from_route": "/offers/<slug>", "to_route": "offers/detail"},
 
     # Product dynamic route
-    # {"from_route": "/product/<slug>", "to_route": "product/detail"},
+    # Safe shell-phase placeholder for slug-based product detail URLs.
+    {"from_route": "/product/<slug>", "to_route": "product/index"},
 ]
 
 # ---------------------------------------------------------------------------
@@ -69,6 +75,10 @@ website_route_rules = [
 # website_context = {
 #     "rbp_navigation": "rbp_app.config.navigation.get_navigation",
 # }
+
+update_website_context = [
+    "rbp_app.utils.portal.protect_portal_routes",
+]
 
 # ---------------------------------------------------------------------------
 # Installation hooks

@@ -36,3 +36,4 @@ school_automations
 helpdesk
 hub
 library_management
+rbp_app
