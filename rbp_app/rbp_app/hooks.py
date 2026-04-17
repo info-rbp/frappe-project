@@ -34,6 +34,19 @@ web_include_js = [
 home_page = "index"
 
 # ---------------------------------------------------------------------------
+# Website redirects
+# ---------------------------------------------------------------------------
+# Auth-like placeholder routes should never own account flows. Route them to
+# the active authentication surface so RBP does not hijack native auth.
+website_redirects = [
+    {"source": "/register", "target": "/signup"},
+    {"source": "/join", "target": "/signup"},
+    {"source": "/forgot-password", "target": "/login"},
+    {"source": "/reset-password", "target": "/login"},
+    {"source": "/verify-account", "target": "/login"},
+]
+
+# ---------------------------------------------------------------------------
 # Website route rules
 # ---------------------------------------------------------------------------
 # Dynamic route mappings for parameterized URLs.

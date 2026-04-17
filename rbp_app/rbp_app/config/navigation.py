@@ -26,7 +26,7 @@ def get_utility_nav():
     return [
         {"label": "Search", "url": "/resources/search", "action": "search"},
         {"label": "Login", "url": "/login", "action": "login"},
-        {"label": "Join / Get Started", "url": "/join", "action": "join", "highlight": True},
+        {"label": "Join / Get Started", "url": "/signup", "action": "join", "highlight": True},
     ]
 
 
