@@ -6,6 +6,7 @@ import PortalShell from './components/PortalShell';
 import AdminShell from './components/AdminShell';
 import HomePage from './components/HomePage';
 import PlaceholderPage from './components/PlaceholderPage';
+import ArchitectureMap from './components/ArchitectureMap';
 import './App.css';
 
 const publicRoutes = [
@@ -94,8 +95,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<PublicShell><HomePage /></PublicShell>} />
+        {/* Architecture Map - standalone shell-level page */}
+        <Route path="/architecture" element={<ArchitectureMap />} />
 
+        {/* Public Shell */}
+        <Route path="/" element={<PublicShell><HomePage /></PublicShell>} />
         {publicRoutes.map(r => (
           <Route key={r.path} path={r.path} element={
             <PublicShell>
@@ -104,6 +108,7 @@ function App() {
           } />
         ))}
 
+        {/* Auth Shell */}
         {authRoutes.map(r => (
           <Route key={r.path} path={r.path} element={
             <AuthShell>
@@ -112,6 +117,7 @@ function App() {
           } />
         ))}
 
+        {/* Portal Shell */}
         {portalRoutes.map(r => (
           <Route key={r.path} path={r.path} element={
             <PortalShell pageTitle={r.title}>
@@ -120,6 +126,7 @@ function App() {
           } />
         ))}
 
+        {/* Admin Shell */}
         {adminRoutes.map(r => (
           <Route key={r.path} path={r.path} element={
             <AdminShell>

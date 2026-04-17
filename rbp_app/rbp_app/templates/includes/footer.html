@@ -1,5 +1,5 @@
 {# RBP Public Shell - Footer Include #}
-{# Provides: footer navigation groups and copyright #}
+{# Provides: footer navigation groups with cross-shell links and app ownership #}
 
 <footer class="rbp-footer" data-testid="rbp-footer">
     <div class="rbp-footer-inner">
@@ -31,9 +31,16 @@
                 <a href="/faq">FAQ</a>
                 <a href="/support/contact">Contact Support</a>
             </div>
+            <div class="rbp-footer-group">
+                <h4>Account</h4>
+                <a href="/login">Login</a>
+                <a href="/join">Join / Get Started</a>
+                <a href="/portal/dashboard">Member Portal</a>
+                <a href="/admin">Admin</a>
+            </div>
         </div>
         <div class="rbp-footer-bottom">
-            <p>&copy; {{ frappe.utils.now_datetime().year if frappe else "2026" }} Remote Business Partner. All rights reserved.</p>
+            <p>&copy; {{ frappe.utils.now_datetime().year if frappe else "2026" }} Remote Business Partner. All rights reserved. Powered by <code>rbp_app</code> on Frappe.</p>
         </div>
     </div>
 </footer>

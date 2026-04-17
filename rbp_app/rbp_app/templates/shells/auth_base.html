@@ -1,9 +1,6 @@
-{# ===================================================================
-   RBP Auth Shell Base Template
-   Extends Frappe base.html. Provides: minimal header, auth form area,
-   support link, minimal footer.
-   Used for login, register, join, password reset, etc.
-   =================================================================== #}
+{# RBP Auth Shell Base Template #}
+{# Extends Frappe base.html. Minimal chrome for identity flows. #}
+{# Cross-links: back to public site, forward to portal on success. #}
 {% extends "templates/base.html" %}
 
 {% block navbar %}
@@ -17,6 +14,13 @@
     <div class="rbp-auth-content">
         <div class="rbp-auth-card">
             {% block auth_content %}{% endblock %}
+
+            {# Cross-shell navigation: back to site, forward to portal #}
+            <div class="rbp-auth-flow" data-testid="auth-flow-links">
+                <a href="/">Back to site</a>
+                <span class="rbp-auth-flow-sep"></span>
+                <a href="/portal/dashboard">Go to Portal</a>
+            </div>
         </div>
     </div>
     <div class="rbp-auth-support">

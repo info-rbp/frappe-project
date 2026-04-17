@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import ShellNavigator from './ShellNavigator';
 
 const navItems = [
   { label: "Home", url: "/" },
@@ -48,23 +49,21 @@ export default function PublicShell({ children }) {
 
   return (
     <div data-testid="rbp-public-shell">
+      <ShellNavigator />
       <header className="rbp-header" data-testid="rbp-header">
         <div className="rbp-header-inner">
           <Link to="/" className="rbp-logo" data-testid="rbp-logo">RBP</Link>
           <nav className="rbp-nav" data-testid="rbp-primary-nav">
             {navItems.map(item => (
-              <Link
-                key={item.url}
-                to={item.url}
-                className={isActive(item.url) ? "active" : ""}
-              >
+              <Link key={item.url} to={item.url} className={isActive(item.url) ? "active" : ""}>
                 {item.label}
               </Link>
             ))}
           </nav>
           <div className="rbp-utility" data-testid="rbp-utility-nav">
-            <Link to="/resources/search">Search</Link>
-            <Link to="/login">Login</Link>
+            <Link to="/resources/search" data-testid="utility-search">Search</Link>
+            <Link to="/portal/dashboard" className="rbp-utility-portal" data-testid="utility-portal">My Portal</Link>
+            <Link to="/login" data-testid="utility-login">Login</Link>
             <Link to="/join" className="rbp-btn-cta" data-testid="join-cta">Join / Get Started</Link>
           </div>
         </div>
@@ -81,9 +80,17 @@ export default function PublicShell({ children }) {
                 {links.map(l => <Link key={l.url} to={l.url}>{l.label}</Link>)}
               </div>
             ))}
+            <div className="rbp-footer-group">
+              <h4>Account</h4>
+              <Link to="/login">Login</Link>
+              <Link to="/join">Join / Get Started</Link>
+              <Link to="/portal/dashboard">Member Portal</Link>
+              <Link to="/admin">Admin</Link>
+            </div>
           </div>
           <div className="rbp-footer-bottom">
             &copy; {new Date().getFullYear()} Remote Business Partner. All rights reserved.
+            <span className="rbp-footer-app-tag">Powered by <code>rbp_app</code> on Frappe</span>
           </div>
         </div>
       </footer>

@@ -1,23 +1,33 @@
-{# ===================================================================
-   RBP Admin Shell Base Template (Scaffold Reference Only)
-
-   NOTE: Admin functionality is served by Frappe Desk.
-   This template exists as a structural scaffold / design reference.
-   It is NOT used for production admin pages.
-   See ADMIN_APPROACH.md for the full admin strategy.
-   =================================================================== #}
+{# RBP Admin Shell Base Template (Scaffold) #}
+{# Extends Frappe base.html. Scaffold pointing to Frappe Desk. #}
+{# Cross-links: to portal, to public site, architecture map. #}
 {% extends "templates/base.html" %}
 
 {% block navbar %}{% endblock %}
 
 {% block content %}
 <div class="rbp-shell" data-testid="rbp-admin-shell-scaffold">
-    <div class="rbp-admin-notice">
+    {# Admin bar with cross-shell links #}
+    <div class="rbp-admin-bar">
+        <div>
+            <strong>RBP Admin</strong>
+            <span class="rbp-admin-badge">Scaffold</span>
+        </div>
+        <div class="rbp-admin-bar-links">
+            <a href="/" data-testid="admin-to-public">Public Site</a>
+            <a href="/portal/dashboard" data-testid="admin-to-portal">Member Portal</a>
+            <a href="/login" data-testid="admin-to-logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="rbp-admin-notice" data-testid="admin-desk-notice">
         <strong>Admin Shell Scaffold</strong><br>
-        This is a structural reference template. Admin functionality for RBP
-        is delivered through Frappe Desk workspaces, list views, and form views.
+        Admin functionality for RBP is delivered through <strong>Frappe Desk</strong> &mdash;
+        workspaces, list views, and form views. These placeholder pages document the target
+        admin structure. In production, <code>/desk</code> serves all admin surfaces.
         <br><br>
-        <a href="/desk">Go to Frappe Desk &rarr;</a>
+        <a href="/portal/dashboard">Go to Portal</a> |
+        <a href="/">Go to Public Site</a>
     </div>
 
     <div class="rbp-main-content">
