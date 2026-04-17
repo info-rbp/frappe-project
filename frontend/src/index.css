@@ -1,29 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+/* Base styles - App.css contains the main Unlimit-inspired dark design */
+/* This file provides minimal resets only */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --rbp-primary: #0f1729;
-  --rbp-secondary: #162040;
-  --rbp-accent: #3b6cf5;
-  --rbp-highlight: #e5443e;
-  --rbp-text: #1e293b;
-  --rbp-text-light: #64748b;
-  --rbp-bg: #ffffff;
-  --rbp-bg-light: #f1f5f9;
-  --rbp-border: #e2e8f0;
-  --rbp-radius: 8px;
-  --rbp-max-w: 1200px;
-  --rbp-font: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-body {
-  font-family: var(--rbp-font);
-  color: var(--rbp-text);
-  background: var(--rbp-bg);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-
-a { color: var(--rbp-accent); text-decoration: none; }
-a:hover { text-decoration: underline; }

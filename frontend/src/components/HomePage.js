@@ -2,33 +2,46 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const sectionCards = [
-  { title: "Services", desc: "Explore our range of business services.", link: "/services", cta: "Browse Services" },
-  { title: "Membership", desc: "Join and access exclusive member benefits.", link: "/membership", cta: "View Plans" },
-  { title: "Resources", desc: "Access guides, tools, and knowledge base.", link: "/resources", cta: "Explore Resources" },
-  { title: "Finance", desc: "Funding, insurance, and financial tools.", link: "/finance", cta: "Finance Hub" },
-  { title: "Offers", desc: "Current deals and special packages.", link: "/offers", cta: "See Offers" },
-  { title: "Decision Desk", desc: "Expert guidance for business decisions.", link: "/decision-desk", cta: "Learn More" },
-  { title: "Documents", desc: "Templates, toolkits, and documentation.", link: "/documents", cta: "Browse Documents" },
-  { title: "Support", desc: "Help centre and contact support.", link: "/support", cta: "Get Help" },
+  { title: "Services", desc: "Explore our range of business services designed for growth.", link: "/services", cta: "Browse Services" },
+  { title: "Membership", desc: "Join and access exclusive member benefits and resources.", link: "/membership", cta: "View Plans" },
+  { title: "Resources", desc: "Access guides, tools, templates, and knowledge base.", link: "/resources", cta: "Explore" },
+  { title: "Finance", desc: "Funding, insurance, calculators, and financial tools.", link: "/finance", cta: "Finance Hub" },
+  { title: "Offers", desc: "Current deals, packages, and special opportunities.", link: "/offers", cta: "See Offers" },
+  { title: "Decision Desk", desc: "Expert guidance and support for business decisions.", link: "/decision-desk", cta: "Learn More" },
+  { title: "Documents", desc: "Templates, toolkits, and documentation suites.", link: "/documents", cta: "Browse" },
+  { title: "Support", desc: "Help centre, articles, and direct contact support.", link: "/support", cta: "Get Help" },
 ];
 
 export default function HomePage() {
   return (
     <div data-testid="rbp-home-page">
       <section className="rbp-hero" data-testid="rbp-hero">
-        <h1>Remote Business Partner</h1>
-        <p>Your partner for business services, resources, and growth.</p>
-        <div className="rbp-hero-actions">
-          <Link to="/join" className="rbp-hero-cta" data-testid="hero-cta">Get Started</Link>
-          <Link to="/architecture" className="rbp-hero-cta-secondary" data-testid="hero-architecture">View Architecture</Link>
+        <div className="rbp-hero-inner">
+          <h1>
+            Your<br />
+            <span className="accent">remote business</span><br />
+            partner
+          </h1>
+          <p>
+            Move forward with expert services, resources, and growth tools.
+            Everything your business needs in one partner.
+          </p>
+          <div className="rbp-hero-actions">
+            <Link to="/join" className="rbp-hero-cta" data-testid="hero-cta">
+              <span style={{fontSize:'1.1rem'}}>&#8594;</span> Get Started Now
+            </Link>
+            <Link to="/architecture" className="rbp-hero-cta-secondary" data-testid="hero-architecture">View Architecture</Link>
+          </div>
         </div>
       </section>
 
       <div className="rbp-main">
-        {/* Application Layers */}
         <section className="rbp-app-layers" data-testid="rbp-app-layers">
           <h2>Application Shell Layers</h2>
-          <p className="rbp-layers-desc">The RBP platform is organised into four interconnected application surfaces, all owned by the <code>rbp_app</code> custom Frappe application.</p>
+          <p className="rbp-layers-desc">
+            The RBP platform is organised into four interconnected application surfaces,
+            all owned by the <code>rbp_app</code> custom Frappe application.
+          </p>
           <div className="rbp-layers-grid">
             <Link to="/" className="rbp-layer-card public" data-testid="layer-public">
               <span className="rbp-layer-dot public" />
@@ -57,21 +70,20 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Public Sections */}
         <section data-testid="rbp-sections">
-          <h2>Public Website Sections</h2>
+          <h2>What we offer</h2>
           <div className="rbp-cards">
             {sectionCards.map(c => (
               <div className="rbp-card" key={c.link}>
                 <h3>{c.title}</h3>
                 <p>{c.desc}</p>
-                <Link to={c.link}>{c.cta} &rarr;</Link>
+                <Link to={c.link}>{c.cta} &#8594;</Link>
               </div>
             ))}
           </div>
         </section>
 
-        <div className="rbp-placeholder-box" style={{ marginTop: '1.5rem' }}>
+        <div className="rbp-placeholder-box" style={{ marginTop: '1rem' }}>
           <p>This is the RBP shell home page. Full content will be added in a future phase.</p>
           <div className="rbp-route-badge">/</div>
         </div>
