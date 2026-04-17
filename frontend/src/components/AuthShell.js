@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ShellNavigator from './ShellNavigator';
 
 export default function AuthShell({ children }) {
   return (
     <div className="rbp-auth-wrap" data-testid="rbp-auth-shell">
-      <ShellNavigator />
       <div className="rbp-auth-head">
         <Link to="/" className="rbp-logo" data-testid="rbp-auth-logo">RBP</Link>
       </div>
@@ -15,8 +13,6 @@ export default function AuthShell({ children }) {
           <div className="rbp-auth-flow" data-testid="auth-flow-links">
             <div className="rbp-auth-flow-inner">
               <Link to="/" data-testid="auth-back-to-site">Back to site</Link>
-              <span className="rbp-auth-flow-sep" />
-              <Link to="/portal/dashboard" data-testid="auth-to-portal">Go to Portal</Link>
             </div>
           </div>
         </div>

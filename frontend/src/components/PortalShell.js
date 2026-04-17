@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import ShellNavigator from './ShellNavigator';
 
 const sidebarNav = [
   { label: "Dashboard", url: "/portal/dashboard" },
@@ -20,43 +19,38 @@ export default function PortalShell({ children, pageTitle = "Portal" }) {
   const isActive = (url) => location.pathname === url || location.pathname.startsWith(url + "/");
 
   return (
-    <div data-testid="rbp-portal-shell">
-      <ShellNavigator />
-      <div className="rbp-portal">
-        <aside className="rbp-portal-side" data-testid="rbp-portal-sidebar">
-          <div className="rbp-portal-side-logo">
-            <Link to="/">RBP</Link>
-          </div>
-          <nav data-testid="rbp-portal-nav">
-            {sidebarNav.map(item => (
-              <Link key={item.url} to={item.url} className={isActive(item.url) ? "active" : ""}>
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="rbp-portal-side-footer">
-            <Link to="/" className="rbp-portal-side-link" data-testid="portal-to-public">Back to Website</Link>
-            <Link to="/admin" className="rbp-portal-side-link" data-testid="portal-to-admin">Admin / Desk</Link>
-            <Link to="/login" className="rbp-portal-side-link logout" data-testid="portal-logout">Logout</Link>
-          </div>
-        </aside>
+    <div className="rbp-portal" data-testid="rbp-portal-shell">
+      <aside className="rbp-portal-side" data-testid="rbp-portal-sidebar">
+        <div className="rbp-portal-side-logo">
+          <Link to="/">RBP</Link>
+        </div>
+        <nav data-testid="rbp-portal-nav">
+          {sidebarNav.map(item => (
+            <Link key={item.url} to={item.url} className={isActive(item.url) ? "active" : ""}>
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+        <div className="rbp-portal-side-footer">
+          <Link to="/" className="rbp-portal-side-link" data-testid="portal-to-public">Back to Website</Link>
+          <Link to="/login" className="rbp-portal-side-link logout" data-testid="portal-logout">Sign Out</Link>
+        </div>
+      </aside>
 
-        <div className="rbp-portal-body">
-          <div className="rbp-portal-topbar" data-testid="rbp-portal-header">
-            <span>Remote Business Partner &mdash; <strong>Member Portal</strong></span>
-            <div className="rbp-portal-topbar-links">
-              <Link to="/" data-testid="portal-topbar-site">Website</Link>
-              <Link to="/admin" data-testid="portal-topbar-admin">Admin</Link>
-              <Link to="/portal/account" data-testid="portal-topbar-account">Account</Link>
-              <Link to="/login" className="rbp-portal-topbar-logout" data-testid="portal-topbar-logout">Logout</Link>
-            </div>
+      <div className="rbp-portal-body">
+        <div className="rbp-portal-topbar" data-testid="rbp-portal-header">
+          <span>Remote Business Partner</span>
+          <div className="rbp-portal-topbar-links">
+            <Link to="/" data-testid="portal-topbar-site">Website</Link>
+            <Link to="/portal/account" data-testid="portal-topbar-account">Account</Link>
+            <Link to="/login" className="rbp-portal-topbar-logout" data-testid="portal-topbar-logout">Sign Out</Link>
           </div>
-          <div className="rbp-portal-page-head">
-            <h1>{pageTitle}</h1>
-          </div>
-          <div className="rbp-portal-content" data-testid="rbp-portal-content">
-            {children}
-          </div>
+        </div>
+        <div className="rbp-portal-page-head">
+          <h1>{pageTitle}</h1>
+        </div>
+        <div className="rbp-portal-content" data-testid="rbp-portal-content">
+          {children}
         </div>
       </div>
     </div>

@@ -6,13 +6,12 @@ import PortalShell from './components/PortalShell';
 import AdminShell from './components/AdminShell';
 import HomePage from './components/HomePage';
 import PlaceholderPage from './components/PlaceholderPage';
-import ArchitectureMap from './components/ArchitectureMap';
 import './App.css';
 
 const publicRoutes = [
   { path: "/about", title: "About", section: "Company" },
   { path: "/contact", title: "Contact", section: "Company" },
-  { path: "/faq", title: "FAQ", section: "Support" },
+  { path: "/faq", title: "Frequently Asked Questions", section: "Support" },
   { path: "/privacy", title: "Privacy Policy", section: "Legal" },
   { path: "/terms", title: "Terms of Service", section: "Legal" },
   { path: "/help", title: "Help Centre", section: "Help" },
@@ -38,7 +37,7 @@ const publicRoutes = [
   { path: "/offers/:slug", title: "Offer Detail", section: "Offers" },
   { path: "/decision-desk", title: "Decision Desk", section: "Decision Desk" },
   { path: "/decision-desk/how-it-works", title: "How It Works", section: "Decision Desk" },
-  { path: "/decision-desk/request", title: "Request", section: "Decision Desk" },
+  { path: "/decision-desk/request", title: "Submit a Request", section: "Decision Desk" },
   { path: "/decision-desk/thank-you", title: "Thank You", section: "Decision Desk" },
   { path: "/documents", title: "Documents", section: "Documents" },
   { path: "/templates", title: "Templates", section: "Documents" },
@@ -51,16 +50,16 @@ const publicRoutes = [
 ];
 
 const authRoutes = [
-  { path: "/login", title: "Login", desc: "Sign in to your RBP account." },
-  { path: "/register", title: "Register", desc: "Create a new RBP account." },
-  { path: "/join", title: "Join / Get Started", desc: "Join Remote Business Partner today." },
-  { path: "/forgot-password", title: "Forgot Password", desc: "Reset your password." },
-  { path: "/reset-password", title: "Reset Password", desc: "Set a new password." },
-  { path: "/verify-account", title: "Verify Account", desc: "Verify your email address." },
+  { path: "/login", title: "Sign In", desc: "Sign in to your RBP account." },
+  { path: "/register", title: "Create Account", desc: "Create a new RBP account." },
+  { path: "/join", title: "Get Started", desc: "Join Remote Business Partner today." },
+  { path: "/forgot-password", title: "Forgot Password", desc: "Enter your email to reset your password." },
+  { path: "/reset-password", title: "Reset Password", desc: "Set a new password for your account." },
+  { path: "/verify-account", title: "Verify Account", desc: "Verify your email address to continue." },
 ];
 
 const portalRoutes = [
-  { path: "/portal", title: "Portal Home", section: "Portal" },
+  { path: "/portal", title: "Portal", section: "Portal" },
   { path: "/portal/dashboard", title: "Dashboard", section: "Dashboard" },
   { path: "/portal/membership", title: "Membership", section: "Membership" },
   { path: "/portal/library", title: "Library", section: "Library" },
@@ -68,26 +67,26 @@ const portalRoutes = [
   { path: "/portal/finance", title: "Finance", section: "Finance" },
   { path: "/portal/finance/enquiries", title: "Finance Enquiries", section: "Finance" },
   { path: "/portal/decision-desk", title: "Decision Desk", section: "Decision Desk" },
-  { path: "/portal/decision-desk/history", title: "Decision Desk History", section: "Decision Desk" },
+  { path: "/portal/decision-desk/history", title: "Request History", section: "Decision Desk" },
   { path: "/portal/billing", title: "Billing", section: "Billing" },
-  { path: "/portal/account", title: "Account", section: "Account" },
+  { path: "/portal/account", title: "Account Settings", section: "Account" },
   { path: "/portal/notifications", title: "Notifications", section: "Notifications" },
   { path: "/portal/support", title: "Support", section: "Support" },
 ];
 
 const adminRoutes = [
   { path: "/admin", title: "Admin Dashboard", section: "Dashboard" },
-  { path: "/admin/content", title: "Content Management", section: "Content" },
-  { path: "/admin/services", title: "Services Management", section: "Services" },
-  { path: "/admin/resources", title: "Resources Management", section: "Resources" },
-  { path: "/admin/finance", title: "Finance Management", section: "Finance" },
-  { path: "/admin/offers", title: "Offers Management", section: "Offers" },
-  { path: "/admin/decision-desk", title: "Decision Desk Admin", section: "Decision Desk" },
-  { path: "/admin/documents", title: "Documents Admin", section: "Documents" },
-  { path: "/admin/memberships", title: "Memberships Admin", section: "Memberships" },
-  { path: "/admin/billing", title: "Billing Admin", section: "Billing" },
-  { path: "/admin/users", title: "Users Admin", section: "Users" },
-  { path: "/admin/navigation", title: "Navigation Admin", section: "Navigation" },
+  { path: "/admin/content", title: "Content", section: "Content" },
+  { path: "/admin/services", title: "Services", section: "Services" },
+  { path: "/admin/resources", title: "Resources", section: "Resources" },
+  { path: "/admin/finance", title: "Finance", section: "Finance" },
+  { path: "/admin/offers", title: "Offers", section: "Offers" },
+  { path: "/admin/decision-desk", title: "Decision Desk", section: "Decision Desk" },
+  { path: "/admin/documents", title: "Documents", section: "Documents" },
+  { path: "/admin/memberships", title: "Memberships", section: "Memberships" },
+  { path: "/admin/billing", title: "Billing", section: "Billing" },
+  { path: "/admin/users", title: "Users", section: "Users" },
+  { path: "/admin/navigation", title: "Navigation", section: "Navigation" },
   { path: "/admin/settings", title: "Settings", section: "Settings" },
 ];
 
@@ -95,11 +94,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Architecture Map - standalone shell-level page */}
-        <Route path="/architecture" element={<ArchitectureMap />} />
-
-        {/* Public Shell */}
         <Route path="/" element={<PublicShell><HomePage /></PublicShell>} />
+
         {publicRoutes.map(r => (
           <Route key={r.path} path={r.path} element={
             <PublicShell>
@@ -108,7 +104,6 @@ function App() {
           } />
         ))}
 
-        {/* Auth Shell */}
         {authRoutes.map(r => (
           <Route key={r.path} path={r.path} element={
             <AuthShell>
@@ -117,7 +112,6 @@ function App() {
           } />
         ))}
 
-        {/* Portal Shell */}
         {portalRoutes.map(r => (
           <Route key={r.path} path={r.path} element={
             <PortalShell pageTitle={r.title}>
@@ -126,7 +120,6 @@ function App() {
           } />
         ))}
 
-        {/* Admin Shell */}
         {adminRoutes.map(r => (
           <Route key={r.path} path={r.path} element={
             <AdminShell>

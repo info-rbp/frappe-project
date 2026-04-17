@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import ShellNavigator from './ShellNavigator';
 
 const navItems = [
   { label: "Home", url: "/" },
@@ -49,7 +48,6 @@ export default function PublicShell({ children }) {
 
   return (
     <div data-testid="rbp-public-shell">
-      <ShellNavigator />
       <header className="rbp-header" data-testid="rbp-header">
         <div className="rbp-header-inner">
           <Link to="/" className="rbp-logo" data-testid="rbp-logo">RBP</Link>
@@ -64,7 +62,7 @@ export default function PublicShell({ children }) {
             <Link to="/resources/search" data-testid="utility-search">Search</Link>
             <Link to="/portal/dashboard" className="rbp-utility-portal" data-testid="utility-portal">My Portal</Link>
             <Link to="/login" data-testid="utility-login">Login</Link>
-            <Link to="/join" className="rbp-btn-cta" data-testid="join-cta">Join / Get Started</Link>
+            <Link to="/join" className="rbp-btn-cta" data-testid="join-cta">Get Started</Link>
           </div>
         </div>
       </header>
@@ -83,14 +81,12 @@ export default function PublicShell({ children }) {
             <div className="rbp-footer-group">
               <h4>Account</h4>
               <Link to="/login">Login</Link>
-              <Link to="/join">Join / Get Started</Link>
+              <Link to="/join">Get Started</Link>
               <Link to="/portal/dashboard">Member Portal</Link>
-              <Link to="/admin">Admin</Link>
             </div>
           </div>
           <div className="rbp-footer-bottom">
             &copy; {new Date().getFullYear()} Remote Business Partner. All rights reserved.
-            <span className="rbp-footer-app-tag">Powered by <code>rbp_app</code> on Frappe</span>
           </div>
         </div>
       </footer>
