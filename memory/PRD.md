@@ -79,6 +79,19 @@ rbp_app/
 └── tests/
 ```
 
+### Iteration 3: UI Redesign - Unlimit BaaS Style (Current)
+- **Design language**: Inspired by Unlimit BaaS (https://www.baas.unlimit.com/)
+- **Dark-first palette**: Navy-black backgrounds (#060714), deep card surfaces (#0d1028)
+- **Accent colors**: Lime-green (#c8ff00) for CTAs and highlights, purple (#c4a8ff) for auth accents
+- **Typography**: Outfit font, 800 weight for headlines, uppercase nav labels, generous letter-spacing
+- **Hero**: 4rem headline with green accent word, pill-shaped green CTA, blue radial gradient glow
+- **Cards**: Dark grid pattern with 1px separator borders (not individual card borders)
+- **Nav**: Uppercase links, bordered Join button, green "My Portal" link
+- **Portal**: Dark sidebar with green active border indicator, dark content area
+- **Auth**: Dark card with subtle border, centered layout on dark background
+- **Admin**: Amber accent badges and notice borders on dark background
+- **Testing**: 100% pass — all visual elements verified, design tokens confirmed
+
 ## Prioritised Backlog
 
 ### P0 - Next Phase (Business Data Model)

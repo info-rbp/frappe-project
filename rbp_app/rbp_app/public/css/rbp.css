@@ -1,394 +1,155 @@
 /* ===================================================================
-   RBP App - Base Stylesheet
-   Remote Business Partner custom application shell styles.
-   Keep this minimal - placeholder/structural styles only.
+   RBP App - Frappe Custom App Stylesheet
+   Unlimit BaaS-inspired dark-first design language.
+   Applied via hooks.py web_include_css.
    =================================================================== */
 
-/* ---------------------------------------------------------------------------
-   CSS Custom Properties
-   --------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
 :root {
-    --rbp-color-primary: #1a1a2e;
-    --rbp-color-secondary: #16213e;
-    --rbp-color-accent: #0f3460;
-    --rbp-color-highlight: #e94560;
-    --rbp-color-text: #2d2d2d;
-    --rbp-color-text-light: #6b7280;
-    --rbp-color-bg: #ffffff;
-    --rbp-color-bg-light: #f8f9fa;
-    --rbp-color-border: #e5e7eb;
-    --rbp-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --rbp-radius: 6px;
-    --rbp-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --rbp-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-    --rbp-max-width: 1200px;
+    --rbp-black: #060714;
+    --rbp-dark: #0a0c1e;
+    --rbp-dark-2: #0e1130;
+    --rbp-dark-card: #0d1028;
+    --rbp-blue: #0014ff;
+    --rbp-green: #c8ff00;
+    --rbp-green-dim: rgba(200,255,0,0.15);
+    --rbp-purple: #c4a8ff;
+    --rbp-purple-soft: rgba(196,168,255,0.12);
+    --rbp-white: #ffffff;
+    --rbp-white-80: rgba(255,255,255,0.8);
+    --rbp-white-60: rgba(255,255,255,0.6);
+    --rbp-white-40: rgba(255,255,255,0.4);
+    --rbp-white-20: rgba(255,255,255,0.2);
+    --rbp-white-08: rgba(255,255,255,0.08);
+    --rbp-border: rgba(255,255,255,0.08);
+    --rbp-max-width: 1280px;
+    --rbp-font: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    --rbp-radius: 12px;
 }
 
-/* ---------------------------------------------------------------------------
-   Global Resets for RBP Shell
-   --------------------------------------------------------------------------- */
-.rbp-shell {
-    font-family: var(--rbp-font-sans);
-    color: var(--rbp-color-text);
-    line-height: 1.6;
+.rbp-shell,
+.rbp-auth-shell,
+.rbp-portal-layout {
+    font-family: var(--rbp-font);
+    color: var(--rbp-white);
+    background: var(--rbp-black);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* ---------------------------------------------------------------------------
-   Public Shell - Header
-   --------------------------------------------------------------------------- */
+/* Header */
 .rbp-header {
-    background: var(--rbp-color-primary);
-    color: #fff;
-    padding: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--rbp-dark);
+    border-bottom: 1px solid var(--rbp-border);
 }
-
 .rbp-header-inner {
     max-width: var(--rbp-max-width);
     margin: 0 auto;
-    padding: 0.75rem 1.5rem;
+    padding: 0 2rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    height: 60px;
+    gap: 2.5rem;
 }
-
 .rbp-logo {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--rbp-white);
     text-decoration: none;
-    letter-spacing: 0.5px;
+    letter-spacing: 1.5px;
+    text-transform: lowercase;
 }
-
-.rbp-logo:hover {
-    color: #fff;
-    text-decoration: none;
-}
-
-.rbp-nav {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    flex-wrap: wrap;
-}
-
 .rbp-nav a {
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--rbp-white-60);
     text-decoration: none;
-    padding: 0.4rem 0.75rem;
-    font-size: 0.875rem;
-    border-radius: var(--rbp-radius);
-    transition: background 0.15s ease, color 0.15s ease;
+    padding: 8px 14px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
 }
-
-.rbp-nav a:hover,
-.rbp-nav a.active {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-}
-
-.rbp-utility-nav {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.rbp-utility-nav a {
-    color: rgba(255, 255, 255, 0.85);
-    text-decoration: none;
-    font-size: 0.875rem;
-    padding: 0.35rem 0.75rem;
-    border-radius: var(--rbp-radius);
-    transition: background 0.15s ease;
-}
-
-.rbp-utility-nav a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-}
-
-.rbp-utility-nav .rbp-btn-join {
-    background: var(--rbp-color-highlight);
-    color: #fff;
+.rbp-nav a:hover, .rbp-nav a.active { color: var(--rbp-white); }
+.rbp-utility-portal { color: var(--rbp-green); }
+.rbp-btn-join {
+    border: 1px solid var(--rbp-white-40);
+    border-radius: 6px;
+    padding: 7px 18px;
+    color: var(--rbp-white);
     font-weight: 600;
-    padding: 0.4rem 1rem;
+    background: transparent;
 }
 
-.rbp-utility-nav .rbp-btn-join:hover {
-    background: #d63851;
-}
-
-/* ---------------------------------------------------------------------------
-   Public Shell - Main Content
-   --------------------------------------------------------------------------- */
-.rbp-main-content {
-    max-width: var(--rbp-max-width);
-    margin: 0 auto;
-    padding: 2rem 1.5rem;
-    min-height: 60vh;
-}
-
-/* ---------------------------------------------------------------------------
-   Public Shell - Footer
-   --------------------------------------------------------------------------- */
+/* Footer */
 .rbp-footer {
-    background: var(--rbp-color-primary);
-    color: rgba(255, 255, 255, 0.7);
-    padding: 3rem 0 1.5rem;
-    margin-top: 3rem;
+    background: var(--rbp-dark);
+    border-top: 1px solid var(--rbp-border);
+    color: var(--rbp-white-40);
+    padding: 3rem 0 2rem;
 }
-
-.rbp-footer-inner {
-    max-width: var(--rbp-max-width);
-    margin: 0 auto;
-    padding: 0 1.5rem;
-}
-
-.rbp-footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
-}
-
 .rbp-footer-group h4 {
-    color: #fff;
-    font-size: 0.875rem;
-    font-weight: 600;
+    color: var(--rbp-white-40);
+    font-size: 0.68rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.75rem;
+    letter-spacing: 1px;
 }
+.rbp-footer-group a { color: var(--rbp-white-40); font-size: 0.8rem; }
+.rbp-footer-group a:hover { color: var(--rbp-white-80); }
 
-.rbp-footer-group a {
-    display: block;
-    color: rgba(255, 255, 255, 0.6);
-    text-decoration: none;
-    font-size: 0.875rem;
-    padding: 0.2rem 0;
-    transition: color 0.15s ease;
-}
-
-.rbp-footer-group a:hover {
-    color: #fff;
-}
-
-.rbp-footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 1.5rem;
-    text-align: center;
-    font-size: 0.8rem;
-}
-
-/* ---------------------------------------------------------------------------
-   Auth Shell
-   --------------------------------------------------------------------------- */
-.rbp-auth-shell {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background: var(--rbp-color-bg-light);
-}
-
-.rbp-auth-header {
-    background: var(--rbp-color-primary);
-    padding: 1rem 1.5rem;
-    text-align: center;
-}
-
-.rbp-auth-content {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 1.5rem;
-}
-
-.rbp-auth-card {
-    background: #fff;
-    border-radius: var(--rbp-radius);
-    box-shadow: var(--rbp-shadow-md);
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 440px;
-}
-
-.rbp-auth-card h1 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: var(--rbp-color-primary);
-}
-
-.rbp-auth-support {
-    text-align: center;
-    padding: 1rem;
-}
-
-.rbp-auth-support a {
-    color: var(--rbp-color-accent);
-    font-size: 0.875rem;
-}
-
-.rbp-auth-footer {
-    background: var(--rbp-color-primary);
-    color: rgba(255, 255, 255, 0.5);
-    text-align: center;
-    padding: 1rem;
-    font-size: 0.8rem;
-}
-
-/* ---------------------------------------------------------------------------
-   Portal Shell
-   --------------------------------------------------------------------------- */
-.rbp-portal-layout {
-    display: flex;
-    min-height: 100vh;
-}
-
-.rbp-portal-sidebar {
-    width: 260px;
-    background: var(--rbp-color-secondary);
-    color: #fff;
-    padding: 1.5rem 0;
-    flex-shrink: 0;
-}
-
-.rbp-portal-sidebar-logo {
-    padding: 0 1.5rem 1.5rem;
-    font-size: 1.1rem;
-    font-weight: 700;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 1rem;
-}
-
-.rbp-portal-sidebar-logo a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.rbp-portal-nav a {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.6rem 1.5rem;
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    font-size: 0.875rem;
-    transition: background 0.15s ease, color 0.15s ease;
-}
-
-.rbp-portal-nav a:hover,
-.rbp-portal-nav a.active {
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
-}
-
-.rbp-portal-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.rbp-portal-header {
-    background: #fff;
-    border-bottom: 1px solid var(--rbp-color-border);
-    padding: 1rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.rbp-portal-page-header {
-    padding: 1.5rem 2rem 0;
-}
-
-.rbp-portal-page-header h1 {
-    font-size: 1.5rem;
-    margin: 0;
-    color: var(--rbp-color-primary);
-}
-
-.rbp-portal-content {
-    flex: 1;
-    padding: 1.5rem 2rem;
-}
-
-.rbp-portal-actions {
-    padding: 0 2rem 1.5rem;
-    display: flex;
-    gap: 0.75rem;
-}
-
-/* ---------------------------------------------------------------------------
-   Placeholder Page Styles
-   --------------------------------------------------------------------------- */
-.rbp-placeholder-page {
-    padding: 2rem 0;
-}
-
+/* Placeholder pages */
 .rbp-placeholder-page h1 {
-    font-size: 2rem;
-    color: var(--rbp-color-primary);
-    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
 }
-
-.rbp-section-label {
-    font-size: 0.875rem;
-    color: var(--rbp-color-text-light);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 1.5rem;
-}
-
 .rbp-placeholder-notice {
-    background: var(--rbp-color-bg-light);
-    border: 1px dashed var(--rbp-color-border);
+    background: var(--rbp-dark-card);
+    border: 1px solid var(--rbp-border);
     border-radius: var(--rbp-radius);
-    padding: 2rem;
+    color: var(--rbp-white-40);
+    padding: 3rem;
     text-align: center;
-    color: var(--rbp-color-text-light);
 }
 
-.rbp-placeholder-notice p {
-    margin: 0;
-    font-size: 0.95rem;
+/* Auth shell */
+.rbp-auth-shell { background: var(--rbp-black); }
+.rbp-auth-header {
+    background: var(--rbp-dark);
+    border-bottom: 1px solid var(--rbp-border);
+    padding: 16px 2rem;
+}
+.rbp-auth-card {
+    background: var(--rbp-dark-card);
+    border: 1px solid var(--rbp-border);
+    border-radius: 20px;
+    padding: 3rem;
+}
+.rbp-auth-flow a { color: var(--rbp-green); }
+
+/* Portal shell */
+.rbp-portal-sidebar {
+    background: var(--rbp-dark);
+    border-right: 1px solid var(--rbp-border);
+    width: 250px;
+}
+.rbp-portal-nav a {
+    color: var(--rbp-white-40);
+    border-left: 2px solid transparent;
+    padding: 10px 24px;
+    font-size: 0.82rem;
+}
+.rbp-portal-nav a:hover { background: rgba(255,255,255,0.04); color: var(--rbp-white-80); }
+.rbp-portal-nav a.active {
+    background: var(--rbp-white-08);
+    color: var(--rbp-white);
+    border-left-color: var(--rbp-green);
 }
 
-/* ---------------------------------------------------------------------------
-   Admin Scaffold Placeholder
-   --------------------------------------------------------------------------- */
+/* Admin notice */
 .rbp-admin-notice {
-    background: #fffbeb;
-    border: 1px solid #fcd34d;
+    background: var(--rbp-dark-card);
+    border: 1px solid rgba(245,158,11,0.2);
     border-radius: var(--rbp-radius);
-    padding: 1.5rem;
-    margin: 1rem 0;
-    font-size: 0.9rem;
-    color: #92400e;
+    color: var(--rbp-white-60);
 }
-
-/* ---------------------------------------------------------------------------
-   Responsive
-   --------------------------------------------------------------------------- */
-@media (max-width: 768px) {
-    .rbp-header-inner {
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
-    .rbp-nav {
-        justify-content: center;
-    }
-
-    .rbp-footer-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .rbp-portal-layout {
-        flex-direction: column;
-    }
-
-    .rbp-portal-sidebar {
-        width: 100%;
-    }
-}
+.rbp-admin-notice strong { color: #fbbf24; }
