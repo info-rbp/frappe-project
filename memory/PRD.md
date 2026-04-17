@@ -38,6 +38,8 @@ Build an isolated RBP (Remote Business Partner) custom application shell on top 
 - **Public assets**: rbp.css (structural styles), rbp.js (active nav highlighting)
 - **Admin approach documented**: ADMIN_APPROACH.md with Desk mapping table
 - **109/109 structural validation tests passed**
+- **React preview layer** added at `/app/frontend/` + `/app/backend/` for Emergent preview environment
+- **Testing agent: 100% pass rate** — Backend 9/9, Frontend 23+ routes tested, all 4 shells verified
 - **Zero frappe/ core modifications**
 
 ### Route Coverage
