@@ -1,4 +1,4 @@
-# RBP Shell Implementation Handoff
+# RBP Platform Layer Handoff
 
 ---
 
@@ -33,6 +33,12 @@
 | `__init__.py` | Package init, `__version__ = "0.1.0"` |
 | `hooks.py` | `web_include_css`, `web_include_js`, `website_route_rules` (commented), `required_apps` |
 | `modules.txt` | Frappe module declaration |
+| `api/` | Whitelisted platform API modules |
+| `services/` | Business services and cross-app integration modules |
+| `doctype/` | RBP platform DocType package for future models |
+| `patches/` | RBP platform patch package |
+| `guards.py` | Portal and admin website route protection |
+| `permissions.py` | Shared admin role helpers |
 | `config/__init__.py` | Package init |
 | `config/navigation.py` | `get_primary_nav()`, `get_utility_nav()`, `get_footer_nav()`, `get_portal_sidebar_nav()` |
 | `utils/__init__.py` | Package init (empty, for future use) |
@@ -105,6 +111,17 @@ Exists **only** for Emergent preview environment (React on port 3000). Not part 
 ### Custom app created?
 **Yes.** `rbp_app` at `/app/rbp_app/`.
 
+### Platform direction
+`rbp_app` is evolving from a static website/auth/portal shell into the RBP platform layer. It sits on top of Frappe and connects installed Frappe apps into a unified customer-facing portal.
+
+Frappe apps remain backend capability providers:
+- HRMS provides employee and leave data.
+- CRM provides customer and sales workflows.
+- LMS provides learning workflows.
+- ERPNext provides operational and accounting capabilities.
+
+RBP does not modify Frappe core, does not replace Frappe Desk, and does not rebuild HRMS, CRM, LMS, or ERPNext.
+
 ### Custom app name
 `rbp_app` (hooks.py: `app_name = "rbp_app"`, `app_title = "Remote Business Partner"`)
 
@@ -116,8 +133,13 @@ Exists **only** for Emergent preview environment (React on port 3000). Not part 
 
 ### Where auth, portal, and admin scaffolds live
 - **Auth:** `rbp_app/templates/shells/auth_base.html` → 6 pages in `rbp_app/www/`
-- **Portal:** `rbp_app/templates/shells/portal_base.html` + `includes/portal_sidebar.html` → 13 pages in `rbp_app/www/portal/`
-- **Admin:** `rbp_app/templates/shells/admin_base.html` → 13 pages in `rbp_app/www/admin/`. Production admin uses Frappe Desk at `/desk`.
+- **Portal:** `rbp_app/templates/shells/portal_base.html` + `includes/portal_sidebar.html` → 13 pages in `rbp_app/www/portal/`. `/portal` and `/portal/*` are authenticated customer-facing routes.
+- **Admin:** `rbp_app/templates/shells/admin_base.html` → 13 pages in `rbp_app/www/admin/`. Production admin/backend work uses Frappe Desk at `/desk`.
+
+### Where platform APIs and services live
+- **APIs:** `rbp_app.api` exposes whitelisted methods such as `get_current_user`, `get_available_apps`, `get_home`, and HRMS summary endpoints.
+- **Services:** `rbp_app.services` contains installed-app checks, entitlement placeholders, dashboard composition helpers, and HRMS integration logic.
+- **Guards:** `rbp_app.guards` protects portal and admin routes through `update_website_context`.
 
 ### Framework-core files changed
 **None.** Zero files in `frappe/` were modified.
@@ -220,23 +242,29 @@ Exists **only** for Emergent preview environment (React on port 3000). Not part 
 
 ## 5. Known Gaps
 
-### By design (excluded from scope)
-- No business logic, payment logic, referral logic, CMS, or calculators
-- No custom DocTypes
-- No Frappe Desk workspace
-- No data models
-- No real authentication enforcement
-- All pages show "Content for this page is being prepared" — ready for content pass
+### By design
+- Frappe Desk remains the backend/admin workspace at `/desk`.
+- HRMS, CRM, LMS, ERPNext, and Payments remain backend capability providers.
+- RBP platform logic belongs in `rbp_app.api` and `rbp_app.services`.
+- Future RBP-owned data models belong in `rbp_app.doctype`.
 
 ### Structural gaps
 1. **Dynamic routes commented out** in `hooks.py`. Routes like `/services/<category>` and `/offers/<slug>` exist as static placeholder pages but the `website_route_rules` are not activated.
 2. **No `.py` context files** for most www pages. Only `www/index.py` exists. Others needed when business data is introduced.
 3. **`/login` override risk.** `rbp_app/www/login.html` will override `frappe/www/login.html` when installed. Must integrate with Frappe auth or be removed before production.
-4. **Portal has no authentication gate.** Pages are publicly accessible. Must add Frappe's `is_guest` checks before production.
+4. **Portal content is still mostly placeholder UI.** The route shell is protected, but most pages still need live platform data.
 5. **App not installed in bench.** Must run `bench get-app /path/to/rbp_app && bench install-app rbp_app` to activate in Frappe.
 6. **Preview layer is separate.** `/app/frontend/` and `/app/backend/` exist only for Emergent preview. Not part of the Frappe deployment.
 7. **Mega menu is a hidden placeholder.**
-8. **No Frappe-native test coverage.** Tests validate structure and the React preview only.
+8. **Platform tests are focused unit tests.** More integration tests should be added when tenant entitlements and live cross-app data are introduced.
+
+### Phase 1 acceptance notes
+- `/portal` and `/portal/*` redirect guests to `/login`.
+- `/admin` and `/admin/*` require Administrator, System Manager, or configured RBP admin roles.
+- `/api/method/rbp_app.api.me.get_current_user` returns the current user payload.
+- `/api/method/rbp_app.api.apps.get_available_apps` returns app cards based on installed apps and roles.
+- `/api/method/rbp_app.api.dashboard.get_home` returns dashboard composition data.
+- HRMS endpoints return safe empty payloads when HRMS is absent.
 
 ### UI notes
 - Design: Unlimit BaaS-inspired dark-first (navy #060714, green #c8ff00, Outfit font)

@@ -1,4 +1,8 @@
-import frappe
+from rbp_app import guards
+
+
+def redirect_to_login(path):
+    return guards._redirect_to_login(path)
 
 
 def protect_portal_routes(context):
@@ -8,10 +12,10 @@ def protect_portal_routes(context):
     flow without introducing a custom auth system.
     """
 
-    path = (getattr(context, "path", None) or getattr(frappe.local, "path", "") or "").strip("/")
+    return guards.protect_portal_routes(context)
 
-    if path == "portal" or path.startswith("portal/"):
-        context.no_cache = 1
-        if frappe.session.user == "Guest":
-            raise frappe.PermissionError
 
+def protect_admin_routes(context):
+    """Keep the temporary RBP admin scaffold behind System Manager access."""
+
+    return guards.protect_admin_routes(context)

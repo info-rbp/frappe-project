@@ -6,10 +6,18 @@
 
 {% block portal_content %}
 <div class="rbp-placeholder-page" data-testid="portal-dashboard-page">
-    <p class="rbp-section-label">Portal Section: Dashboard</p>
-    <div class="rbp-placeholder-notice">
-        <p>This is a shell placeholder for <strong>/portal/dashboard</strong>.</p>
-        <p>Portal functionality will be added in a future phase.</p>
-    </div>
+    {% if portal_setup_required %}
+        <p class="rbp-section-label">Portal setup</p>
+        <div class="rbp-placeholder-notice">
+            <p>{{ portal_setup_message }}</p>
+            <p>Your login is working, but your tenant workspace needs to be connected before dashboard data can load.</p>
+        </div>
+    {% else %}
+        <p class="rbp-section-label">Portal Section: Dashboard</p>
+        <div class="rbp-placeholder-notice">
+            <p>This is a shell placeholder for <strong>/portal/dashboard</strong>.</p>
+            <p>Portal functionality will be added in a future phase.</p>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

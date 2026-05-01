@@ -1,15 +1,19 @@
 # RBP App - Remote Business Partner
 
-Custom Frappe application shell for the Remote Business Partner platform.
+Custom Frappe application and platform layer for the Remote Business Partner platform.
 
 ## Overview
 
-This app provides the isolated shell architecture for the RBP business application, built as a dedicated Frappe custom app. It contains:
+This app provides the isolated shell architecture for the RBP business application and is evolving into the RBP platform layer on top of Frappe. It contains:
 
 - **Public website shell** - Header, navigation, footer, and all public-facing page routes
 - **Auth shell** - Minimal login/register/password-reset page templates
-- **Portal shell** - Authenticated member portal with sidebar navigation
+- **Portal shell** - Authenticated customer-facing portal with sidebar navigation
 - **Admin scaffold** - Structural references pointing to Frappe Desk
+- **Platform APIs** - Whitelisted API methods in `rbp_app.api`
+- **Service layer** - Business logic and cross-app integrations in `rbp_app.services`
+
+Installed Frappe apps such as HRMS, CRM, LMS, ERPNext, and Payments remain backend capability providers. RBP does not rebuild those apps, modify Frappe core, or replace Frappe Desk.
 
 ## Architecture
 
@@ -17,6 +21,12 @@ This app provides the isolated shell architecture for the RBP business applicati
 rbp_app/
 ├── rbp_app/
 │   ├── hooks.py              # Frappe hooks (assets, routes)
+│   ├── api/                   # Whitelisted platform API methods
+│   ├── services/              # Business services and app integrations
+│   ├── doctype/               # RBP platform DocTypes
+│   ├── patches/               # RBP platform patches
+│   ├── guards.py              # Website route guards
+│   ├── permissions.py         # Shared role helpers
 │   ├── www/                  # Website pages (filesystem-driven routes)
 │   │   ├── index.html        # Home page (/)
 │   │   ├── services/         # /services/*
@@ -68,10 +78,24 @@ Full website layout: header with navigation, main content area, footer.
 Minimal layout: small header/logo, centered auth card, support link, small footer.
 
 ### 3. Portal Shell (`portal_base.html`)
-Authenticated layout: sidebar navigation, portal header, page content region.
+Authenticated customer-facing layout: sidebar navigation, portal header, page content region. `/portal` and `/portal/*` require login.
 
 ### 4. Admin Shell (`admin_base.html`)
-Scaffold only. Admin is served by Frappe Desk. See `ADMIN_APPROACH.md`.
+Scaffold only. Admin/backend work is served by Frappe Desk at `/desk`. `/admin` and `/admin/*` are restricted to Administrator, System Manager, or configured RBP admin roles. See `ADMIN_APPROACH.md`.
+
+## Platform APIs
+
+Phase 1 platform APIs live under `rbp_app.api`:
+
+| API | Purpose |
+|---|---|
+| `rbp_app.api.me.get_current_user` | Current user, full name, roles, user type, guest state |
+| `rbp_app.api.apps.get_available_apps` | Role-aware app cards based on installed apps and entitlement placeholders |
+| `rbp_app.api.dashboard.get_home` | Portal dashboard payload |
+| `rbp_app.api.hr.get_employee_summary` | HRMS-backed employee summary, safe empty response if HRMS is absent |
+| `rbp_app.api.hr.get_leave_summary` | HRMS-backed leave summary, safe empty response if HRMS is absent |
+
+Services live in `rbp_app.services` and own business logic. API modules should stay thin wrappers around those services.
 
 ## Installation
 
@@ -87,7 +111,8 @@ bench install-app rbp_app
 2. **Shell templates extend `frappe/templates/base.html`** to inherit framework features.
 3. **Admin uses Frappe Desk** - no duplicate admin UI.
 4. **Dynamic routes** are commented out in `hooks.py` until business logic phase.
-5. **No business logic, payment, CMS, or calculator logic** in this shell phase.
+5. **Platform logic belongs in `rbp_app.api` and `rbp_app.services`**, not in Frappe core.
+6. **Frappe apps remain backend capability providers** for HRMS, CRM, LMS, ERPNext, billing, and related workflows.
 
 ## Route Coverage
 

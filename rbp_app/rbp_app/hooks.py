@@ -8,7 +8,7 @@ app_license = "MIT"
 # ---------------------------------------------------------------------------
 # Required apps
 # ---------------------------------------------------------------------------
-required_apps = ["frappe"]
+required_apps = ["frappe", "erpnext", "payments"]
 
 # ---------------------------------------------------------------------------
 # Website assets - included on every web (non-desk) page
@@ -52,6 +52,11 @@ website_redirects = [
 # Dynamic route mappings for parameterized URLs.
 # These map URL patterns to www page handlers.
 website_route_rules = [
+    # Auth aliases avoid conflicts with other installed apps that may own
+    # global /login or /signup redirects on shared benches.
+    {"from_route": "/rbp-login", "to_route": "login"},
+    {"from_route": "/rbp-signup", "to_route": "signup"},
+
     # Services dynamic routes
     {"from_route": "/services/<category>", "to_route": "services/category"},
     # Safe shell-phase placeholder for slug-based service detail URLs.
@@ -91,7 +96,23 @@ website_route_rules = [
 
 update_website_context = [
     "rbp_app.utils.portal.protect_portal_routes",
+    "rbp_app.utils.portal.protect_admin_routes",
+    "rbp_app.rbp_app.doctype.tenant.tenant.load_portal_tenant",
 ]
+
+user_permission_doctypes = [
+    "Tenant",
+]
+
+permission_query_conditions = {
+    "Tenant": "rbp_app.rbp_app.doctype.tenant.tenant.tenant_query_conditions",
+    "RBP Account": "rbp_app.rbp_app.doctype.rbp_account.rbp_account.rbp_account_query_conditions",
+}
+
+has_permission = {
+    "Tenant": "rbp_app.rbp_app.doctype.tenant.tenant.has_tenant_permission",
+    "RBP Account": "rbp_app.rbp_app.doctype.rbp_account.rbp_account.has_rbp_account_permission",
+}
 
 # ---------------------------------------------------------------------------
 # Installation hooks
