@@ -5,7 +5,7 @@
 ## 1. Branch
 
 **Branch:** `main`
-**No PR link** — all work committed directly to `main` via the Emergent platform auto-commit workflow.
+**Repository:** `info-rbp/frappe-project`
 
 ---
 
@@ -31,7 +31,7 @@
 | File | Purpose |
 |---|---|
 | `__init__.py` | Package init, `__version__ = "0.1.0"` |
-| `hooks.py` | `web_include_css`, `web_include_js`, `website_route_rules` (commented), `required_apps` |
+| `hooks.py` | Required app declaration, website assets, route rules, route guards, tenant context hooks |
 | `modules.txt` | Frappe module declaration |
 | `api/` | Whitelisted platform API modules |
 | `services/` | Business services and cross-app integration modules |
@@ -112,13 +112,14 @@ Exists **only** for Emergent preview environment (React on port 3000). Not part 
 **Yes.** `rbp_app` at `/app/rbp_app/`.
 
 ### Platform direction
-`rbp_app` is evolving from a static website/auth/portal shell into the RBP platform layer. It sits on top of Frappe and connects installed Frappe apps into a unified customer-facing portal.
+`rbp_app` has evolved from a static website/auth/portal shell into the RBP platform layer. It sits on top of Frappe and connects installed Frappe apps into a unified customer-facing portal.
 
 Frappe apps remain backend capability providers:
+- ERPNext provides operational and accounting capabilities.
 - HRMS provides employee and leave data.
 - CRM provides customer and sales workflows.
 - LMS provides learning workflows.
-- ERPNext provides operational and accounting capabilities.
+- Helpdesk, Insights, Builder, Drive, Wiki, Payments, Webshop and other installed apps are discovered dynamically.
 
 RBP does not modify Frappe core, does not replace Frappe Desk, and does not rebuild HRMS, CRM, LMS, or ERPNext.
 
@@ -133,13 +134,13 @@ RBP does not modify Frappe core, does not replace Frappe Desk, and does not rebu
 
 ### Where auth, portal, and admin scaffolds live
 - **Auth:** `rbp_app/templates/shells/auth_base.html` → 6 pages in `rbp_app/www/`
-- **Portal:** `rbp_app/templates/shells/portal_base.html` + `includes/portal_sidebar.html` → 13 pages in `rbp_app/www/portal/`. `/portal` and `/portal/*` are authenticated customer-facing routes.
+- **Portal:** `rbp_app/templates/shells/portal_base.html` + `includes/portal_sidebar.html` → 13 pages in `rbp_app/www/portal/`. `/portal`, `/portal/*`, `/app`, `/app/*`, and `/portal/apps/<app_key>` are authenticated customer-facing routes.
 - **Admin:** `rbp_app/templates/shells/admin_base.html` → 13 pages in `rbp_app/www/admin/`. Production admin/backend work uses Frappe Desk at `/desk`.
 
 ### Where platform APIs and services live
-- **APIs:** `rbp_app.api` exposes whitelisted methods such as `get_current_user`, `get_available_apps`, `get_home`, and HRMS summary endpoints.
-- **Services:** `rbp_app.services` contains installed-app checks, entitlement placeholders, dashboard composition helpers, and HRMS integration logic.
-- **Guards:** `rbp_app.guards` protects portal and admin routes through `update_website_context`.
+- **APIs:** `rbp_app.api` exposes whitelisted methods such as `get_current_user`, `get_available_apps`, `get_home`, integration status, and HRMS summary endpoints.
+- **Services:** `rbp_app.services` contains installed-app checks, entitlement-aware app discovery, dashboard composition helpers, billing/document/notification placeholders, tenant compatibility helpers, and adapter orchestration.
+- **Guards:** `rbp_app.guards` protects customer-facing and admin routes through `before_request` and `update_website_context`. API modules still enforce permissions inside each whitelisted method.
 
 ### Framework-core files changed
 **None.** Zero files in `frappe/` were modified.
@@ -220,6 +221,15 @@ RBP does not modify Frappe core, does not replace Frappe Desk, and does not rebu
 | `/portal/notifications` | `www/portal/notifications.html` |
 | `/portal/support` | `www/portal/support.html` |
 
+Additional customer-facing platform routes:
+
+| Route | Behavior |
+|---|---|
+| `/app` | Authenticated alias that redirects to `/portal` |
+| `/app/*` | Authenticated alias to `/portal/apps/<app_key>` |
+| `/portal/apps` | Authenticated app launcher fallback via `portal/dashboard` |
+| `/portal/apps/<app_key>` | Authenticated app detail fallback via `portal/dashboard` until dedicated app pages exist |
+
 ### Admin Shell (13 routes) — `admin_base.html`
 
 | Route | File |
@@ -248,15 +258,22 @@ RBP does not modify Frappe core, does not replace Frappe Desk, and does not rebu
 - RBP platform logic belongs in `rbp_app.api` and `rbp_app.services`.
 - RBP platform data models live in `rbp_app.doctype`.
 
+### Tenant model
+- `RBP Tenant` is the canonical forward-looking tenant model for the RBP platform layer.
+- The legacy `Tenant` DocType and `RBP Account` remain for backward compatibility with existing signup, billing-account, and user-permission flows.
+- Portal context loading now goes through `rbp_app.services.tenancy.load_portal_tenant`, which prefers `RBP Tenant` and falls back to legacy `Tenant`.
+- The compatibility helper `rbp_app.services.tenancy.get_current_tenant(user=None)` is the preferred tenant lookup entrypoint for new platform code.
+- No data-destructive migration has been added; old `Tenant` records are not deleted or renamed.
+
 ### Structural gaps
-1. **Dynamic routes commented out** in `hooks.py`. Routes like `/services/<category>` and `/offers/<slug>` exist as static placeholder pages but the `website_route_rules` are not activated.
+1. **Some content routes remain shell placeholders.** Routes like `/services/<category>`, `/service/<slug>`, `/product/<slug>`, and `/portal/apps/<app_key>` resolve to safe shell/fallback pages until content-backed detail views are built.
 2. **No `.py` context files** for most www pages. Only `www/index.py` exists. Others needed when business data is introduced.
 3. **`/login` override risk.** `rbp_app/www/login.html` will override `frappe/www/login.html` when installed. Must integrate with Frappe auth or be removed before production.
 4. **Portal content is still mostly placeholder UI.** The dashboard has a dynamic ecosystem launcher, but most detail pages still need live platform data.
-5. **App not installed in bench.** Must run `bench get-app /path/to/rbp_app && bench install-app rbp_app` to activate in Frappe.
+5. **Validation covered one local bench.** `rbp_app` was installed on `frappe.localhost`; repeat validation on a minimal Frappe-only bench before claiming minimal-install coverage.
 6. **Preview layer is separate.** `/app/frontend/` and `/app/backend/` exist only for Emergent preview. Not part of the Frappe deployment.
 7. **Mega menu is a hidden placeholder.**
-8. **Platform tests are focused unit tests.** More integration tests should be added when tenant provisioning and live cross-app data are introduced.
+8. **Platform tests are focused unit tests.** More integration tests should be added when tenant provisioning and live cross-app data are introduced. The local bench test command did not execute because `allow_tests` is disabled.
 9. **Stripe is not wired yet.** `RBP Subscription` is available, but payment-provider synchronization is still future work.
 10. **Tenant provisioning is not wired yet.** `RBP Tenant` exists, but automated site/workspace provisioning remains future work.
 11. **Document repository is still placeholder-backed.** `RBP Notification` has service integration; document storage and retrieval still need a full repository implementation.
@@ -265,6 +282,7 @@ RBP does not modify Frappe core, does not replace Frappe Desk, and does not rebu
 
 ### Phase 1 acceptance notes
 - `/portal` and `/portal/*` redirect guests to `/login`.
+- `/app`, `/app/*`, and `/portal/apps/<app_key>` redirect guests to `/login`.
 - `/admin` and `/admin/*` require Administrator, System Manager, or configured RBP admin roles.
 - `/api/method/rbp_app.api.me.get_current_user` returns the current user payload.
 - `/api/method/rbp_app.api.apps.get_available_apps` returns app cards based on installed apps and roles.
@@ -279,6 +297,8 @@ bench --site <site> migrate
 bench --site <site> clear-cache
 bench --site <site> run-tests --app rbp_app
 ```
+
+Local validation note: `bench --site frappe.localhost migrate` and `bench --site frappe.localhost clear-cache` passed. Authenticated API and route checks passed. The Frappe bench test command was attempted against `frappe.localhost`, but the site reported that testing is disabled; enable it with `bench --site frappe.localhost set-config allow_tests true` before using `bench --site frappe.localhost run-tests --app rbp_app`. See `docs/platform-validation-report.md`.
 
 ### UI notes
 - Design: Unlimit BaaS-inspired dark-first (navy #060714, green #c8ff00, Outfit font)
