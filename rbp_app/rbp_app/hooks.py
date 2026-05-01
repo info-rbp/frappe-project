@@ -95,8 +95,7 @@ website_route_rules = [
 # }
 
 update_website_context = [
-    "rbp_app.utils.portal.protect_portal_routes",
-    "rbp_app.utils.portal.protect_admin_routes",
+    "rbp_app.guards.protect_platform_routes",
     "rbp_app.rbp_app.doctype.tenant.tenant.load_portal_tenant",
 ]
 

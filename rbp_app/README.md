@@ -4,7 +4,7 @@ Custom Frappe application and platform layer for the Remote Business Partner pla
 
 ## Overview
 
-This app provides the isolated shell architecture for the RBP business application and is evolving into the RBP platform layer on top of Frappe. It contains:
+This app is the RBP platform layer on top of Frappe. It contains:
 
 - **Public website shell** - Header, navigation, footer, and all public-facing page routes
 - **Auth shell** - Minimal login/register/password-reset page templates
@@ -12,8 +12,10 @@ This app provides the isolated shell architecture for the RBP business applicati
 - **Admin scaffold** - Structural references pointing to Frappe Desk
 - **Platform APIs** - Whitelisted API methods in `rbp_app.api`
 - **Service layer** - Business logic and cross-app integrations in `rbp_app.services`
+- **App adapters** - Capability-specific adapters in `rbp_app.services.adapters`
+- **Platform DocTypes** - Tenant, entitlement, subscription, audit log, and notification models
 
-Installed Frappe apps such as HRMS, CRM, LMS, ERPNext, and Payments remain backend capability providers. RBP does not rebuild those apps, modify Frappe core, or replace Frappe Desk.
+Installed Frappe apps such as ERPNext, HRMS, CRM, LMS, Helpdesk, Insights, Builder, Drive, Wiki, Payments, Webshop, and other apps remain backend capability providers. RBP does not rebuild those apps, modify Frappe core, or replace Frappe Desk. HRMS is one capability provider, not the whole architecture.
 
 ## Architecture
 
@@ -78,7 +80,7 @@ Full website layout: header with navigation, main content area, footer.
 Minimal layout: small header/logo, centered auth card, support link, small footer.
 
 ### 3. Portal Shell (`portal_base.html`)
-Authenticated customer-facing layout: sidebar navigation, portal header, page content region. `/portal` and `/portal/*` require login.
+Authenticated customer-facing layout: sidebar navigation, portal header, page content region. `/portal`, `/portal/*`, `/app`, and `/app/*` require login.
 
 ### 4. Admin Shell (`admin_base.html`)
 Scaffold only. Admin/backend work is served by Frappe Desk at `/desk`. `/admin` and `/admin/*` are restricted to Administrator, System Manager, or configured RBP admin roles. See `ADMIN_APPROACH.md`.
@@ -94,8 +96,32 @@ Phase 1 platform APIs live under `rbp_app.api`:
 | `rbp_app.api.dashboard.get_home` | Portal dashboard payload |
 | `rbp_app.api.hr.get_employee_summary` | HRMS-backed employee summary, safe empty response if HRMS is absent |
 | `rbp_app.api.hr.get_leave_summary` | HRMS-backed leave summary, safe empty response if HRMS is absent |
+| `rbp_app.api.integrations.get_integrations_status` | Installed app and platform module status |
+| `rbp_app.api.integrations.get_app_summary` | Adapter-backed app summary with generic fallback |
 
-Services live in `rbp_app.services` and own business logic. API modules should stay thin wrappers around those services.
+Services live in `rbp_app.services` and own business logic. App adapters live in `rbp_app.services.adapters`. API modules should stay thin wrappers around those services.
+
+## Portal App Launcher
+
+The customer portal dashboard renders a dynamic ecosystem app launcher. App cards come from `rbp_app.services.apps` and are also exposed through `rbp_app.api.apps.get_available_apps`.
+
+- Installed Frappe apps are discovered with `frappe.get_installed_apps()`.
+- Known apps receive first-class labels, categories, descriptions, and `/portal/apps/<app_key>` routes.
+- Unknown installed apps receive safe generic cards.
+- RBP platform modules such as Documents and Notifications are included alongside installed apps.
+- Billing appears only for Administrator/System Manager users.
+- HRMS is one capability module, not the centre of the portal.
+- Static portal links remain as a fallback if dynamic app loading is unavailable.
+
+## Platform DocTypes
+
+RBP platform DocTypes support ecosystem-wide SaaS behavior:
+
+- `RBP Tenant` for tenant/workspace identity.
+- `RBP App Entitlement` for installed apps, RBP modules, and external integration availability.
+- `RBP Subscription` for subscription state placeholders before billing provider wiring.
+- `RBP Audit Log` for platform events.
+- `RBP Notification` for portal notifications.
 
 ## Installation
 
@@ -103,6 +129,15 @@ Services live in `rbp_app.services` and own business logic. API modules should s
 # From bench directory
 bench get-app /path/to/rbp_app
 bench install-app rbp_app
+```
+
+## Validation
+
+```bash
+bench --site <site> install-app rbp_app
+bench --site <site> migrate
+bench --site <site> clear-cache
+bench --site <site> run-tests --app rbp_app
 ```
 
 ## Key Decisions

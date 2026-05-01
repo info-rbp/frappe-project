@@ -244,19 +244,24 @@ RBP does not modify Frappe core, does not replace Frappe Desk, and does not rebu
 
 ### By design
 - Frappe Desk remains the backend/admin workspace at `/desk`.
-- HRMS, CRM, LMS, ERPNext, and Payments remain backend capability providers.
+- HRMS, CRM, LMS, ERPNext, Payments, and other installed apps remain backend capability providers.
 - RBP platform logic belongs in `rbp_app.api` and `rbp_app.services`.
-- Future RBP-owned data models belong in `rbp_app.doctype`.
+- RBP platform data models live in `rbp_app.doctype`.
 
 ### Structural gaps
 1. **Dynamic routes commented out** in `hooks.py`. Routes like `/services/<category>` and `/offers/<slug>` exist as static placeholder pages but the `website_route_rules` are not activated.
 2. **No `.py` context files** for most www pages. Only `www/index.py` exists. Others needed when business data is introduced.
 3. **`/login` override risk.** `rbp_app/www/login.html` will override `frappe/www/login.html` when installed. Must integrate with Frappe auth or be removed before production.
-4. **Portal content is still mostly placeholder UI.** The route shell is protected, but most pages still need live platform data.
+4. **Portal content is still mostly placeholder UI.** The dashboard has a dynamic ecosystem launcher, but most detail pages still need live platform data.
 5. **App not installed in bench.** Must run `bench get-app /path/to/rbp_app && bench install-app rbp_app` to activate in Frappe.
 6. **Preview layer is separate.** `/app/frontend/` and `/app/backend/` exist only for Emergent preview. Not part of the Frappe deployment.
 7. **Mega menu is a hidden placeholder.**
-8. **Platform tests are focused unit tests.** More integration tests should be added when tenant entitlements and live cross-app data are introduced.
+8. **Platform tests are focused unit tests.** More integration tests should be added when tenant provisioning and live cross-app data are introduced.
+9. **Stripe is not wired yet.** `RBP Subscription` is available, but payment-provider synchronization is still future work.
+10. **Tenant provisioning is not wired yet.** `RBP Tenant` exists, but automated site/workspace provisioning remains future work.
+11. **Document repository is still placeholder-backed.** `RBP Notification` has service integration; document storage and retrieval still need a full repository implementation.
+12. **Most app-specific adapters are placeholders.** HRMS has the first safe summary adapter; ERPNext, CRM and LMS currently return availability placeholders.
+13. **Entitlement UI is not built yet.** `RBP App Entitlement` can drive service behavior, but there is no dedicated management UI beyond Frappe Desk forms.
 
 ### Phase 1 acceptance notes
 - `/portal` and `/portal/*` redirect guests to `/login`.
@@ -266,8 +271,16 @@ RBP does not modify Frappe core, does not replace Frappe Desk, and does not rebu
 - `/api/method/rbp_app.api.dashboard.get_home` returns dashboard composition data.
 - HRMS endpoints return safe empty payloads when HRMS is absent.
 
+### Validation
+
+```bash
+bench --site <site> install-app rbp_app
+bench --site <site> migrate
+bench --site <site> clear-cache
+bench --site <site> run-tests --app rbp_app
+```
+
 ### UI notes
 - Design: Unlimit BaaS-inspired dark-first (navy #060714, green #c8ff00, Outfit font)
 - All dev-facing UI removed: no shell navigator, no architecture map, no scaffold labels, no route badges
-- Pages show clean "Content for this page is being prepared" empty states
-- Ready for content replacement without structural changes
+- Most pages show clean placeholder states and are ready for content replacement without structural changes.

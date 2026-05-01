@@ -1,0 +1,52 @@
+"""Integration status APIs for the RBP portal/frontend."""
+
+import frappe
+
+from rbp_app.permissions import require_login
+from rbp_app.services.adapters import crm, erpnext, generic, hrms, lms
+from rbp_app.services.integrations import get_integrations_status as get_integrations_status_service
+
+
+ADAPTERS = {
+	"crm": crm.get_summary,
+	"erpnext": erpnext.get_summary,
+	"hrms": hrms.get_summary,
+	"lms": lms.get_summary,
+}
+
+
+@frappe.whitelist()
+def get_integrations_status():
+	"""Return installed app and RBP platform module integration status."""
+
+	user = require_login()
+	return get_integrations_status_service(user)
+
+
+@frappe.whitelist()
+def get_app_summary(app_key):
+	"""Return an adapter summary for an installed app, with generic fallback."""
+
+	user = require_login()
+	normalized_key = (app_key or "").strip().lower()
+	if not normalized_key:
+		return {
+			"available": False,
+			"app_key": "",
+			"summary": {},
+			"message": "No app key was provided.",
+		}
+
+	adapter = ADAPTERS.get(normalized_key)
+	if adapter:
+		try:
+			return adapter(user)
+		except Exception as exc:
+			return {
+				"available": False,
+				"app_key": normalized_key,
+				"summary": {},
+				"message": f"App summary is unavailable: {exc}",
+			}
+
+	return generic.get_app_summary(normalized_key, user)

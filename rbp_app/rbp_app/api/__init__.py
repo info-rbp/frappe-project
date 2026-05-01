@@ -1,1 +1,1 @@
-"""Whitelisted API methods for the RBP platform layer."""
+"""Whitelisted API modules for the RBP platform layer."""

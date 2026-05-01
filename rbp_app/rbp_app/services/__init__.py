@@ -1,1 +1,1 @@
-"""Business services backing the RBP platform APIs."""
+"""Internal service modules for the RBP platform layer."""

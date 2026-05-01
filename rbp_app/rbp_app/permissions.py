@@ -1,42 +1,64 @@
+"""Shared permission helpers for the RBP platform layer."""
+
 import frappe
 
 
-DEFAULT_ADMIN_ROLES = ("Administrator", "System Manager")
+def _current_session_user():
+	"""Return the current Frappe session user, defaulting safely to Guest."""
+
+	try:
+		return getattr(frappe.session, "user", None) or "Guest"
+	except RuntimeError:
+		return "Guest"
 
 
-def get_admin_roles():
-	"""Return roles that can access the RBP admin scaffold."""
+def get_user_roles(user=None):
+	"""Return Frappe roles for the supplied user or current session user."""
 
-	roles = list(DEFAULT_ADMIN_ROLES)
+	user = user or _current_session_user()
+	if user == "Guest":
+		return ["Guest"]
 
-	for role in frappe.get_hooks("rbp_admin_roles") or []:
-		if role not in roles:
-			roles.append(role)
-
-	configured = frappe.conf.get("rbp_admin_roles") if getattr(frappe, "conf", None) else None
-	if isinstance(configured, str):
-		configured = [role.strip() for role in configured.split(",")]
-
-	for role in configured or []:
-		if role and role not in roles:
-			roles.append(role)
+	roles = frappe.get_roles(user) or []
+	if user == "Administrator" and "Administrator" not in roles:
+		roles.append("Administrator")
 
 	return roles
 
 
-def user_has_any_role(allowed_roles=None, user=None):
-	"""Check whether the current or supplied user has one of the allowed roles."""
+def is_guest(user=None):
+	"""Return whether the supplied user or current session user is Guest."""
 
-	allowed_roles = set(allowed_roles or [])
-	if not allowed_roles:
-		return False
+	return (user or _current_session_user()) == "Guest"
 
-	if user == "Administrator" and "Administrator" in allowed_roles:
-		return True
 
-	return bool(allowed_roles.intersection(frappe.get_roles(user)))
+def require_login():
+	"""Require an authenticated Frappe website/API session."""
+
+	if is_guest():
+		raise frappe.PermissionError
+
+	return _current_session_user()
+
+
+def is_system_manager(user=None):
+	"""Return whether the supplied user or current session user is a System Manager."""
+
+	user = user or _current_session_user()
+	return user == "Administrator" or "System Manager" in get_user_roles(user)
+
+
+def require_system_manager():
+	"""Require the current user to have the System Manager role."""
+
+	require_login()
+	if not is_system_manager():
+		raise frappe.PermissionError
+
+	return _current_session_user()
 
 
 def is_admin_user(user=None):
-	user = user or frappe.session.user
-	return user_has_any_role(get_admin_roles(), user=user)
+	"""Return whether the supplied user or current session user is an admin/system user."""
+
+	return is_system_manager(user)

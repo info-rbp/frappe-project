@@ -11,7 +11,7 @@
         {% if app_cards %}
             {% for app in app_cards %}
                 {% if app.enabled %}
-                    <a href="{{ app.route }}" data-app-key="{{ app.key }}">{{ app.title }}</a>
+                    <a href="{{ app.route }}" data-app-key="{{ app.key }}">{{ app.label or app.title or app.key }}</a>
                 {% endif %}
             {% endfor %}
         {% else %}

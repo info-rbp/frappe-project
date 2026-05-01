@@ -16,6 +16,42 @@ Installed Frappe apps remain backend capability providers:
 
 RBP does not replace Frappe Desk. `/desk` remains the admin/backend workspace for staff and system administrators.
 
+## Ecosystem Architecture
+
+```text
+Frappe Framework
+    ↓
+Installed Frappe Apps
+    - ERPNext
+    - HRMS
+    - CRM
+    - LMS
+    - Helpdesk
+    - Insights
+    - Builder
+    - Drive
+    - Wiki
+    - Payments
+    - Webshop
+    - Other installed apps
+    ↓
+rbp_app Platform Layer
+    - APIs
+    - Services
+    - App launcher
+    - Entitlements
+    - Billing placeholders
+    - Documents placeholders
+    - Notifications
+    ↓
+Customer-facing Portal
+    - /portal
+    - /app
+    - /portal/apps/<app_key>
+```
+
+`rbp_app` dynamically discovers installed apps with `frappe.get_installed_apps()`. Known apps receive first-class metadata, unknown apps receive generic metadata, and RBP platform modules are appended through the service layer. HRMS is one adapter in this ecosystem, not the whole architecture.
+
 ## Shell Architecture
 
 The RBP application is organised into **four interconnected shell layers**:
@@ -106,19 +142,27 @@ Visitor arrives
 7. **Services**: Cross-app integration and business logic in `rbp_app.services`
 8. **Core modifications**: Zero
 
-## Platform Layer
+## Platform Layer Structure
 
-The platform layer is intentionally thin over Frappe:
+The backend platform structure gives future RBP APIs, services, data models, and migrations a clear home:
 
-| Layer | Location | Responsibility |
-|---|---|---|
-| API | `rbp_app.api` | Whitelisted request surface for portal and frontend clients |
-| Services | `rbp_app.services` | Business rules, installed-app checks, entitlement placeholders, Frappe integrations |
-| Guards | `rbp_app.guards` | Website route protection for portal and admin routes |
-| Permissions | `rbp_app.permissions` | Shared role helpers |
-| DocTypes | `rbp_app.doctype` | Future RBP-owned data models |
+- `api/` contains whitelisted endpoints used by the portal/frontend.
+- `services/` contains internal business logic and cross-app orchestration.
+- `services/adapters/` contains app-specific integration adapters for HRMS, ERPNext, CRM, LMS and generic installed apps.
+- `doctype/` contains RBP platform data models.
+- `patches/` contains migration patches.
+- `guards.py` contains route/API access protection.
+- `permissions.py` contains shared permission helpers.
 
-`get_available_apps` is the first cross-app aggregation point. It inspects installed apps and roles, then returns app cards that can power portal navigation. HRMS endpoints use Frappe document APIs and document permissions, and return safe empty payloads when HRMS is not installed.
+`rbp_app` is not HRMS-only. HRMS is one backend capability provider among many. The platform dynamically discovers installed Frappe apps, enriches known apps with first-class metadata, keeps unknown installed apps visible with generic metadata, and adds RBP platform modules such as Documents, Notifications and admin-only Billing.
+
+## Dynamic Portal Launcher
+
+Portal navigation and the portal dashboard now use dynamic app cards sourced from `rbp_app.services.apps`. The route guard/context layer attaches `portal_available_apps` and `portal_apps_by_category` for authenticated `/portal` and `/app` routes, so templates can render an ecosystem-wide launcher without calling Frappe Desk or assuming a specific backend app exists.
+
+App cards are built from installed Frappe apps returned by `frappe.get_installed_apps()`, enriched with first-class metadata for known apps such as Frappe Core, ERPNext, HRMS, CRM, LMS, Helpdesk, Insights, Builder, Drive, Wiki, Payments and Webshop. Unknown installed apps remain visible with generic metadata. RBP platform modules such as Documents and Notifications are always included, while Billing is shown only to Administrator/System Manager users.
+
+HRMS is only one capability module in this launcher. Static portal navigation remains as a fallback when dynamic app data is unavailable or empty.
 
 ## File Structure
 
@@ -128,6 +172,7 @@ rbp_app/
 │   ├── hooks.py                           # Frappe hooks
 │   ├── api/                               # Whitelisted platform APIs
 │   ├── services/                          # Platform services and app integrations
+│   │   └── adapters/                      # App-specific integration adapters
 │   ├── doctype/                           # Future RBP platform DocTypes
 │   ├── patches/                           # Database patches
 │   ├── guards.py                          # Portal/admin website guards

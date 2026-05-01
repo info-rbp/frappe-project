@@ -1,8 +1,10 @@
+"""Backward-compatible wrappers for legacy portal route guard imports."""
+
 from rbp_app import guards
 
 
 def redirect_to_login(path):
-    return guards._redirect_to_login(path)
+    return guards.redirect_guest_to_login(path)
 
 
 def protect_portal_routes(context):
@@ -12,7 +14,7 @@ def protect_portal_routes(context):
     flow without introducing a custom auth system.
     """
 
-    return guards.protect_portal_routes(context)
+    return guards.protect_platform_routes(context)
 
 
 def protect_admin_routes(context):
