@@ -8,7 +8,7 @@ app_license = "MIT"
 # ---------------------------------------------------------------------------
 # Required apps
 # ---------------------------------------------------------------------------
-required_apps = ["frappe", "erpnext", "payments"]
+required_apps = ["frappe"]
 
 # ---------------------------------------------------------------------------
 # Website assets - included on every web (non-desk) page
@@ -76,6 +76,11 @@ website_route_rules = [
     # Product dynamic route
     # Safe shell-phase placeholder for slug-based product detail URLs.
     {"from_route": "/product/<slug>", "to_route": "product/index"},
+
+    # Portal app launcher routes resolve to the existing dashboard shell until
+    # dedicated per-app portal pages are introduced.
+    {"from_route": "/portal/apps", "to_route": "portal/dashboard"},
+    {"from_route": "/portal/apps/<app_key>", "to_route": "portal/dashboard"},
 ]
 
 # ---------------------------------------------------------------------------
@@ -96,7 +101,11 @@ website_route_rules = [
 
 update_website_context = [
     "rbp_app.guards.protect_platform_routes",
-    "rbp_app.rbp_app.doctype.tenant.tenant.load_portal_tenant",
+    "rbp_app.services.tenancy.load_portal_tenant",
+]
+
+before_request = [
+    "rbp_app.guards.protect_platform_request",
 ]
 
 user_permission_doctypes = [

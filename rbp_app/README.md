@@ -15,7 +15,7 @@ This app is the RBP platform layer on top of Frappe. It contains:
 - **App adapters** - Capability-specific adapters in `rbp_app.services.adapters`
 - **Platform DocTypes** - Tenant, entitlement, subscription, audit log, and notification models
 
-Installed Frappe apps such as ERPNext, HRMS, CRM, LMS, Helpdesk, Insights, Builder, Drive, Wiki, Payments, Webshop, and other apps remain backend capability providers. RBP does not rebuild those apps, modify Frappe core, or replace Frappe Desk. HRMS is one capability provider, not the whole architecture.
+Frappe is the only required app. Installed Frappe apps such as ERPNext, HRMS, CRM, LMS, Helpdesk, Insights, Builder, Drive, Wiki, Payments, Webshop, and other apps remain optional backend capability providers discovered dynamically at runtime. RBP does not rebuild those apps, modify Frappe core, or replace Frappe Desk. HRMS is one capability provider, not the whole architecture.
 
 ## Architecture
 
@@ -108,6 +108,7 @@ The customer portal dashboard renders a dynamic ecosystem app launcher. App card
 - Installed Frappe apps are discovered with `frappe.get_installed_apps()`.
 - Known apps receive first-class labels, categories, descriptions, and `/portal/apps/<app_key>` routes.
 - Unknown installed apps receive safe generic cards.
+- ERPNext, Payments, HRMS and other ecosystem apps appear when installed; they are not required to install `rbp_app`.
 - RBP platform modules such as Documents and Notifications are included alongside installed apps.
 - Billing appears only for Administrator/System Manager users.
 - HRMS is one capability module, not the centre of the portal.
@@ -140,12 +141,23 @@ bench --site <site> clear-cache
 bench --site <site> run-tests --app rbp_app
 ```
 
+The latest local validation report is in `docs/platform-validation-report.md`. In that bench, migrate and clear-cache passed, authenticated API and route checks passed, and the Frappe test command did not execute because `allow_tests` was disabled for the site. Do not treat the test suite as passed until it is run on a site with tests enabled.
+
+## Remaining Gaps
+
+- Stripe/payment-provider synchronization is not fully wired yet.
+- Tenant provisioning is not fully wired yet; `RBP Tenant` is the canonical platform model, with legacy tenant compatibility retained.
+- Document repository behavior is still placeholder-backed until storage/retrieval models are completed.
+- App adapters beyond the first HRMS-safe summaries are mostly availability placeholders.
+- Entitlement records can influence app cards, but a dedicated entitlement management UI is not complete.
+- `/portal/apps/<app_key>` currently resolves to the portal dashboard fallback until dedicated per-app portal pages are built.
+
 ## Key Decisions
 
 1. **All RBP business pages live in this custom app**, not in `frappe/` core.
 2. **Shell templates extend `frappe/templates/base.html`** to inherit framework features.
-3. **Admin uses Frappe Desk** - no duplicate admin UI.
-4. **Dynamic routes** are commented out in `hooks.py` until business logic phase.
+3. **Admin/backend operations remain in Frappe Desk** at `/desk`; `/admin` is an RBP scaffold guarded for admin users.
+4. **Customer-facing routes** are `/portal`, `/portal/*`, `/app`, `/app/*`, and `/portal/apps/<app_key>`.
 5. **Platform logic belongs in `rbp_app.api` and `rbp_app.services`**, not in Frappe core.
 6. **Frappe apps remain backend capability providers** for HRMS, CRM, LMS, ERPNext, billing, and related workflows.
 
@@ -164,7 +176,7 @@ bench --site <site> run-tests --app rbp_app
 | Support | 3 | Public |
 | Help | 1 | Public |
 | Auth | 6 | Auth |
-| Portal | 13 | Portal |
+| Portal | 13 plus `/app` aliases and `/portal/apps/<app_key>` fallback | Portal |
 | Admin | 13 | Admin (scaffold) |
 
 ## Framework-Core Changes

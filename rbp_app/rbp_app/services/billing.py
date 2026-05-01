@@ -3,6 +3,7 @@
 import frappe
 
 from rbp_app.permissions import is_admin_user
+from rbp_app.services.tenancy import doctype_exists, get_rbp_tenant_for_user
 
 
 def _placeholder():
@@ -15,20 +16,14 @@ def _placeholder():
 
 
 def _doctype_exists(doctype):
-	try:
-		return bool(frappe.db.exists("DocType", doctype))
-	except Exception:
-		return False
+	"""Backward-compatible wrapper around the tenancy DocType check."""
+
+	return doctype_exists(doctype)
 
 
 def _get_user_tenant(user=None):
-	if not user or user == "Guest" or not _doctype_exists("RBP Tenant"):
-		return None
-
-	try:
-		return frappe.db.get_value("RBP Tenant", {"owner_user": user}, "name")
-	except Exception:
-		return None
+	tenant = get_rbp_tenant_for_user(user)
+	return getattr(tenant, "name", None)
 
 
 def get_subscription_status(user=None):

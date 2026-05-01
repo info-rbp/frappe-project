@@ -2,6 +2,7 @@ import frappe
 from frappe.model.document import Document
 from frappe.permissions import add_user_permission
 
+from rbp_app.services.tenancy import load_portal_tenant as load_platform_portal_tenant
 from rbp_app.utils.portal import redirect_to_login
 
 
@@ -99,24 +100,7 @@ def create_tenant_for_user(user: str, email: str, first_name: str = None, last_n
 
 def load_portal_tenant(context):
     path = (getattr(context, "path", None) or getattr(frappe.local, "path", "") or "").strip("/")
-    if path == "portal" or path.startswith("portal/"):
-        if frappe.session.user == "Guest":
-            redirect_to_login(path)
+    if (path == "portal" or path.startswith("portal/")) and frappe.session.user == "Guest":
+        redirect_to_login(path)
 
-        tenant = get_tenant_for_user(frappe.session.user)
-        if not tenant:
-            context.portal_setup_required = True
-            context.portal_setup_message = (
-                "Your portal account exists, but no workspace is linked yet. "
-                "Please contact support to complete setup."
-            )
-            context.tenant = None
-            context.current_tenant = None
-            frappe.local.tenant = None
-            return context
-
-        context.tenant = tenant
-        context.current_tenant = tenant
-        frappe.local.tenant = tenant
-
-    return context
+    return load_platform_portal_tenant(context)

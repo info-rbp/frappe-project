@@ -3,6 +3,7 @@
 import frappe
 
 from rbp_app.permissions import is_admin_user
+from rbp_app.services.tenancy import doctype_exists, get_current_tenant_name
 
 
 APP_CATEGORIES = (
@@ -164,25 +165,12 @@ def _platform_module_card(key, label, description, route, category):
 	}
 
 
-def _doctype_exists(doctype):
-	try:
-		return bool(frappe.db.exists("DocType", doctype))
-	except Exception:
-		return False
-
-
 def _get_user_tenant(user=None):
-	if not user or user == "Guest" or not _doctype_exists("RBP Tenant"):
-		return None
-
-	try:
-		return frappe.db.get_value("RBP Tenant", {"owner_user": user}, "name")
-	except Exception:
-		return None
+	return get_current_tenant_name(user)
 
 
 def _entitlement_records_exist():
-	if not _doctype_exists("RBP App Entitlement"):
+	if not doctype_exists("RBP App Entitlement"):
 		return False
 
 	try:
