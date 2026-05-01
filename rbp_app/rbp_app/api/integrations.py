@@ -8,10 +8,10 @@ from rbp_app.services.integrations import get_integrations_status as get_integra
 
 
 ADAPTERS = {
-	"crm": crm.get_summary,
-	"erpnext": erpnext.get_summary,
-	"hrms": hrms.get_summary,
-	"lms": lms.get_summary,
+	"crm": crm,
+	"erpnext": erpnext,
+	"hrms": hrms,
+	"lms": lms,
 }
 
 
@@ -40,7 +40,7 @@ def get_app_summary(app_key):
 	adapter = ADAPTERS.get(normalized_key)
 	if adapter:
 		try:
-			return adapter(user)
+			return adapter.get_summary(user)
 		except Exception as exc:
 			return {
 				"available": False,
