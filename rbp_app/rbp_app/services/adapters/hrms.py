@@ -5,9 +5,30 @@ import frappe
 from rbp_app.services.apps import is_app_installed
 
 
+SUMMARY_DOCTYPES = {
+	"employees_count": "Employee",
+	"leave_applications_count": "Leave Application",
+	"attendance_count": "Attendance",
+	"expense_claims_count": "Expense Claim",
+	"salary_slips_count": "Salary Slip",
+}
+
+
 def _doctype_exists(doctype):
 	try:
 		return bool(frappe.db.exists("DocType", doctype))
+	except Exception:
+		return False
+
+
+def _can_read(doctype, user=None):
+	try:
+		return bool(frappe.has_permission(doctype, "read", user=user))
+	except TypeError:
+		try:
+			return bool(frappe.has_permission(doctype, ptype="read", user=user))
+		except Exception:
+			return False
 	except Exception:
 		return False
 
@@ -27,81 +48,45 @@ def is_available():
 	return is_app_installed("hrms") and _doctype_exists("Employee")
 
 
-def get_employee_summary(user=None):
-	"""Return safe employee counts and statuses without exposing employee details."""
-
+def _get_count_summary(user=None, doctypes=None):
 	if not is_app_installed("hrms"):
 		return _unavailable("HRMS is not installed.")
 
-	if not _doctype_exists("Employee"):
-		return _unavailable("HRMS Employee DocType is not available.")
+	doctypes = doctypes or SUMMARY_DOCTYPES
+	missing_doctypes = [doctype for doctype in doctypes.values() if not _doctype_exists(doctype)]
+	if missing_doctypes:
+		return _unavailable("HRMS summary is unavailable because required DocTypes are missing.")
+
+	inaccessible_doctypes = [doctype for doctype in doctypes.values() if not _can_read(doctype, user)]
+	if inaccessible_doctypes:
+		return _unavailable("HRMS summary is unavailable for the current user.")
 
 	try:
-		total_employees = frappe.db.count("Employee")
-		active_employees = frappe.db.count("Employee", {"status": "Active"})
-		inactive_employees = frappe.db.count("Employee", {"status": "Inactive"})
-	except Exception as exc:
-		return _unavailable(f"Employee summary is unavailable: {exc}")
+		summary = {key: frappe.db.count(doctype) for key, doctype in doctypes.items()}
+	except Exception:
+		return _unavailable("HRMS summary is unavailable.")
 
 	return {
 		"available": True,
 		"app_key": "hrms",
-		"summary": {
-			"total_employees": total_employees,
-			"active_employees": active_employees,
-			"inactive_employees": inactive_employees,
-		},
-		"message": "Employee summary is available.",
+		"summary": summary,
+		"message": "HRMS summary is available.",
 	}
+
+
+def get_employee_summary(user=None):
+	"""Return a safe employee aggregate without exposing employee records."""
+
+	return _get_count_summary(user, {"employees_count": "Employee"})
 
 
 def get_leave_summary(user=None):
-	"""Return safe leave allocation and application counts."""
+	"""Return a safe leave aggregate without exposing leave details."""
 
-	if not is_app_installed("hrms"):
-		return _unavailable("HRMS is not installed.")
-
-	required_doctypes = ("Leave Application", "Leave Allocation")
-	missing_doctypes = [doctype for doctype in required_doctypes if not _doctype_exists(doctype)]
-	if missing_doctypes:
-		return _unavailable(f"HRMS leave DocTypes are not available: {', '.join(missing_doctypes)}.")
-
-	try:
-		open_leave_applications = frappe.db.count("Leave Application", {"status": "Open"})
-		approved_leave_applications = frappe.db.count("Leave Application", {"status": "Approved"})
-		active_leave_allocations = frappe.db.count("Leave Allocation", {"docstatus": 1})
-	except Exception as exc:
-		return _unavailable(f"Leave summary is unavailable: {exc}")
-
-	return {
-		"available": True,
-		"app_key": "hrms",
-		"summary": {
-			"open_leave_applications": open_leave_applications,
-			"approved_leave_applications": approved_leave_applications,
-			"active_leave_allocations": active_leave_allocations,
-		},
-		"message": "Leave summary is available.",
-	}
+	return _get_count_summary(user, {"leave_applications_count": "Leave Application"})
 
 
 def get_summary(user=None):
 	"""Return the combined safe HRMS adapter summary."""
 
-	if not is_app_installed("hrms"):
-		return _unavailable("HRMS is not installed.")
-
-	employee_summary = get_employee_summary(user)
-	leave_summary = get_leave_summary(user)
-
-	return {
-		"available": employee_summary["available"] or leave_summary["available"],
-		"app_key": "hrms",
-		"summary": {
-			"employees": employee_summary,
-			"leave": leave_summary,
-		},
-		"message": "HRMS summary is available."
-		if employee_summary["available"] or leave_summary["available"]
-		else "HRMS summary is not available.",
-	}
+	return _get_count_summary(user)

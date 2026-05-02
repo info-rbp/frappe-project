@@ -13,7 +13,7 @@
             <p class="rbp-portal-dashboard-copy">{{ app_card.description }}</p>
         </div>
 
-        <div class="rbp-placeholder-notice">
+        <div class="rbp-app-detail-status" data-availability="{{ 'available' if app_summary.available else 'unavailable' }}">
             <p><strong>App key:</strong> {{ app_card.key }}</p>
             <p><strong>Source app:</strong> {{ app_card.source_app }}</p>
             <p><strong>Module type:</strong> {{ app_card.module_type }}</p>
@@ -21,7 +21,35 @@
             <p>{{ app_summary.message }}</p>
         </div>
 
-        {% if app_summary.summary %}
+        {% if is_hrms_detail %}
+            {% if app_summary.available and hrms_summary_cards %}
+                <section class="rbp-app-category" data-testid="hrms-summary">
+                    <h2>HRMS Summary</h2>
+                    <div class="rbp-app-summary-grid">
+                        {% for card in hrms_summary_cards %}
+                            <article class="rbp-app-summary-card" data-summary-key="{{ card.key }}">
+                                <span>{{ card.label }}</span>
+                                <strong>{{ card.value }}</strong>
+                            </article>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <section class="rbp-app-category" data-testid="hrms-actions">
+                    <h2>Open in Desk</h2>
+                    <div class="rbp-app-action-grid">
+                        {% for link in hrms_action_links %}
+                            <a class="rbp-app-action-link" href="{{ link.route }}">{{ link.label }}</a>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% else %}
+                <div class="rbp-placeholder-notice" data-testid="hrms-empty-state">
+                    <p>HRMS is not available on this site yet.</p>
+                    <p>No employee, payroll, leave or attendance data is shown here.</p>
+                </div>
+            {% endif %}
+        {% elif app_summary.summary %}
             <section class="rbp-app-category">
                 <h2>Summary</h2>
                 <div class="rbp-placeholder-notice">

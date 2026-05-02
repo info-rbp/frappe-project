@@ -1,6 +1,6 @@
 # RBP Platform Validation Report
 
-Validated on 2026-05-01 against the local Frappe bench.
+Validated on 2026-05-02 against the local Frappe bench.
 
 ## Bench
 
@@ -59,8 +59,8 @@ Result: passed.
 Frappe output:
 
 ```text
-Running 58 unspecified-category tests for rbp_app
-Ran 58 rbp_app tests in 0.134s
+Running 63 unspecified-category tests for rbp_app
+Ran 63 tests in 0.218s
 OK
 ```
 
@@ -119,8 +119,8 @@ Authenticated Administrator session route checks:
 
 ## Remaining Risks
 
-- The 57-test `rbp_app` suite now passes on `frappe.localhost`; repeat on a clean/minimal site before release.
-- `/portal/apps/<app_key>` now resolves to a dedicated app detail page; richer per-app UX still needs to be built.
+- The 63-test `rbp_app` suite now passes on `frappe.localhost` and `rbp-minimal.localhost`.
+- `/portal/apps/<app_key>` now resolves to a dedicated app detail page; HRMS has the first richer aggregate-only detail experience.
 - Stripe/payment-provider synchronization is not fully wired.
 - Tenant provisioning is not fully wired.
 - Document repository behavior is still placeholder-backed.
@@ -149,7 +149,8 @@ Result: passed.
 Test output:
 
 ```text
-Ran 58 tests
+Running 63 unspecified-category tests for rbp_app
+Ran 63 tests in 0.220s
 OK
 ```
 
