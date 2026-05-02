@@ -175,7 +175,7 @@ HRMS is only one capability module in this launcher. Static portal navigation re
 - Document repository behavior is still placeholder-backed until storage and retrieval models are completed.
 - App-specific adapters beyond HRMS are placeholders or safe availability summaries.
 - Entitlement records can influence app cards, but the entitlement management UI is not complete.
-- `/portal/apps/<app_key>` currently resolves to the portal dashboard fallback until dedicated per-app pages are added.
+- `/portal/apps/<app_key>` currently resolves to `/portal/apps/app` until dedicated per-app pages are added.
 - The local validation bench had tests disabled, so `bench --site frappe.localhost run-tests --app rbp_app` did not execute there.
 
 ## File Structure
