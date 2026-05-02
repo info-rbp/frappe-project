@@ -129,3 +129,16 @@ Authenticated Administrator session route checks:
 - The local bench has many installed apps; validation should also be repeated on a minimal Frappe-only site.
 - The migration warning from `school_automations` should be reviewed separately because it references a missing `offsite_backups` module outside `rbp_app`.
 - An Administrator API secret was generated during validation; rotate or clear it if this local site is shared.
+## Clean Minimal Site Validation
+
+Validated on `rbp-minimal.localhost`.
+
+Commands:
+
+```sh
+bench new-site rbp-minimal.localhost --db-root-username root
+bench --site rbp-minimal.localhost install-app rbp_app
+bench --site rbp-minimal.localhost set-config allow_tests true
+bench --site rbp-minimal.localhost migrate
+bench --site rbp-minimal.localhost clear-cache
+bench --site rbp-minimal.localhost run-tests --app rbp_app
