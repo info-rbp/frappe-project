@@ -77,10 +77,9 @@ website_route_rules = [
     # Safe shell-phase placeholder for slug-based product detail URLs.
     {"from_route": "/product/<slug>", "to_route": "product/index"},
 
-    # Portal app launcher routes resolve to the existing dashboard shell until
-    # dedicated per-app portal pages are introduced.
-    {"from_route": "/portal/apps", "to_route": "portal/dashboard"},
-    {"from_route": "/portal/apps/<app_key>", "to_route": "portal/dashboard"},
+    # Portal app launcher and app detail routes.
+    {"from_route": "/portal/apps", "to_route": "portal/apps/index"},
+    {"from_route": "/portal/apps/<app_key>", "to_route": "portal/apps/app"},
 ]
 
 # ---------------------------------------------------------------------------

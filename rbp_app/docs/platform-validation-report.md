@@ -120,7 +120,7 @@ Authenticated Administrator session route checks:
 ## Remaining Risks
 
 - The 57-test `rbp_app` suite now passes on `frappe.localhost`; repeat on a clean/minimal site before release.
-- `/portal/apps/<app_key>` currently uses the portal dashboard fallback, not dedicated per-app pages.
+- `/portal/apps/<app_key>` now resolves to a dedicated app detail page; richer per-app UX still needs to be built.
 - Stripe/payment-provider synchronization is not fully wired.
 - Tenant provisioning is not fully wired.
 - Document repository behavior is still placeholder-backed.
