@@ -345,6 +345,35 @@ class TestPlaceholderApis(TestCase):
 		self.assertFalse(result["available"])
 		self.assertEqual(result["app_key"], "hrms")
 
+	def test_hrms_app_summary_returns_aggregate_counts_only(self):
+		with (
+			patch.object(integrations, "require_login", return_value="member@example.com"),
+			patch.object(integrations.hrms, "is_app_installed", return_value=True),
+			patch.object(integrations.hrms, "_doctype_exists", return_value=True),
+			patch.object(integrations.hrms, "_can_read", return_value=True),
+			patch.object(
+				integrations.hrms.frappe,
+				"db",
+				SimpleNamespace(count=MagicMock(side_effect=[3, 4, 5, 6, 7])),
+				create=True,
+			),
+		):
+			result = integrations.get_app_summary("hrms")
+
+		self.assertTrue(result["available"])
+		self.assertEqual(
+			set(result["summary"]),
+			{
+				"employees_count",
+				"leave_applications_count",
+				"attendance_count",
+				"expense_claims_count",
+				"salary_slips_count",
+			},
+		)
+		self.assertNotIn("employee_name", result["summary"])
+		self.assertNotIn("records", result["summary"])
+
 	def test_erpnext_placeholder_adapter_checks_installation(self):
 		with patch.object(erpnext, "is_app_installed", return_value=False):
 			missing = erpnext.get_summary("member@example.com")
