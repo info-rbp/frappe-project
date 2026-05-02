@@ -3,14 +3,30 @@
 import frappe
 
 from rbp_app.permissions import require_login
-from rbp_app.services.adapters import crm, erpnext, generic, hrms, lms
+from rbp_app.services.adapters import (
+	crm,
+	drive,
+	erpnext,
+	gameplan,
+	generic,
+	helpdesk,
+	hrms,
+	insights,
+	lending,
+	lms,
+)
 from rbp_app.services.integrations import get_integrations_status as get_integrations_status_service
 
 
 ADAPTERS = {
 	"crm": crm,
+	"drive": drive,
 	"erpnext": erpnext,
+	"gameplan": gameplan,
+	"helpdesk": helpdesk,
 	"hrms": hrms,
+	"insights": insights,
+	"lending": lending,
 	"lms": lms,
 }
 
