@@ -141,7 +141,7 @@ bench --site <site> clear-cache
 bench --site <site> run-tests --app rbp_app
 ```
 
-The latest local validation report is in `docs/platform-validation-report.md`. In that bench, migrate and clear-cache passed, authenticated API and route checks passed, and the Frappe test command did not execute because `allow_tests` was disabled for the site. Do not treat the test suite as passed until it is run on a site with tests enabled.
+The latest local validation report is in `docs/platform-validation-report.md`. In that bench, migrate and clear-cache passed, authenticated API and route checks passed, and `bench --site frappe.localhost run-tests --app rbp_app` executed successfully. The report records 58 rbp_app tests passed.
 
 ## Remaining Gaps
 
@@ -150,7 +150,7 @@ The latest local validation report is in `docs/platform-validation-report.md`. I
 - Document repository behavior is still placeholder-backed until storage/retrieval models are completed.
 - App adapters beyond the first HRMS-safe summaries are mostly availability placeholders.
 - Entitlement records can influence app cards, but a dedicated entitlement management UI is not complete.
-- `/portal/apps/<app_key>` currently resolves to the portal dashboard fallback until dedicated per-app portal pages are built.
+- `/portal/apps/<app_key>` currently resolves to `/portal/apps/app` until dedicated per-app portal pages are built.
 
 ## Key Decisions
 

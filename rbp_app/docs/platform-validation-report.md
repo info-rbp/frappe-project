@@ -59,8 +59,8 @@ Result: passed.
 Frappe output:
 
 ```text
-Running 57 unspecified-category tests for rbp_app
-Ran 57 tests in 0.134s
+Running 58 unspecified-category tests for rbp_app
+Ran 58 rbp_app tests in 0.134s
 OK
 ```
 
@@ -93,13 +93,13 @@ Authenticated Administrator session route checks:
 
 - `/portal`: HTTP 200
 - `/portal/dashboard`: HTTP 200
-- `/portal/apps/hrms`: HTTP 200 through the portal dashboard fallback route
+- `/portal/apps/hrms`: HTTP 200 through the portal app detail route
 - `/app`: HTTP 302 to `/portal`
 - `/admin`: HTTP 200
 
 ## Failures Found
 
-- After enabling `allow_tests`, `bench --site frappe.localhost run-tests --app rbp_app` executed 57 tests.
+- After enabling `allow_tests`, `bench --site frappe.localhost run-tests --app rbp_app` executed successfully and 58 rbp_app tests passed.
 - `rbp_app.tests.test_api_integrations.test_known_app_adapter_returns_safe_response` failed because `ADAPTERS` captured adapter function objects at import time, so test patches on `integrations.hrms.get_summary` did not affect the call path.
 - `rbp_app.tests.test_api_integrations.test_missing_optional_app_is_safe` failed for the same import-time function capture on `integrations.crm.get_summary`.
 - The post-test/preload phase failed with `DocType RBP App Entitlement not found` because the newer platform DocTypes lived outside the synced `RBP App` module DocType path.

@@ -273,7 +273,7 @@ Additional customer-facing platform routes:
 5. **Validation covered one local bench.** `rbp_app` was installed on `frappe.localhost`; repeat validation on a minimal Frappe-only bench before claiming minimal-install coverage.
 6. **Preview layer is separate.** `/app/frontend/` and `/app/backend/` exist only for Emergent preview. Not part of the Frappe deployment.
 7. **Mega menu is a hidden placeholder.**
-8. **Platform tests are focused unit tests.** More integration tests should be added when tenant provisioning and live cross-app data are introduced. The local bench test command did not execute because `allow_tests` is disabled.
+8. **Platform tests are focused unit tests.** More integration tests should be added when tenant provisioning and live cross-app data are introduced. The local bench test command executed successfully.
 9. **Stripe is not wired yet.** `RBP Subscription` is available, but payment-provider synchronization is still future work.
 10. **Tenant provisioning is not wired yet.** `RBP Tenant` exists, but automated site/workspace provisioning remains future work.
 11. **Document repository is still placeholder-backed.** `RBP Notification` has service integration; document storage and retrieval still need a full repository implementation.
@@ -298,7 +298,7 @@ bench --site <site> clear-cache
 bench --site <site> run-tests --app rbp_app
 ```
 
-Local validation note: `bench --site frappe.localhost migrate` and `bench --site frappe.localhost clear-cache` passed. Authenticated API and route checks passed. The Frappe bench test command was attempted against `frappe.localhost`, but the site reported that testing is disabled; enable it with `bench --site frappe.localhost set-config allow_tests true` before using `bench --site frappe.localhost run-tests --app rbp_app`. See `docs/platform-validation-report.md`.
+Local validation note: `bench --site frappe.localhost migrate` and `bench --site frappe.localhost clear-cache` passed. Authenticated API and route checks passed. `bench --site frappe.localhost run-tests --app rbp_app` executed successfully. See `docs/platform-validation-report.md`.
 
 ### UI notes
 - Design: Unlimit BaaS-inspired dark-first (navy #060714, green #c8ff00, Outfit font)
