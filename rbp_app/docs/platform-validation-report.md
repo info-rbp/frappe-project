@@ -142,3 +142,17 @@ bench --site rbp-minimal.localhost set-config allow_tests true
 bench --site rbp-minimal.localhost migrate
 bench --site rbp-minimal.localhost clear-cache
 bench --site rbp-minimal.localhost run-tests --app rbp_app
+```
+
+Result: passed.
+
+Test output:
+
+```text
+Ran 58 tests
+OK
+```
+
+Note: MariaDB 12.2.2 emitted a warning during validation.
+
+Conclusion: `rbp_app` works with only Frappe installed.
