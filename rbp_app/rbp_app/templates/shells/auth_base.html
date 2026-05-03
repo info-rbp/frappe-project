@@ -3,6 +3,12 @@
 {# Cross-links: back to public site, forward to portal on success. #}
 {% extends "templates/base.html" %}
 
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="/assets/rbp_app/css/rbp.css">
+{% endblock %}
+
+
 {% block navbar %}
 <header class="rbp-auth-header" data-testid="rbp-auth-header">
     <a href="/" class="rbp-logo">RBP</a>
@@ -34,3 +40,9 @@
     <p>&copy; {{ frappe.utils.now_datetime().year if frappe else "2026" }} Remote Business Partner</p>
 </footer>
 {% endblock %}
+
+{% block script %}
+{{ super() }}
+<script src="/assets/rbp_app/js/rbp.js"></script>
+{% endblock %}
+

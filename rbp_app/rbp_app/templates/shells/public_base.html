@@ -5,6 +5,12 @@
    =================================================================== #}
 {% extends "templates/base.html" %}
 
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="/assets/rbp_app/css/rbp.css">
+{% endblock %}
+
+
 {% block navbar %}
 {% include "rbp_app/templates/includes/header.html" %}
 {% endblock %}
@@ -22,3 +28,9 @@
 {% block footer %}
 {% include "rbp_app/templates/includes/footer.html" %}
 {% endblock %}
+
+{% block script %}
+{{ super() }}
+<script src="/assets/rbp_app/js/rbp.js"></script>
+{% endblock %}
+

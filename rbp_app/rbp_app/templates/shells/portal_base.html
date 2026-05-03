@@ -3,6 +3,12 @@
 {# Cross-links: back to public website, to admin surface, logout to auth. #}
 {% extends "templates/base.html" %}
 
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="/assets/rbp_app/css/rbp.css">
+{% endblock %}
+
+
 {% block navbar %}{% endblock %}
 
 {% block content %}
@@ -68,3 +74,9 @@
 {% endblock %}
 
 {% block footer %}{% endblock %}
+
+{% block script %}
+{{ super() }}
+<script src="/assets/rbp_app/js/rbp.js"></script>
+{% endblock %}
+

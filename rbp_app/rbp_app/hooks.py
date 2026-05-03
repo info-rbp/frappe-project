@@ -11,15 +11,13 @@ app_license = "MIT"
 required_apps = ["frappe"]
 
 # ---------------------------------------------------------------------------
-# Website assets - included on every web (non-desk) page
+# Website assets
 # ---------------------------------------------------------------------------
-web_include_css = [
-    "/assets/rbp_app/css/rbp.css",
-]
-
-web_include_js = [
-    "/assets/rbp_app/js/rbp.js",
-]
+# Do not inject RBP assets globally through web_include_css/web_include_js.
+# Global website assets also affect native Frappe pages such as /login.
+# RBP-owned shell templates load rbp.css and rbp.js directly instead.
+web_include_css = []
+web_include_js = []
 
 # ---------------------------------------------------------------------------
 # Desk assets (uncomment when needed)
