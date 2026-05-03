@@ -268,7 +268,7 @@ Additional customer-facing platform routes:
 ### Structural gaps
 1. **Some content routes remain shell placeholders.** Routes like `/services/<category>`, `/service/<slug>`, `/product/<slug>`, and `/portal/apps/<app_key>` resolve to safe shell/fallback pages until content-backed detail views are built.
 2. **No `.py` context files** for most www pages. Only `www/index.py` exists. Others needed when business data is introduced.
-3. **`/login` override risk.** `rbp_app/www/login.html` will override `frappe/www/login.html` when installed. Must integrate with Frappe auth or be removed before production.
+3. **`/login` override fixed.** Native Frappe owns `/login`. The old RBP login page has been moved to `rbp_app/rbp_app/www/auth-disabled/login_legacy.html` for reference. Route guards continue to redirect guests to `/login?redirect-to=<path>`, while Frappe handles session creation, CSRF, login throttling, redirects and authentication errors.
 4. **Portal content is still mostly placeholder UI.** The dashboard has a dynamic ecosystem launcher, but most detail pages still need live platform data.
 5. **Validation covered one local bench.** `rbp_app` was installed on `frappe.localhost`; repeat validation on a minimal Frappe-only bench before claiming minimal-install coverage.
 6. **Preview layer is separate.** `/app/frontend/` and `/app/backend/` exist only for Emergent preview. Not part of the Frappe deployment.
