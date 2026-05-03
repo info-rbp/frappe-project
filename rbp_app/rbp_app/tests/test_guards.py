@@ -9,6 +9,13 @@ from rbp_app import guards
 
 
 class TestGuards(TestCase):
+	def test_root_redirects_to_rbp_index_before_mail_redirect(self):
+		with patch.object(guards, "get_request_path", return_value=""):
+			with self.assertRaises(guards.TemporaryRedirect) as exc:
+				guards.protect_platform_request()
+
+		self.assertEqual(exc.exception.location, "/index")
+
 	def test_portal_redirects_guest(self):
 		self._assert_guest_redirect("portal")
 		self._assert_guest_redirect("portal/dashboard")

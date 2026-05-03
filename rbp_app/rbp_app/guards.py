@@ -22,6 +22,7 @@ from rbp_app.services.apps import get_available_app_cards, group_app_cards_by_ca
 
 CUSTOMER_ROUTE_PREFIXES = ("portal", "app")
 ADMIN_ROUTE_PREFIXES = ("admin", "desk")
+RBP_HOME_ROUTE = "index"
 
 
 class TemporaryRedirect(HTTPException):
@@ -101,7 +102,10 @@ def protect_platform_request():
 
 	path = get_request_path()
 	if not path:
-		return
+		# Mail installs a global "/" -> "/mail" website redirect.
+		# RBP owns the public entry point, so intercept root before
+		# Frappe website redirects are resolved.
+		raise TemporaryRedirect(f"/{RBP_HOME_ROUTE}")
 
 	if _is_customer_route(path):
 		if is_guest():
