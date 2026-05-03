@@ -123,7 +123,7 @@ has_permission = {
 # Installation hooks
 # ---------------------------------------------------------------------------
 # before_install = "rbp_app.install.before_install"
-# after_install = "rbp_app.install.after_install"
+after_install = "rbp_app.install.after_install"
 
 # ---------------------------------------------------------------------------
 # Export annotations
