@@ -54,7 +54,7 @@ website_redirects = [
 website_route_rules = [
     # Auth aliases avoid conflicts with other installed apps that may own
     # global /login or /signup redirects on shared benches.
-    {"from_route": "/rbp-login", "to_route": "login"},
+    # Native Frappe owns /login. RBP should not override it with www/login.html.
     {"from_route": "/rbp-signup", "to_route": "signup"},
 
     # Services dynamic routes
