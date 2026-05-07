@@ -3,7 +3,7 @@
  "allow_guest_to_view": 0,
  "allow_import": 1,
  "allow_rename": 0,
- "autoname": "format:RBP-NOTIF-{####}",
+ "autoname": "format:RBP-PAY-{####}",
  "creation": "2026-05-07 00:00:00.000000",
  "custom": 0,
  "doctype": "DocType",
@@ -13,19 +13,18 @@
  "field_order": [
   "tenant",
   "user",
-  "title",
-  "message",
-  "notification_type",
-  "priority",
-  "delivery_channel",
-  "route",
   "related_doctype",
   "related_name",
-  "trigger_source",
-  "created_by_workflow",
+  "payment_provider",
+  "provider_event_id",
+  "provider_customer_id",
+  "provider_payment_id",
+  "amount",
+  "currency",
   "status",
-  "is_read",
-  "read_on"
+  "event_type",
+  "raw_payload",
+  "processed_on"
  ],
  "fields": [
   {
@@ -40,48 +39,7 @@
    "fieldtype": "Link",
    "label": "User",
    "options": "User",
-   "reqd": 1,
    "in_list_view": 1
-  },
-  {
-   "fieldname": "title",
-   "fieldtype": "Data",
-   "label": "Title",
-   "reqd": 1,
-   "in_list_view": 1
-  },
-  {
-   "fieldname": "message",
-   "fieldtype": "Small Text",
-   "label": "Message"
-  },
-  {
-   "fieldname": "notification_type",
-   "fieldtype": "Select",
-   "label": "Notification Type",
-   "options": "Info\nSuccess\nWarning\nError",
-   "default": "Info",
-   "in_list_view": 1
-  },
-  {
-   "fieldname": "priority",
-   "fieldtype": "Select",
-   "label": "Priority",
-   "options": "Low\nNormal\nHigh\nUrgent",
-   "default": "Normal",
-   "in_list_view": 1
-  },
-  {
-   "fieldname": "delivery_channel",
-   "fieldtype": "Select",
-   "label": "Delivery Channel",
-   "options": "Portal\nEmail\nSMS\nSystem",
-   "default": "Portal"
-  },
-  {
-   "fieldname": "route",
-   "fieldtype": "Data",
-   "label": "Route"
   },
   {
    "fieldname": "related_doctype",
@@ -95,34 +53,65 @@
    "options": "related_doctype"
   },
   {
-   "fieldname": "trigger_source",
-   "fieldtype": "Data",
-   "label": "Trigger Source"
+   "fieldname": "payment_provider",
+   "fieldtype": "Select",
+   "label": "Payment Provider",
+   "options": "Stripe\nManual\nNone",
+   "default": "Stripe",
+   "in_list_view": 1
   },
   {
-   "fieldname": "created_by_workflow",
+   "fieldname": "provider_event_id",
    "fieldtype": "Data",
-   "label": "Created By Workflow"
+   "label": "Provider Event ID",
+   "unique": 1
+  },
+  {
+   "fieldname": "provider_customer_id",
+   "fieldtype": "Data",
+   "label": "Provider Customer ID"
+  },
+  {
+   "fieldname": "provider_payment_id",
+   "fieldtype": "Data",
+   "label": "Provider Payment ID"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "default": "AUD"
   },
   {
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Unread\nRead\nArchived",
-   "default": "Unread",
+   "options": "Not Required\nPending\nAuthorised\nPaid\nFailed\nRefunded\nCancelled\nDisputed",
+   "default": "Pending",
    "in_list_view": 1
   },
   {
-   "fieldname": "is_read",
-   "fieldtype": "Check",
-   "label": "Is Read",
-   "default": "0",
+   "fieldname": "event_type",
+   "fieldtype": "Data",
+   "label": "Event Type",
    "in_list_view": 1
   },
   {
-   "fieldname": "read_on",
+   "fieldname": "raw_payload",
+   "fieldtype": "Code",
+   "label": "Raw Payload",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "processed_on",
    "fieldtype": "Datetime",
-   "label": "Read On"
+   "label": "Processed On"
   }
  ],
  "has_web_view": 0,
@@ -136,7 +125,7 @@
  "modified": "2026-05-07 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "RBP App",
- "name": "RBP Notification",
+ "name": "RBP Payment Event",
  "owner": "Administrator",
  "permissions": [
   {

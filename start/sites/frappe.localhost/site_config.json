@@ -4,5 +4,6 @@
  "db_password": "vyHxW2R0jOXSe9sC",
  "db_type": "mariadb",
  "db_user": "_bdfacf6f381f0f7c",
- "encryption_key": "I6unXqNUmswGQXJhm0LfSXLlAeBhEFEe6ZIxeAfD_do="
+ "encryption_key": "I6unXqNUmswGQXJhm0LfSXLlAeBhEFEe6ZIxeAfD_do=",
+ "home_page": "index"
 }

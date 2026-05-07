@@ -107,15 +107,18 @@ before_request = [
 
 user_permission_doctypes = [
     "Tenant",
+    "RBP Tenant",
 ]
 
 permission_query_conditions = {
     "Tenant": "rbp_app.rbp_app.doctype.tenant.tenant.tenant_query_conditions",
+    "RBP Tenant": "rbp_app.rbp_app.doctype.rbp_tenant.rbp_tenant.rbp_tenant_query_conditions",
     "RBP Account": "rbp_app.rbp_app.doctype.rbp_account.rbp_account.rbp_account_query_conditions",
 }
 
 has_permission = {
     "Tenant": "rbp_app.rbp_app.doctype.tenant.tenant.has_tenant_permission",
+    "RBP Tenant": "rbp_app.rbp_app.doctype.rbp_tenant.rbp_tenant.has_rbp_tenant_permission",
     "RBP Account": "rbp_app.rbp_app.doctype.rbp_account.rbp_account.has_rbp_account_permission",
 }
 
