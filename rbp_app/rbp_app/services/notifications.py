@@ -27,7 +27,7 @@ def create_notification(
     trigger_source=None,
     created_by_workflow=None,
 ):
-    if not doctype_exists("RBP Notification"):
+    if not _doctype_exists("RBP Notification"):
         return None
 
     tenant = tenant or get_current_tenant_name(user)
@@ -69,7 +69,7 @@ def create_notification(
 def get_notifications(user=None):
     """Return portal notifications for a user."""
 
-    if not user or user == "Guest" or not doctype_exists("RBP Notification"):
+    if not user or user == "Guest" or not _doctype_exists("RBP Notification"):
         return {
             "notifications": [],
             "unread_count": 0,
@@ -102,7 +102,10 @@ def get_notifications(user=None):
             order_by="is_read asc, modified desc",
             limit_page_length=20,
         )
-        unread_count = frappe.db.count("RBP Notification", {"user": user, "is_read": 0, "status": ["!=", "Archived"]})
+        unread_count = frappe.db.count(
+            "RBP Notification",
+            {"user": user, "is_read": 0, "status": ["!=", "Archived"]},
+        )
     except Exception:
         notifications = []
         unread_count = 0
@@ -116,7 +119,7 @@ def get_notifications(user=None):
 def mark_notification_read(name, user=None):
     user = user or frappe.session.user
 
-    if not doctype_exists("RBP Notification"):
+    if not _doctype_exists("RBP Notification"):
         raise frappe.DoesNotExistError
 
     doc = frappe.get_doc("RBP Notification", name)
@@ -128,13 +131,18 @@ def mark_notification_read(name, user=None):
     doc.read_on = now_datetime()
     doc.save(ignore_permissions=True)
 
-    return {"name": doc.name, "is_read": doc.is_read, "status": doc.status, "read_on": doc.read_on}
+    return {
+        "name": doc.name,
+        "is_read": doc.is_read,
+        "status": doc.status,
+        "read_on": doc.read_on,
+    }
 
 
 def mark_all_notifications_read(user=None):
     user = user or frappe.session.user
 
-    if not user or user == "Guest" or not doctype_exists("RBP Notification"):
+    if not user or user == "Guest" or not _doctype_exists("RBP Notification"):
         return {"updated": 0}
 
     names = frappe.get_all(
