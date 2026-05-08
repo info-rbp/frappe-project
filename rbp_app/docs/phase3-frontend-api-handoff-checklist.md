@@ -1031,3 +1031,63 @@ Current validation baseline:
 - Focused rbp_app unittest suite still passes.
 - Full `bench --site rbp-minimal.localhost run-tests --app rbp_app` can be attempted in an aligned environment.
 - Mail submodule compatibility remains checked if full bench tests are run.
+
+## API Response Contract Decision
+
+Phase 5 frontend integration will use the existing raw dictionary / serialized DocType response contract.
+
+The backend will not introduce a global `{ ok, data, errors, meta }` envelope during Phase 3 closeout or at the start of Phase 5.
+
+### Successful Responses
+
+Successful API responses will continue to return plain dictionaries, lists, or serialized document payloads.
+
+Product create, get, update, submit, assign, and status methods return the service serializer response for the affected record or workflow action.
+
+List methods return dictionaries using the existing module-specific response shape, for example:
+
+```json
+{
+  "requests": [],
+  "count": 0
+}
+```
+
+```json
+{
+  "notifications": [],
+  "unread_count": 0
+}
+```
+
+```json
+{
+  "documents": [],
+  "count": 0
+}
+```
+
+### Error Handling
+
+Error behaviour will continue to use Frappe exceptions and standard Frappe HTTP/API method handling.
+
+Expected error sources:
+
+- Authentication failures raise Frappe permission errors.
+- Permission failures raise Frappe permission errors.
+- Validation failures raise Frappe validation errors.
+- Missing records raise Frappe missing-record errors.
+
+### Rationale
+
+- Current APIs already return service-level dictionaries and serialized payloads.
+- Current tests validate the existing response shapes.
+- The API smoke test plan asserts current raw dictionary payloads unless a future contract change is explicitly approved.
+- Avoiding an envelope refactor reduces risk before frontend integration.
+- A mixed model, where some APIs use envelopes and others return raw payloads, would create avoidable frontend integration ambiguity.
+
+### Future Consideration
+
+A standard response envelope may be introduced later if external API clients, API gateway integration, or frontend error normalization require it.
+
+That should be handled as a deliberate API contract migration, not as an incidental Phase 3 cleanup task.
