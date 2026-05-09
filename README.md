@@ -1,3 +1,40 @@
+# Source Repository Notice
+
+## Production rbp_app source moved to rbp-platform
+
+This repository is no longer the production source of truth for the Remote Business Partner Platform custom app.
+
+The consolidated production repository is:
+
+```text
+https://github.com/info-rbp/rbp-platform
+```
+
+Current role of this repository:
+
+- historical Phase 3 backend source reference
+- Frappe development workspace/reference
+- source reference for the original `rbp_app/` extraction
+- not the canonical production app repository after Phase 4 consolidation
+
+Production development should continue from:
+
+```text
+info-rbp/rbp-platform
+```
+
+The Phase 4 consolidation imported only the custom Frappe app into:
+
+```text
+info-rbp/rbp-platform/apps/rbp_app/
+```
+
+The Frappe framework core should not be copied into `rbp-platform`. Frappe remains an external framework dependency managed by bench or deployment tooling.
+
+Do not treat this repository as the authoritative production source unless a future governance decision explicitly reverses that.
+
+---
+
 <div align="center" markdown="1">
 	<img src=".github/framework-logo-new.svg" width="80" height="80"/>
 	<h1>Frappe Framework</h1>
