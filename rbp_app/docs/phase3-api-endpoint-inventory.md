@@ -498,3 +498,33 @@ Expected error sources:
 A standard response envelope may be introduced later if external API clients, API gateway integration, or frontend error normalization require it.
 
 That should be handled as a deliberate API contract migration, not as an incidental Phase 3 cleanup task.
+
+## The Fixer API Naming Decision
+
+`rbp_app.api.the_fixer` is the canonical Phase 3 backend API module for The Fixer.
+
+No `rbp_app.api.fixer` alias will be added during Phase 3 closeout.
+
+### Decision
+
+Frontend and integration clients should call:
+
+```text
+rbp_app.api.the_fixer
+```
+
+The backend will not introduce a second `rbp_app.api.fixer` module unless a future integration layer explicitly requires backward compatibility.
+
+### Rationale
+
+- The implemented API module is already `rbp_app.api.the_fixer`.
+- The implemented service module is already `rbp_app.services.the_fixer`.
+- The focused backend tests validate the existing `the_fixer` naming.
+- Adding a `fixer` alias now would create two valid endpoint paths for the same backend capability.
+- Duplicate API names increase integration ambiguity without adding Phase 3 value.
+
+### Phase 5 Integration Note
+
+Phase 5 frontend/backend integration should treat `rbp_app.api.the_fixer` as canonical.
+
+If a shorter `/fixer` frontend route is desired, it should be handled at the frontend route layer, not by duplicating backend API module names.

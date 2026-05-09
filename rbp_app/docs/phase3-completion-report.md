@@ -340,3 +340,33 @@ The backend platform foundation is complete enough to proceed to Phase 4 plannin
 Phase 4 may start with documented gaps.
 
 Do not start frontend implementation until the Phase 5 integration lane is explicitly opened.
+
+## The Fixer API Naming Decision
+
+`rbp_app.api.the_fixer` is the canonical Phase 3 backend API module for The Fixer.
+
+No `rbp_app.api.fixer` alias will be added during Phase 3 closeout.
+
+### Decision
+
+Frontend and integration clients should call:
+
+```text
+rbp_app.api.the_fixer
+```
+
+The backend will not introduce a second `rbp_app.api.fixer` module unless a future integration layer explicitly requires backward compatibility.
+
+### Rationale
+
+- The implemented API module is already `rbp_app.api.the_fixer`.
+- The implemented service module is already `rbp_app.services.the_fixer`.
+- The focused backend tests validate the existing `the_fixer` naming.
+- Adding a `fixer` alias now would create two valid endpoint paths for the same backend capability.
+- Duplicate API names increase integration ambiguity without adding Phase 3 value.
+
+### Phase 5 Integration Note
+
+Phase 5 frontend/backend integration should treat `rbp_app.api.the_fixer` as canonical.
+
+If a shorter `/fixer` frontend route is desired, it should be handled at the frontend route layer, not by duplicating backend API module names.
