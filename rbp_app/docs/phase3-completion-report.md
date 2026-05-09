@@ -370,3 +370,70 @@ The backend will not introduce a second `rbp_app.api.fixer` module unless a futu
 Phase 5 frontend/backend integration should treat `rbp_app.api.the_fixer` as canonical.
 
 If a shorter `/fixer` frontend route is desired, it should be handled at the frontend route layer, not by duplicating backend API module names.
+
+## Entitlement Gating Policy Decision
+
+Phase 3 confirms that app entitlement modelling, entitlement APIs, and app launcher visibility are implemented.
+
+The backend will not retrofit hard entitlement gates across every product service during Phase 3 closeout.
+
+### Decision
+
+For Phase 5 frontend/backend integration:
+
+- App discovery and app launcher visibility should use `RBP App Entitlement`.
+- Frontend clients should use entitlement APIs to determine visible and accessible modules.
+- Product APIs will continue to rely on authenticated access, tenant ownership, record ownership, assigned-user access, and admin checks.
+- Product APIs will not be globally blocked by app entitlement checks during Phase 3 closeout.
+- Hard service-level entitlement enforcement may be added later as a deliberate launch-hardening task.
+
+### Current Behaviour
+
+Current entitlement behaviour supports:
+
+- Tenant-level entitlements
+- User-level entitlements
+- Role-scoped entitlement metadata
+- Subscription-linked entitlement metadata
+- Enabled/disabled entitlement states
+- Start and end date windows
+- App launcher visibility
+
+Current product services enforce:
+
+- Authentication
+- Tenant ownership
+- Owner access
+- Assigned-user access where applicable
+- System Manager / Administrator access for admin operations
+- Product-specific workflow and status rules
+
+### Rationale
+
+- Entitlement records and app discovery are already implemented.
+- Current backend tests validate tenant, owner, assigned-user, and admin access paths.
+- Retrofitting hard entitlement checks into every product service would be a backend behaviour change, not a documentation cleanup.
+- Phase 5 can safely integrate against entitlement-aware app discovery while backend service-level entitlement enforcement remains a documented launch-hardening decision.
+- This avoids introducing late Phase 3 regressions in already validated product flows.
+
+### Phase 5 Integration Note
+
+Phase 5 frontend/backend integration should:
+
+- Read available apps from the app discovery APIs.
+- Hide or disable modules the current user is not entitled to access.
+- Treat backend permission errors as authoritative if a user attempts unsupported access.
+- Avoid assuming that frontend visibility alone is a security boundary.
+
+### Future Hardening Option
+
+Before production launch, the project may add explicit service-level entitlement gates for selected product APIs.
+
+If implemented, the change should include:
+
+- A shared entitlement enforcement helper
+- Product-level app key mapping
+- Negative entitlement tests for every gated product module
+- Clear admin bypass rules
+- Updated API smoke tests
+- Updated frontend/API handoff documentation
