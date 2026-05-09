@@ -184,3 +184,16 @@ To setup the repository locally follow the steps mentioned below:
 		</picture>
 	</a>
 </div>
+
+
+## Phase 5 Notice
+
+This repository is now reference/source-history only.
+
+Active Phase 5 Integration work must use:
+
+    https://github.com/info-rbp/rbp-platform
+    branch: main
+
+Do not begin Phase 5 implementation work from this repository.
+Do not copy Frappe framework core into the consolidated platform repository.
