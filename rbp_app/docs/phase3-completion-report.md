@@ -437,3 +437,104 @@ If implemented, the change should include:
 - Clear admin bypass rules
 - Updated API smoke tests
 - Updated frontend/API handoff documentation
+
+## Final Phase 3 Closeout Addendum
+
+This addendum records the final Phase 3 closeout state after completion of the remaining documentation, contract, policy, and validation items.
+
+## Final Closeout PRs
+
+The final Phase 3 closeout work was completed through the following documentation-only PRs:
+
+| PR | Purpose | Result |
+|---|---|---|
+| PR #34 | Complete closeout documentation | Merged |
+| PR #35 | Document API response contract decision | Merged |
+| PR #36 | Document The Fixer API naming decision | Merged |
+| PR #37 | Document entitlement gating policy decision | Merged |
+| PR #38 | Document fresh clean-site install validation | Merged |
+
+## Final Decisions
+
+### API Response Contract
+
+Phase 5 frontend integration will use the existing raw dictionary / serialized DocType response contract.
+
+No global `{ ok, data, errors, meta }` envelope will be introduced during Phase 3 closeout or at the start of Phase 5.
+
+### The Fixer API Naming
+
+`rbp_app.api.the_fixer` is the canonical backend API module for The Fixer.
+
+No `rbp_app.api.fixer` alias will be added during Phase 3 closeout.
+
+### Entitlement Gating
+
+App entitlement modelling, entitlement APIs, and entitlement-aware app discovery are implemented.
+
+Product APIs will continue to rely on authentication, tenant ownership, owner access, assigned-user access, admin checks, and workflow/status rules.
+
+Hard service-level entitlement gates will not be retrofitted across every product service during Phase 3 closeout. That remains a deliberate launch-hardening option.
+
+## Final Validation Summary
+
+Final validation completed:
+
+```text
+Focused backend unittest suite: 141 tests OK
+Bench rbp_app suite on existing validation site: 173 tests OK
+Fresh clean-site validation: 173 tests OK
+Fresh clean-site install-app: passed
+Fresh clean-site migrate: passed
+Fresh clean-site clear-cache: passed
+```
+
+Fresh clean-site validation used:
+
+```text
+rbp-phase3-clean.localhost
+```
+
+## Final Repository Scope Confirmation
+
+Final Phase 3 closeout work remained within the approved scope:
+
+- No backend implementation changes
+- No frontend implementation
+- No QA automation implementation
+- No deployment implementation
+- No repository consolidation implementation
+- No Frappe core changes
+- No `start/apps/*` changes
+- No committed `start/sites/*` generated artifacts
+
+## Final Phase 3 Classification
+
+Phase 3 is now classified as:
+
+```text
+Complete
+```
+
+All Phase 3 backend/platform implementation, validation documentation, closeout documentation, API contract decisions, entitlement policy decisions, naming decisions, and fresh clean-site validation documentation have been completed.
+
+## Carry-Forward Items
+
+The following items are intentionally carried forward and are not Phase 3 blockers:
+
+| Item | Destination |
+|---|---|
+| Frontend implementation | Phase 5 |
+| Real HTTP/API smoke test automation | Phase 5 or QA/UAT execution |
+| Live payment provider integration | Payment/deployment hardening |
+| Raw file upload UI/API integration | Phase 5 |
+| Optional app deep integrations | Later integration phases |
+| RBP-specific role fixture refinement | QA/UAT or launch hardening |
+| Strict workflow transition hardening where required | QA/UAT or launch hardening |
+| Service-level entitlement hard gates, if required | Launch hardening |
+
+## Phase 4 Readiness
+
+Phase 4 may begin as a consolidation and planning lane only.
+
+Phase 4 should not introduce frontend implementation, deployment implementation, QA automation implementation, Frappe core changes, or a custom Frappe Desk replacement unless explicitly approved.
