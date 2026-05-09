@@ -62,3 +62,38 @@ Results:
   - Focused unittest validation and bench app validation both passed.
   - PR should remain documentation-only.
 
+## Fresh Clean-Site Install Validation
+
+A fresh clean-site validation was run after Phase 3 closeout documentation and policy decisions were completed.
+
+Validation site:
+
+```text
+rbp-phase3-clean.localhost
+```
+
+Commands run from the `start/` bench directory:
+
+```bash
+bench new-site rbp-phase3-clean.localhost --admin-password admin
+bench --site rbp-phase3-clean.localhost install-app rbp_app
+bench --site rbp-phase3-clean.localhost set-config allow_tests true
+bench --site rbp-phase3-clean.localhost migrate
+bench --site rbp-phase3-clean.localhost clear-cache
+bench --site rbp-phase3-clean.localhost run-tests --app rbp_app
+```
+
+Result:
+
+```text
+rbp_app installed successfully
+bench migrate passed
+bench clear-cache passed
+bench run-tests --app rbp_app passed
+```
+
+Known notes:
+
+- The MariaDB/MySQL superuser must be entered correctly during `bench new-site`; in this local environment, `root` was required.
+- Tests must be enabled on the fresh site with `bench --site rbp-phase3-clean.localhost set-config allow_tests true`.
+- Fresh bench validation can generate local files under `start/sites/*`. These are environment artifacts and must not be committed.
