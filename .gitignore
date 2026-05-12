@@ -6,7 +6,7 @@
 *.swp
 *.egg-info
 dist/
-# build/
+build/
 frappe/docs/current
 frappe/public/dist
 .vscode
@@ -131,6 +131,9 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+start/logs/
+start/sites/*/logs/
+start/sites/*/private/backups/
 
 # Runtime data
 pids
@@ -198,6 +201,7 @@ cypress/videos
 .helix/
 # Aider AI Chat
 .aider*
+reports/backend-baseline/
 -e 
 # Environment and credential files
 .env
