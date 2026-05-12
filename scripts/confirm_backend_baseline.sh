@@ -276,10 +276,15 @@ run_stage \
 	"$LOG_DIR/frappe-clear-cache-$TIMESTAMP.log" \
 	env RBP_BASELINE_SITE="$RBP_BASELINE_SITE" bash -c 'cd "$0" && "$1" --site "$RBP_BASELINE_SITE" clear-cache' "$BENCH_ROOT" "$BENCH_BIN"
 
+RBP_APP_TEST_LOG="$LOG_DIR/rbp-app-tests-$TIMESTAMP.log"
 run_stage \
 	"rbp_app_tests" \
-	"$LOG_DIR/rbp-app-tests-$TIMESTAMP.log" \
+	"$RBP_APP_TEST_LOG" \
 	env RBP_BASELINE_SITE="$RBP_BASELINE_SITE" RBP_APP_NAME="$RBP_APP_NAME" bash -c 'cd "$0" && "$1" --site "$RBP_BASELINE_SITE" run-tests --app "$RBP_APP_NAME"' "$BENCH_ROOT" "$BENCH_BIN"
+
+if grep -E '(^FAILED|^ERROR:|Traceback|ModuleNotFoundError)' "$RBP_APP_TEST_LOG" >/dev/null 2>&1; then
+	fail_stage "rbp_app_tests output contains failures even though the command exited successfully. See $RBP_APP_TEST_LOG."
+fi
 
 printf '%s\n' "Running git_artifact_check..."
 if artifact_check; then

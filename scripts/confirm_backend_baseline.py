@@ -32,7 +32,9 @@ def read_stages(path: Path) -> list[dict[str, str]]:
 def canonical_json_stages(stages: list[dict[str, str]]) -> list[dict[str, str]]:
     by_name = {stage["name"]: stage for stage in stages}
     canonical_names = [
+        "git_working_tree_snapshot",
         "python_compile",
+        "bench_site_check",
         "frappe_migrate",
         "frappe_clear_cache",
         "rbp_app_tests",
