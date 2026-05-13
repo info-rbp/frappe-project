@@ -7,6 +7,7 @@ import frappe
 from rbp_app.permissions import is_admin_user
 from rbp_app.services.audit import record_audit_event
 from rbp_app.services.tenancy import doctype_exists, get_rbp_tenant_for_user
+from rbp_app.services.entitlements import sync_subscription_entitlements
 
 
 PAYMENT_STATES = {
@@ -184,6 +185,12 @@ def update_subscription_from_payment_event(event):
         subscription.status = "Past Due"
 
     subscription.save(ignore_permissions=True)
+
+    try:
+        sync_subscription_entitlements(subscription)
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "RBP entitlement sync failed")
+
     return subscription
 
 
