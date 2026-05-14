@@ -1,18 +1,76 @@
-"""Entitlement APIs for RBP platform app/capability access."""
+"""Entitlement APIs for portal, admin, and member-benefit access."""
 
 import frappe
 
-from rbp_app.permissions import require_login
-from rbp_app.services.entitlements import get_user_entitlements, user_has_entitlement
+from rbp_app.permissions import require_login, require_system_manager
+from rbp_app.services.entitlements import (
+	admin_grant_entitlement as admin_grant_entitlement_service,
+)
+from rbp_app.services.entitlements import (
+	admin_revoke_entitlement as admin_revoke_entitlement_service,
+)
+from rbp_app.services.entitlements import (
+	entitlement_catalog as entitlement_catalog_service,
+)
+from rbp_app.services.entitlements import (
+	grant_membership_entitlements as grant_membership_entitlements_service,
+)
+from rbp_app.services.entitlements import (
+	has_entitlement as has_entitlement_service,
+)
+from rbp_app.services.entitlements import (
+	list_my_entitlements as list_my_entitlements_service,
+)
+from rbp_app.services.entitlements import (
+	sync_subscription_entitlements,
+)
 
 
 @frappe.whitelist()
-def get_my_entitlements():
-    user = require_login()
-    return {"entitlements": get_user_entitlements(user)}
+def list_my_entitlements(include_inactive=0):
+	user = require_login()
+	return list_my_entitlements_service(
+		user=user,
+		include_inactive=bool(int(include_inactive or 0)),
+	)
 
 
 @frappe.whitelist()
-def can_access_app(app_key):
-    user = require_login()
-    return {"app_key": app_key, "can_access": user_has_entitlement(app_key, user)}
+def has_entitlement(app_key):
+	user = require_login()
+	return {
+		"app_key": app_key,
+		"has_entitlement": has_entitlement_service(app_key=app_key, user=user),
+	}
+
+
+@frappe.whitelist()
+def entitlement_catalog():
+	require_login()
+	return entitlement_catalog_service()
+
+
+@frappe.whitelist()
+def admin_grant_entitlement(payload=None, **kwargs):
+	require_system_manager()
+	return admin_grant_entitlement_service(payload=payload, **kwargs)
+
+
+@frappe.whitelist()
+def admin_revoke_entitlement(payload=None, **kwargs):
+	require_system_manager()
+	return admin_revoke_entitlement_service(payload=payload, **kwargs)
+
+
+@frappe.whitelist()
+def admin_grant_membership_entitlements(subscription):
+	require_system_manager()
+	entitlements = grant_membership_entitlements_service(subscription=subscription)
+	return {"ok": True, "entitlements": entitlements}
+
+
+@frappe.whitelist()
+def admin_sync_subscription_entitlements(subscription):
+	require_system_manager()
+	subscription_doc = frappe.get_doc("RBP Subscription", subscription)
+	return {"ok": True, "result": sync_subscription_entitlements(subscription_doc)}
